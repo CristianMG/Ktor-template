@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel target="1.6">
+      <module name="definitive-ktor.buildSrc" target="11" />
+      <module name="definitive-ktor.buildSrc.main" target="11" />
+      <module name="definitive-ktor.buildSrc.test" target="11" />
+      <module name="mdm-soprema.buildSrc" target="11" />
+      <module name="mdm-soprema.buildSrc.main" target="11" />
+      <module name="mdm-soprema.buildSrc.test" target="11" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
