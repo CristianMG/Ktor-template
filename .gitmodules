@@ -1,3 +1,0 @@
-[submodule "fastlane"]
-	path = fastlane
-	url = git@github.com:ZappStudio/Fastlane-Android.git
