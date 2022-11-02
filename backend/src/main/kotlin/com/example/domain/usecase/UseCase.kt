@@ -11,16 +11,11 @@ package com.example.domain.usecase
  */
 abstract class UseCase<out Type, in Params> where Type : Any {
 
-    abstract fun run(params: Params):  Type
+    abstract fun run(params: Params): Type
 
     operator fun invoke(
         params: Params,
-        onResult: (Either<Throwable, Type>) -> Unit = {}
-    ) {
-        try {
-            onResult(Either.Right(run(params)))
-        }catch (e:Exception){
-            onResult(Either.Left(e))
-        }
-    }
+    ): Type =
+        run(params)
+
 }

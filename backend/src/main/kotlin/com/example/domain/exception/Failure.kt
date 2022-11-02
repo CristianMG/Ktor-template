@@ -1,5 +1,8 @@
 package com.example.domain.exception
 
-sealed class Failure: Throwable() {
-    object ServerError : Failure()
-}
+import org.valiktor.DefaultConstraintViolation
+
+
+open class Failure(
+): Throwable()
+
