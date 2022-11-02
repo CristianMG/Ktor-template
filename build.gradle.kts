@@ -15,6 +15,7 @@ buildscript {
     dependencies {
         classpath(BuildConstants.Classpath.kotlinGradlePlugin)
         classpath(BuildConstants.Classpath.ktlintPlugin)
+        classpath(BuildConstants.Classpath.sqldelight)
     }
 }
 
@@ -25,6 +26,7 @@ subprojects {
     configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
         debug.set(true)
     }
+
 }
 
 allprojects {

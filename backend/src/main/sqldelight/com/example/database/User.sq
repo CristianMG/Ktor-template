@@ -1,0 +1,5 @@
+
+CREATE TABLE User (
+  player_number INTEGER NOT NULL,
+  full_name TEXT NOT NULL
+);

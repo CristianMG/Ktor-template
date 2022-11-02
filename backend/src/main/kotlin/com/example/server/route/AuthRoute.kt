@@ -2,9 +2,9 @@ package com.example.server.route
 
 import com.example.server.controller.AuthController
 import com.example.server.controller.LoginRequest
+import com.example.server.docs.responseGeneric
 import com.example.server.response.GenericResponse
 import io.github.smiley4.ktorswaggerui.dsl.post
-import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
@@ -22,15 +22,7 @@ class AuthRoute(
                 request {
                     body<LoginRequest>()
                 }
-                response {
-                    HttpStatusCode.OK to {
-                        description = "Successful Request"
-                        body<GenericResponse<AuthController.LoginResponse>> { description = "the response" }
-                    }
-                    HttpStatusCode.InternalServerError to {
-                        description = "Something unexpected happened"
-                    }
-                }
+                responseGeneric { body<GenericResponse<AuthController.LoginResponse>>() }
             }) {
                 call.respond(authController.login(call.receive()))
             }

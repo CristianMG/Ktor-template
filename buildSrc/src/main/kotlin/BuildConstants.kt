@@ -2,6 +2,8 @@ object BuildConstants {
 
     object MainSettings {
         const val kotlinVersion = "1.7.20"
+        const val sqldelight = "1.5.3"
+        const val ktlint = "10.3.0"
     }
 
     val ktor_version = "2.1.3"
@@ -39,6 +41,7 @@ object BuildConstants {
     object Classpath {
         const val kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${MainSettings.kotlinVersion}"
         const val ktlintPlugin = "org.jlleitschuh.gradle:ktlint-gradle:10.3.0"
+        const val sqldelight = "com.squareup.sqldelight:gradle-plugin:${MainSettings.sqldelight}"
     }
 
 }
