@@ -2,7 +2,6 @@ object BuildConstants {
 
     object MainSettings {
         const val kotlinVersion = "1.7.20"
-        const val sqldelight = "1.5.3"
         const val ktlint = "10.3.0"
     }
 
@@ -12,6 +11,10 @@ object BuildConstants {
     val dot_env_version = "6.3.1"
     val swagger_ui_version = "0.7.0"
     val valiktor_version = "0.7.0"
+    val hikari_version = "5.0.1"
+    val postgres_jdbc = "42.5.0"
+    val exposed_version = "0.40.1"
+    val faker_version = "1.13.0-rc.0"
 
     val dependencies = mutableListOf<String>().apply {
         add("io.ktor:ktor-server-core-jvm:$ktor_version")
@@ -31,6 +34,14 @@ object BuildConstants {
 
         add("io.github.smiley4:ktor-swagger-ui:${swagger_ui_version}")
         add("org.valiktor:valiktor-core:${valiktor_version}")
+        add("com.zaxxer:HikariCP:${hikari_version}")
+        add("org.postgresql:postgresql:${postgres_jdbc}")
+
+        add("org.jetbrains.exposed:exposed-core:$exposed_version")
+        add("org.jetbrains.exposed:exposed-dao:$exposed_version")
+        add("org.jetbrains.exposed:exposed-jdbc:$exposed_version")
+        add("org.jetbrains.exposed:exposed-java-time:$exposed_version")
+        add("io.github.serpro69:kotlin-faker:$faker_version")
     }
 
     val testDependencies = mutableListOf<String>().apply {
@@ -41,7 +52,6 @@ object BuildConstants {
     object Classpath {
         const val kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${MainSettings.kotlinVersion}"
         const val ktlintPlugin = "org.jlleitschuh.gradle:ktlint-gradle:10.3.0"
-        const val sqldelight = "com.squareup.sqldelight:gradle-plugin:${MainSettings.sqldelight}"
     }
 
 }

@@ -1,5 +1,7 @@
 package com.example.server
 
+import com.example.data.DatabaseLoader
+import com.example.data.seed.seedModule
 import com.example.di.*
 import com.example.server.environment.EnvironmentVar
 import com.example.server.plugins.*
@@ -16,7 +18,8 @@ fun main() {
         module {
             install(Koin) {
                 modules(
-                    getMainModule(this@module), configurationModule, routeModule, controllerModule,useCasesModule
+                    getMainModule(this@module), configurationModule, routeModule, controllerModule,
+                    useCasesModule, repositoryModule, databaseModule, seedModule, mapperModule
                 )
             }
 
@@ -28,6 +31,7 @@ fun main() {
             val swaggerUiConfiguration: SwaggerUiConfiguration by inject()
             val validator: ValidatorConfiguration by inject()
             val statusPageConfiguration: StatusPageConfiguration by inject()
+            val loader: DatabaseLoader by inject()
 
             jwtSecurity.configure()
             httpConfiguration.configure()
@@ -37,6 +41,7 @@ fun main() {
             validator.configure()
             statusPageConfiguration.configure()
 
+            loader.load()
 
             connector {
                 port = env.portListen

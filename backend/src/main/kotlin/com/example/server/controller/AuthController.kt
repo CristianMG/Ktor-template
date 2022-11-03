@@ -7,7 +7,8 @@ import io.ktor.server.application.*
 import kotlinx.serialization.Serializable
 
 class AuthController(
-    val application: Application, val loginUseCase: LoginUseCase
+    val application: Application,
+    val loginUseCase: LoginUseCase
 ) {
 
     fun login(loginRequest: LoginRequest) = wrapResponse {

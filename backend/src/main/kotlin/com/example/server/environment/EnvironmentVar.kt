@@ -6,7 +6,9 @@ import io.github.cdimascio.dotenv.dotenv
 class EnvironmentVar {
 
     val dotEnv: Dotenv by lazy {
-        dotenv {}
+        dotenv {
+            directory = "../   "
+        }
     }
 
     val portListen: Int
@@ -39,5 +41,14 @@ class EnvironmentVar {
 
     val jwtExpirationTime: Int
         get() = dotEnv.get("JWT_EXPIRATION_TIME").toInt()
+
+    val postgresUrl: String
+        get() = dotEnv.get("POSTGRES_URL")
+
+    val postgresUsername: String
+        get() = dotEnv.get("POSTGRES_USERNAME")
+    val postgresPassword: String
+        get() = dotEnv.get("POSTGRES_PASSWORD")
+
 
 }

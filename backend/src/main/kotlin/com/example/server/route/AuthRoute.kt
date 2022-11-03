@@ -18,6 +18,7 @@ class AuthRoute(
         routing.route("auth") {
 
             post("login", {
+
                 description = "Make login and return the session user have to operate"
                 request {
                     body<LoginRequest>()

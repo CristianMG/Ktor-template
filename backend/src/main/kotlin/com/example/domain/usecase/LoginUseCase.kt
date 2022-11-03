@@ -2,11 +2,13 @@ package com.example.domain.usecase
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
+import com.example.data.UserRepository
 import com.example.server.environment.EnvironmentVar
 import java.util.*
 
 class LoginUseCase(
-    private val environmentVar: EnvironmentVar
+    private val environmentVar: EnvironmentVar,
+    private val userRepository: UserRepository
 ) : UseCase<String, LoginParam>() {
 
     override fun run(params: LoginParam): String {
