@@ -3,7 +3,6 @@ apply(plugin = "org.jlleitschuh.gradle.ktlint-idea")
 
 buildscript {
 
-
     repositories {
         mavenCentral()
         google()
@@ -28,7 +27,6 @@ subprojects {
     configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
         debug.set(true)
     }
-
 }
 
 allprojects {

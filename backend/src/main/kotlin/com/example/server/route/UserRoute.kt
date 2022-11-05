@@ -8,6 +8,5 @@ class UserRoute(
 ) {
 
     fun configure(routing: Routing) {
-
     }
 }

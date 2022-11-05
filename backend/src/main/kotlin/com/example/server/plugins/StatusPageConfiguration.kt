@@ -1,8 +1,8 @@
 package com.example.server.plugins
 
+import com.example.domain.exception.EmailRegisteredException
 import com.example.server.response.ErrorResponse
 import io.ktor.http.*
-
 import io.ktor.server.application.*
 import io.ktor.server.plugins.statuspages.*
 import io.ktor.server.response.*
@@ -16,15 +16,20 @@ class StatusPageConfiguration(
         application.install(StatusPages) {
             exception<Throwable> { call, cause ->
                 val internCause = cause.cause
-                if (internCause is ConstraintViolationException) {
-                    val text = internCause.constraintViolations.joinToString(", ") { it.toMessage().message }
-                    call.respond(message = ErrorResponse(text), status = HttpStatusCode.BadRequest)
-                } else {
-                    call.respond(message = ErrorResponse(cause.message + internCause?.message), status = HttpStatusCode.InternalServerError)
+
+                when (internCause) {
+                    is ConstraintViolationException -> {
+                        val errors = internCause.constraintViolations.map { it.toMessage() }
+                        call.respond(HttpStatusCode.BadRequest, ErrorResponse(errors.toString()))
+                    }
+                    is EmailRegisteredException -> {
+                        call.respond(HttpStatusCode.Conflict, ErrorResponse("Email already registered"))
+                    }
+                    else -> {
+                        call.respond(HttpStatusCode.InternalServerError, ErrorResponse("Internal server error"))
+                    }
                 }
             }
         }
     }
-
 }
-

@@ -15,7 +15,6 @@ java {
     targetCompatibility = JavaVersion.VERSION_11
 }
 
-
 tasks {
     withType<KotlinCompile>().configureEach {
         kotlinOptions {
@@ -24,7 +23,6 @@ tasks {
         }
     }
 }
-
 application {
     mainClass.set(System.getProperty("exec.mainClass") ?: "com.example.server.ApplicationKt")
     val isDevelopment: Boolean = true

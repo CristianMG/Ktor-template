@@ -1,7 +1,5 @@
 package com.example.domain.usecase
 
-
-
 sealed class Either<out L, out R> {
     /** * Represents the left side of [Either] class which by convention is a "Failure". */
     data class Left<out L>(val a: L) : Either<L, Nothing>()
@@ -26,7 +24,6 @@ sealed class Either<out L, out R> {
      * @see Left
      */
     fun <L> left(a: L) = Left(a)
-
 
     /**
      * Creates a Left type.

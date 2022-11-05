@@ -5,16 +5,19 @@ object BuildConstants {
         const val ktlint = "10.3.0"
     }
 
-    val ktor_version = "2.1.3"
-    val logback_version = "1.2.11"
-    val koin_ktor_version = "3.2.2"
-    val dot_env_version = "6.3.1"
-    val swagger_ui_version = "0.7.0"
-    val valiktor_version = "0.7.0"
-    val hikari_version = "5.0.1"
-    val postgres_jdbc = "42.5.0"
-    val exposed_version = "0.40.1"
-    val faker_version = "1.13.0-rc.0"
+    private const val ktor_version = "2.1.3"
+    private const val logback_version = "1.2.11"
+    private const val koin_ktor_version = "3.2.2"
+    private const val dot_env_version = "6.3.1"
+    private const val swagger_ui_version = "0.7.0"
+    private const val valiktor_version = "0.7.0"
+    private const val hikari_version = "5.0.1"
+    private const val postgres_jdbc = "42.5.0"
+    private const val exposed_version = "0.40.1"
+    private const val faker_version = "1.13.0-rc.0"
+    private const val slf4j_simple = "2.0.3"
+    private const val bcrypt_version = "0.9.0"
+    private const val fluid_country_version = "0.12.0"
 
     val dependencies = mutableListOf<String>().apply {
         add("io.ktor:ktor-server-core-jvm:$ktor_version")
@@ -42,6 +45,10 @@ object BuildConstants {
         add("org.jetbrains.exposed:exposed-jdbc:$exposed_version")
         add("org.jetbrains.exposed:exposed-java-time:$exposed_version")
         add("io.github.serpro69:kotlin-faker:$faker_version")
+        add("org.slf4j:slf4j-simple:$slf4j_simple")
+        add("at.favre.lib:bcrypt:$bcrypt_version")
+        add("io.fluidsonic.country:fluid-country:$fluid_country_version")
+
     }
 
     val testDependencies = mutableListOf<String>().apply {
