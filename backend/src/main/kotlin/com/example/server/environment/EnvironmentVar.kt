@@ -7,7 +7,7 @@ class EnvironmentVar {
 
     val dotEnv: Dotenv by lazy {
         dotenv {
-            directory = "../   "
+            directory = "../"
         }
     }
 
