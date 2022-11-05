@@ -1,6 +1,5 @@
 package com.example.domain.usecase
 
-
 /**
  * Abstract class for a Use Case (Interactor in terms of Clean Architecture).
  * This abstraction represents an execution unit for different use cases (this means that any use
@@ -17,5 +16,4 @@ abstract class UseCase<out Type, in Params> where Type : Any {
         params: Params,
     ): Type =
         run(params)
-
 }

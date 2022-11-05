@@ -1,3 +1,3 @@
 package com.example.domain.exception
 
-open class Failure() : Throwable()
+open class UserNotFound() : Failure()

@@ -6,7 +6,6 @@ import com.example.server.security.JWTSecurity
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
-
 val configurationModule = module {
     singleOf(::EnvironmentVar)
     singleOf(::JWTSecurity)

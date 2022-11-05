@@ -2,10 +2,9 @@ package com.example.server.plugins
 
 import com.example.server.route.AuthRoute
 import com.example.server.route.UserRoute
-import io.ktor.server.routing.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
-
+import io.ktor.server.routing.*
 
 class RoutingConfiguration(
     private val application: Application,
@@ -23,4 +22,3 @@ class RoutingConfiguration(
         }
     }
 }
-

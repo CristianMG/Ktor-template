@@ -1,7 +1,9 @@
 package com.example.server.route
 
+import com.example.domain.model.SessionResponse
 import com.example.server.controller.AuthController
 import com.example.server.controller.LoginRequest
+import com.example.server.controller.RegisterRequest
 import com.example.server.docs.responseGeneric
 import com.example.server.response.GenericResponse
 import io.github.smiley4.ktorswaggerui.dsl.post
@@ -23,11 +25,20 @@ class AuthRoute(
                 request {
                     body<LoginRequest>()
                 }
-                responseGeneric { body<GenericResponse<AuthController.LoginResponse>>() }
+                responseGeneric { body<GenericResponse<SessionResponse>>() }
             }) {
                 call.respond(authController.login(call.receive()))
             }
 
+            post("register", {
+                description = "Make a register in the platform"
+                request {
+                    body<RegisterRequest>()
+                }
+                responseGeneric { body<GenericResponse<SessionResponse>>() }
+            }) {
+                call.respond(authController.login(call.receive()))
+            }
         }
     }
 }

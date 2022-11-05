@@ -6,9 +6,9 @@ import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class DatabaseLoader(
-    val database: Database, val userSeed: UserSeed
+    val database: Database,
+    val userSeed: UserSeed
 ) {
-
 
     fun load() {
         transaction {
@@ -18,5 +18,4 @@ class DatabaseLoader(
             // }
         }
     }
-
 }

@@ -1,4 +1,4 @@
-package com.example.data.mapper
+package com.example.domain.mapper
 
 interface IMapper<Entity, Model> {
 
