@@ -1,8 +1,8 @@
 package com.example.server.plugins
 
 import com.example.server.environment.EnvironmentVar
-import io.ktor.server.application.*
 import io.github.smiley4.ktorswaggerui.SwaggerUI
+import io.ktor.server.application.*
 
 class SwaggerUiConfiguration(
     private val application: Application,
@@ -10,9 +10,9 @@ class SwaggerUiConfiguration(
 ) {
     fun configure() {
         application.apply {
-            install(SwaggerUI){
+            install(SwaggerUI) {
                 swagger {
-                    swaggerUrl =environmentVar.swaggerEndpoint
+                    swaggerUrl = environmentVar.swaggerEndpoint
                     forwardRoot = true
                 }
                 info {
@@ -21,7 +21,7 @@ class SwaggerUiConfiguration(
                     description = "Example API for testing and demonstration purposes."
                 }
                 server {
-                    url =  environmentVar.swaggerUrl
+                    url = environmentVar.swaggerUrl
                     description = "${environmentVar.environment} Server"
                 }
             }

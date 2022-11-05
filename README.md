@@ -1,7 +1,4 @@
-
-# Definitive Ktor template
-
-The target of this project is to prepare a Real world example of Kotlin backend development, libraries and tools used can change in the course of making this template. I would like to achieve a base project for my personal projects, a point to start with a lot of work done it.
+with a lot of work done it.
 
 What did taken into account to choose this tech stack?
 1) Stability of library.
@@ -12,7 +9,7 @@ What did taken into account to choose this tech stack?
 
 
 
-**Tech stack.**
+## Tech stack
 - [x] Koin Injection dependencies
 - [x] SQL Exposed
 - [ ] JWT
@@ -25,6 +22,7 @@ What did taken into account to choose this tech stack?
 - [x] Gradle Kts.
 - [x] KtLint
 - [x] PostgresSql
+- [ ] BCrypt
 - [ ] Script for seeding project
 - [ ] Dockerized project
 - [ ] Swagger
@@ -39,3 +37,38 @@ What did taken into account to choose this tech stack?
 - [ ] Faker
 - [ ] Mockk
 - [ ] AssertK
+
+
+
+
+## Deployment
+
+We have three environments to make our backend.
+
+**Develop**, commonly used in our local network to deploy and test code.
+
+**Staging**, used as development environment to have a stable environment to deploy changes.
+
+**Production**. Used as production environment, this environment wil receive only the stables updates tested at staging.
+
+Commands to deploy.
+
+**Develop.**
+Use command make develop. Docker, this environment have activated refresh on the way.
+
+**Staging.**
+Use command make staging. Docker, We have to recreate containers every time to deploy changes.
+
+**Production.**
+Use command make production. PM2
+
+
+
+
+
+
+
+
+> **If you think my work is useful to you, you can buy me a cofee.**
+
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/cristianmed)

@@ -3,11 +3,15 @@ drop-schema:
 	docker-compose down -v
 	docker-compose up -d
 
-develop: develop
+staging:
+	@echo "Updating the staging environment"
+	docker-compose down -v --force-recreate  # Remove any existing containers
+	docker-compose up --force-recreate # Start the containers
+
+develop:
 	@echo "Updating the development environment"
 	docker-compose down -v  # Remove any existing containers
-	docker-compose up -d # Start the containers
-	./gradlew run  # Run the application
+	docker-compose up # Start the containers
 
 development-seed:
 	@echo "Seeding development database"

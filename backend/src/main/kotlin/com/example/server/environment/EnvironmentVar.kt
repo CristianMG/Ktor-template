@@ -7,13 +7,12 @@ class EnvironmentVar {
 
     val dotEnv: Dotenv by lazy {
         dotenv {
-            directory = "../   "
+            directory = "../"
         }
     }
 
     val portListen: Int
         get() = dotEnv.get("PORT_LISTEN").toInt()
-
 
     val ipListen: String
         get() = dotEnv.get("IP_LISTEN")
@@ -50,5 +49,6 @@ class EnvironmentVar {
     val postgresPassword: String
         get() = dotEnv.get("POSTGRES_PASSWORD")
 
-
+    val refreshTokenExpirationTime: Long
+        get() = dotEnv.get("REFRESH_TOKEN_EXPIRATION_TIME").toLong()
 }

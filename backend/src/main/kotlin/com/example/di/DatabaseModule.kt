@@ -9,12 +9,10 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import javax.sql.DataSource
 
-
 val databaseModule = module {
 
-
     singleOf(::DatabaseLoader)
-    single{
+    single {
         Database.connect(datasource = get<DataSource>())
     }
 

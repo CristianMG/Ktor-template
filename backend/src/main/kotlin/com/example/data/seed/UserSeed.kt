@@ -1,8 +1,6 @@
 package com.example.data.seed
 
-import com.example.data.RoleType
 import com.example.data.UserRepository
-import com.example.domain.model.UserModel
 import io.github.serpro69.kfaker.faker
 
 class UserSeed(
@@ -14,19 +12,19 @@ class UserSeed(
         faker.name.firstName()
         faker.address.city()
 
-        userRepository.insert(
-            UserModel(
-                null,
-                "admin",
-                 "admin@example.com",
-                "admin",
-                RoleType.ADMIN,
-                faker.random.randomString(200),
-                System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 7)
+    /*    userRepository.saveUser(
+            null,
+            "admin",
+            "admin@example.com",
+            "admin",
+            RoleType.ADMIN,
+            faker.random.randomString(200),
+            System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 7
+
         )
 
-        userRepository.insert(
-            UserModel (
+        userRepository.saveUser(
+            UserResponse(
                 null,
                 faker.name.firstName(),
                 faker.internet.email(),
@@ -35,6 +33,6 @@ class UserSeed(
                 faker.random.randomString(200),
                 System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 7
             )
-        )
+        )*/
     }
 }
