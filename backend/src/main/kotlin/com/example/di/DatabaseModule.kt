@@ -1,10 +1,26 @@
+/*
+ * Copyright (c) 2022 CristianMg <https://github.com/CristianMG>
+ *   National Electronics and Computer Technology Center, Thailand
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.example.di
 
 import com.example.data.DatabaseLoader
 import com.example.server.environment.EnvironmentVar
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
-import org.jetbrains.exposed.sql.Database
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import javax.sql.DataSource
@@ -12,11 +28,8 @@ import javax.sql.DataSource
 val databaseModule = module {
 
     singleOf(::DatabaseLoader)
-    single {
-        Database.connect(datasource = get<DataSource>())
-    }
 
-    single<DataSource> {
+    single {
         val environmentVar = get<EnvironmentVar>()
         HikariDataSource(
             HikariConfig().apply {

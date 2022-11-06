@@ -15,20 +15,12 @@
  * limitations under the License.
  */
 
-package com.example.server.plugins
+package com.example.di
 
-import io.ktor.serialization.kotlinx.json.*
-import io.ktor.server.application.*
-import io.ktor.server.plugins.contentnegotiation.*
+import com.example.server.environment.EnvironmentVar
+import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.module
 
-class Serialization(
-    private val application: Application
-) {
-    fun configure() {
-        application.apply {
-            install(ContentNegotiation) {
-                json()
-            }
-        }
-    }
+val environmentModule = module {
+    singleOf(::EnvironmentVar)
 }

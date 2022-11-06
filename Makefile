@@ -10,9 +10,9 @@ staging:
 
 develop:
 	@echo "Updating the development environment"
-	docker-compose down -v  # Remove any existing containers
-	docker-compose up # Start the containers
+	docker-compose -f docker-compose.yml -f docker-compose.development.yml down # Remove any existing containers
+	docker-compose -f docker-compose.yml -f docker-compose.development.yml up
 
-development-seed:
+seed-develop:
 	@echo "Seeding development database"
-	./gradlew backend:run -Dexec.mainClass=com.example.data.seed.SeedTestKt
+	docker exec -it ktor_server ./gradlew backend:run -Dexec.mainClass=com.example.data.seed.SeedManagerKt

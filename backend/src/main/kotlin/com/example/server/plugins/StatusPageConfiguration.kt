@@ -1,6 +1,24 @@
+/*
+ * Copyright (c) 2022 CristianMg <https://github.com/CristianMG>
+ *   National Electronics and Computer Technology Center, Thailand
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.example.server.plugins
 
 import com.example.domain.exception.EmailRegisteredException
+import com.example.domain.exception.LoginException
 import com.example.server.response.ErrorResponse
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -15,9 +33,7 @@ class StatusPageConfiguration(
     fun configure() {
         application.install(StatusPages) {
             exception<Throwable> { call, cause ->
-                val internCause = cause.cause
-
-                when (internCause) {
+                when (val internCause = cause.cause) {
                     is ConstraintViolationException -> {
                         val errors = internCause.constraintViolations.map { it.toMessage() }
                         call.respond(HttpStatusCode.BadRequest, ErrorResponse(errors.toString()))
@@ -25,8 +41,12 @@ class StatusPageConfiguration(
                     is EmailRegisteredException -> {
                         call.respond(HttpStatusCode.Conflict, ErrorResponse("Email already registered"))
                     }
+                    is LoginException -> {
+                        call.respond(HttpStatusCode.Unauthorized, ErrorResponse("Invalid credentials"))
+                    }
                     else -> {
                         call.respond(HttpStatusCode.InternalServerError, ErrorResponse("Internal server error"))
+                        println("Internal server error: exception: $cause internCause: ${internCause?.message} outputCase: ${cause.message}")
                     }
                 }
             }
