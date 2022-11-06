@@ -20,8 +20,9 @@ RUN chmod -R 755 /app
 
 USER $APPLICATION_USER
 
-COPY --from=build /appbuild/build/libs/*.jar /app/app.jar
+COPY --from=build /appbuild/backend/build/libs/backend-all.jar /app/app.jar
 COPY --from=build /appbuild/backend/src/main/resources/ /app/resources/
 WORKDIR /app
+
 
 CMD ["sh", "-c", "java -server -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:InitialRAMFraction=2 -XX:MinRAMFraction=2 -XX:MaxRAMFraction=2 -XX:+UseG1GC -XX:MaxGCPauseMillis=100 -XX:+UseStringDeduplication -jar app.jar"]
