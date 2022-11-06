@@ -9,10 +9,13 @@ staging:
 	docker-compose up --force-recreate # Start the containers
 
 develop:
-	@echo "Updating the development environment"
 	docker-compose -f docker-compose.yml -f docker-compose.development.yml down # Remove any existing containers
 	docker-compose -f docker-compose.yml -f docker-compose.development.yml up
 
 seed-develop:
 	@echo "Seeding development database"
 	docker exec -it ktor_server ./gradlew backend:run -Dexec.mainClass=com.example.data.seed.SeedManagerKt
+
+test:
+	@echo "Executin test suite"
+	docker exec -it ktor_server ./gradlew test

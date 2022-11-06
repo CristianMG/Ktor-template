@@ -22,6 +22,7 @@ services:
     networks:
       - backend
     restart: always
+    # THIS BIT!!!1!
     container_name: ktor_server
     depends_on:
       database:

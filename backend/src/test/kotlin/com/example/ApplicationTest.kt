@@ -17,15 +17,49 @@
 
 package com.example
 
-class ApplicationTest {
-   /* @Test
+import io.ktor.client.request.*
+import io.ktor.client.statement.*
+import io.ktor.http.*
+import io.ktor.server.testing.*
+import io.ktor.server.util.*
+import org.junit.Test
+import org.koin.test.KoinTest
+import kotlin.test.assertEquals
+
+class ApplicationTest: KoinTest {
+
+
+    @Test
     fun testRoot() = testApplication {
-        application {
-            configureRouting()
+        client.config {
+            url {
+                protocol = URLProtocol.HTTP
+                host = "0.0.0.0"
+                port = 3000
+            }
         }
-        client.get("/").apply {
-            assertEquals(HttpStatusCode.OK, status)
-            assertEquals("Hello World!", bodyAsText())
+        
+        val response = client.get("/")
+        println(response.status)
+        assertEquals(HttpStatusCode.OK, response.status)
+      //  assertEquals("Hello, world!", response.bodyAsText())
+    }
+/*
+
+    companion object {
+        lateinit var testApp: TestApplication
+        @JvmStatic
+        @BeforeAll
+        fun setup()  {
+            testApp = TestApplication {  }
+        }
+
+        @JvmStatic
+        @AfterAll
+        fun teardown() {
+            testApp.stop()
         }
     }*/
+
+
 }

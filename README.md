@@ -12,7 +12,7 @@ What did taken into account to choose this tech stack?
 ## Tech stack
 - [x] Koin Injection dependencies
 - [x] SQL Exposed
-- [ ] JWT
+- [x] JWT
 - [x] Clean arquitecture
 - [x] Swagger-UI
 - [x] Dot-Env

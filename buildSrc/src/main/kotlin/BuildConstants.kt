@@ -35,6 +35,9 @@ object BuildConstants {
     private const val slf4j_simple = "2.0.3"
     private const val bcrypt_version = "0.9.0"
     private const val fluid_country_version = "0.12.0"
+    private const val mock_version = "1.13.2"
+    private const val assertk = "0.25"
+    private const val junit_version = "5.9.1"
 
     val dependencies = mutableListOf<String>().apply {
         add("io.ktor:ktor-server-core-jvm:$ktor_version")
@@ -65,12 +68,17 @@ object BuildConstants {
         add("org.slf4j:slf4j-simple:$slf4j_simple")
         add("at.favre.lib:bcrypt:$bcrypt_version")
         add("io.fluidsonic.country:fluid-country:$fluid_country_version")
-
     }
 
     val testDependencies = mutableListOf<String>().apply {
-        add("io.ktor:ktor-server-tests-jvm:$ktor_version")
-        add("org.jetbrains.kotlin:kotlin-test-junit:${MainSettings.kotlinVersion}")
+        add("io.ktor:ktor-server-test-host:$ktor_version")
+        add("org.jetbrains.kotlin:kotlin-test:${MainSettings.kotlinVersion}")
+        add("io.mockk:mockk:${mock_version}")
+        add("com.willowtreeapps.assertk:assertk-jvm:${assertk}")
+        add("org.junit.jupiter:junit-jupiter-api:${junit_version}")
+        add("io.insert-koin:koin-test-junit5:$koin_ktor_version")
+
+
     }
 
     object Classpath {
