@@ -22,11 +22,9 @@ What did taken into account to choose this tech stack?
 - [x] Gradle Kts.
 - [x] KtLint
 - [x] PostgresSql
-- [ ] BCrypt
-- [ ] Script for seeding project
+- [x] BCrypt
+- [x] Scripts for seeding project
 - [ ] Dockerized project
-- [ ] Swagger
-- [ ] Password4J
 - [ ] Continuous integration(Github actions and link with docker)
 - [ ] Mailing
 - [ ] Some storage(Minio/ Firebase, other alternative)

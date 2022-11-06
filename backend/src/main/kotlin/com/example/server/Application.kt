@@ -48,7 +48,6 @@ fun main() {
                 val serialization: Serialization by inject()
                 val routingConfiguration: RoutingConfiguration by inject()
                 val swaggerUiConfiguration: SwaggerUiConfiguration by inject()
-                val validator: ValidatorConfiguration by inject()
                 val statusPageConfiguration: StatusPageConfiguration by inject()
                 val loader: DatabaseLoader by inject()
 
@@ -57,7 +56,6 @@ fun main() {
                 serialization.configure()
                 routingConfiguration.configure()
                 swaggerUiConfiguration.configure()
-                validator.configure()
                 statusPageConfiguration.configure()
 
                 loader.connect()

@@ -18,7 +18,6 @@
 package com.example.server.controller
 
 import kotlinx.serialization.Serializable
-import org.valiktor.functions.hasSize
 import org.valiktor.functions.isEmail
 import org.valiktor.functions.isNotBlank
 import org.valiktor.validate

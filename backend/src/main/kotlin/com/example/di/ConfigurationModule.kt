@@ -28,6 +28,5 @@ val configurationModule = module {
     singleOf(::Serialization)
     singleOf(::RoutingConfiguration)
     singleOf(::SwaggerUiConfiguration)
-    singleOf(::ValidatorConfiguration)
     singleOf(::StatusPageConfiguration)
 }

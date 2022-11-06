@@ -35,7 +35,7 @@ class SwaggerUiConfiguration(
                 info {
                     title = "Swagger Documentation"
                     version = "latest"
-                    description = "Example API for testing and demonstration purposes."
+                    description = "Example API ktor for real world with awesome tools"
                 }
                 server {
                     url = environmentVar.swaggerUrl
