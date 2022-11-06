@@ -18,6 +18,7 @@
 package com.example.data
 
 import com.example.domain.model.GenderModel
+import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.time.Instant
@@ -29,8 +30,9 @@ class UserRepository() {
         UserEntity.find { Users.email eq email }.firstOrNull()
     }
 
-    fun findById(id: String): UserEntity? =
-        UserEntity.find { Users.id eq UUID.fromString(id) }.firstOrNull()
+    fun findById(id: String): UserEntity? = transaction {
+        UserEntity.findById(UUID.fromString(id))
+    }
 
     fun saveUser(
         name: String,

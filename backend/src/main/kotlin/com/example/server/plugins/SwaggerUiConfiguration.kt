@@ -19,6 +19,8 @@ package com.example.server.plugins
 
 import com.example.server.environment.EnvironmentVar
 import io.github.smiley4.ktorswaggerui.SwaggerUI
+import io.github.smiley4.ktorswaggerui.dsl.AuthScheme
+import io.github.smiley4.ktorswaggerui.dsl.AuthType
 import io.ktor.server.application.*
 
 class SwaggerUiConfiguration(
@@ -28,6 +30,14 @@ class SwaggerUiConfiguration(
     fun configure() {
         application.apply {
             install(SwaggerUI) {
+                securityScheme("JWT") {
+                    type = AuthType.HTTP
+                    scheme = AuthScheme.BEARER
+                    bearerFormat = "jwt"
+                }
+
+                defaultSecuritySchemeName =  "JWT"
+
                 swagger {
                     swaggerUrl = environmentVar.swaggerEndpoint
                     forwardRoot = true
@@ -41,6 +51,7 @@ class SwaggerUiConfiguration(
                     url = environmentVar.swaggerUrl
                     description = "${environmentVar.environment} Server"
                 }
+
             }
         }
     }

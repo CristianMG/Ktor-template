@@ -18,6 +18,7 @@
 package com.example.data
 
 import com.example.domain.model.GenderModel
+import io.ktor.server.auth.*
 import org.jetbrains.exposed.dao.UUIDEntity
 import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -42,7 +43,7 @@ object Users : UUIDTable("users") {
     val expirationRt = timestamp("expirationRt")
 }
 
-class UserEntity(id: EntityID<UUID>) : UUIDEntity(id) {
+class UserEntity(id: EntityID<UUID>) : UUIDEntity(id), Principal {
 
     companion object : UUIDEntityClass<UserEntity>(Users)
 

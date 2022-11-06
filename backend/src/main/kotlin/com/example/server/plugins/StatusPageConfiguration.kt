@@ -24,6 +24,7 @@ import com.example.server.response.GenericResponse
 import com.example.server.response.wrapResponse
 import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.plugins.*
 import io.ktor.server.plugins.statuspages.*
 import io.ktor.server.response.*
 import org.valiktor.ConstraintViolationException
@@ -48,6 +49,10 @@ class StatusPageConfiguration(
 
                     cause is EmailRegisteredException -> {
                         call.respond(HttpStatusCode.Conflict, wrapResponse { ErrorResponse("Email already registered") })
+                    }
+
+                    cause is BadRequestException -> {
+                        call.respond(HttpStatusCode.BadRequest, wrapResponse { ErrorResponse(cause.message ?: "") })
                     }
 
                     else -> {

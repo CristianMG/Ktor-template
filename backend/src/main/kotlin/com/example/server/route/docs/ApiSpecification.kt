@@ -27,7 +27,8 @@ import io.ktor.http.*
 
 
 enum class TAGS(val value: String) {
-    AUTH("Auth")
+    AUTH("AUTH"),
+    USER("USER"),
 }
 
 object ApiSpecification {
@@ -69,5 +70,9 @@ object ApiSpecification {
                 }
             }
         ) { body<GenericResponse<SessionResponse>>() }
+    }
+
+    fun getSpecGetUserMe(): OpenApiRoute.() -> Unit = {
+        tags = listOf(TAGS.USER.value)
     }
 }
