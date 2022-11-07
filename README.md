@@ -24,19 +24,18 @@ What did taken into account to choose this tech stack?
 - [x] PostgresSql
 - [x] BCrypt
 - [x] Scripts for seeding project
-- [ ] Dockerized project
+- [ ] Dockerized project(Problem staging, and problem with listening container ports, will change the server for nginx reverse proxy)
 - [ ] Continuous integration(Github actions and link with docker)
 - [ ] Mailing
 - [ ] Some storage(Minio/ Firebase, other alternative)
 
 
 **Test stack**
-- [ ] E2e Testing Ktor
-- [ ] Faker
+- [x] Faker
+- [x] Kotest 
+- [x] Kotest assertion
+- [x] Koin test injection
 - [ ] Mockk
-- [ ] AssertK
-
-
 
 
 ## Deployment
