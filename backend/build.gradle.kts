@@ -39,12 +39,18 @@ tasks {
             freeCompilerArgs = freeCompilerArgs + "-Xcontext-receivers"
         }
     }
+
+   withType<Test>().configureEach {
+        useJUnitPlatform()
+    }
+
 }
 application {
     mainClass.set(System.getProperty("exec.mainClass") ?: "com.example.server.ApplicationKt")
     val isDevelopment: Boolean = true
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
 }
+
 
 dependencies {
     BuildConstants.dependencies.forEach {

@@ -24,11 +24,10 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 class RoutingConfiguration(
-    private val application: Application,
     private val userRoute: UserRoute,
     private val authRoute: AuthRoute
 ) {
-    fun configure() {
+    fun configure(application: Application) {
         application.routing {
             get("/") {
                 call.respondText("This is the main page!!")

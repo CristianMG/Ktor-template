@@ -17,16 +17,13 @@
 
 package com.example.data
 
-import com.example.data.seed.UserSeed
 import com.zaxxer.hikari.HikariDataSource
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
-import javax.sql.DataSource
 
 class DatabaseLoader(
     private val dataSource: HikariDataSource,
-    private val userSeed: UserSeed
 ) {
 
     lateinit var database: Database

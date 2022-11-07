@@ -24,7 +24,6 @@ import com.example.server.response.wrapResponse
 import io.ktor.server.application.*
 
 class AuthController(
-    val application: Application,
     val loginUseCase: LoginUseCase,
     val registerUseCase: RegisterUseCase
 ) {

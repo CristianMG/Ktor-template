@@ -22,9 +22,8 @@ import io.ktor.server.application.*
 import io.ktor.server.plugins.contentnegotiation.*
 
 class Serialization(
-    private val application: Application
 ) {
-    fun configure() {
+    fun configure(application: Application) {
         application.apply {
             install(ContentNegotiation) {
                 json()

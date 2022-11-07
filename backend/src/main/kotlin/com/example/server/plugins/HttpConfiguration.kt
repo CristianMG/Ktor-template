@@ -22,9 +22,8 @@ import io.ktor.server.application.*
 import io.ktor.server.plugins.cors.routing.*
 
 class HttpConfiguration(
-    private val application: Application
 ) {
-    fun configure() {
+    fun configure(application: Application) {
         application.apply {
             install(CORS) {
                 allowMethod(HttpMethod.Options)

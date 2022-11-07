@@ -38,6 +38,7 @@ object BuildConstants {
     private const val mock_version = "1.13.2"
     private const val assertk = "0.25"
     private const val junit_version = "5.9.1"
+    private const val kotest = "5.5.4"
 
     val dependencies = mutableListOf<String>().apply {
         add("io.ktor:ktor-server-core-jvm:$ktor_version")
@@ -72,13 +73,12 @@ object BuildConstants {
 
     val testDependencies = mutableListOf<String>().apply {
         add("io.ktor:ktor-server-test-host:$ktor_version")
-        add("org.jetbrains.kotlin:kotlin-test:${MainSettings.kotlinVersion}")
         add("io.mockk:mockk:${mock_version}")
-        add("com.willowtreeapps.assertk:assertk-jvm:${assertk}")
-        add("org.junit.jupiter:junit-jupiter-api:${junit_version}")
-        add("io.insert-koin:koin-test-junit5:$koin_ktor_version")
 
-
+        add("io.insert-koin:koin-test:$koin_ktor_version")
+        add("io.kotest:kotest-runner-junit5:$kotest")
+        add("io.kotest:kotest-assertions-core:$kotest")
+        add("io.kotest.extensions:kotest-extensions-koin:1.1.0")
     }
 
     object Classpath {

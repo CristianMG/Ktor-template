@@ -26,7 +26,6 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 class AuthRoute(
-    private val application: Application,
     private val authController: AuthController
 ) {
     fun configure(routing: Routing) {

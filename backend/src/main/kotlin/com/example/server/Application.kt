@@ -37,8 +37,8 @@ fun main() {
             module {
                 install(Koin) {
                     modules(
-                        getMainModule(this@module), configurationModule, routeModule, controllerModule,
-                        useCasesModule, repositoryModule, databaseModule, seedModule, mapperModule,environmentModule
+                        configurationModule, routeModule, controllerModule,
+                        useCasesModule, repositoryModule, databaseModule, seedModule, mapperModule, environmentModule
                     )
                 }
 
@@ -51,12 +51,12 @@ fun main() {
                 val statusPageConfiguration: StatusPageConfiguration by inject()
                 val loader: DatabaseLoader by inject()
 
-                jwtSecurity.configure()
-                httpConfiguration.configure()
-                serialization.configure()
-                routingConfiguration.configure()
-                swaggerUiConfiguration.configure()
-                statusPageConfiguration.configure()
+                jwtSecurity.configure(this)
+                httpConfiguration.configure(this)
+                serialization.configure(this)
+                routingConfiguration.configure(this)
+                swaggerUiConfiguration.configure(this)
+                statusPageConfiguration.configure(this)
 
                 loader.connect()
 

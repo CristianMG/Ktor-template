@@ -18,4 +18,4 @@ seed-develop:
 
 test:
 	@echo "Executin test suite"
-	docker exec -it ktor_server ./gradlew test
+	./gradlew backend:test

@@ -27,10 +27,9 @@ import io.ktor.server.auth.jwt.*
 
 class JWTSecurity(
     private val environmentVar: EnvironmentVar,
-    private val application: Application,
     private val userRepository: UserRepository
 ) {
-    fun configure() {
+    fun configure(application: Application) {
         application.apply {
             install(Authentication) {
                 jwt("jwt") {

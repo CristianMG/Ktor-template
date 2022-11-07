@@ -24,10 +24,9 @@ import io.github.smiley4.ktorswaggerui.dsl.AuthType
 import io.ktor.server.application.*
 
 class SwaggerUiConfiguration(
-    private val application: Application,
     private val environmentVar: EnvironmentVar
 ) {
-    fun configure() {
+    fun configure(application: Application) {
         application.apply {
             install(SwaggerUI) {
                 securityScheme("JWT") {

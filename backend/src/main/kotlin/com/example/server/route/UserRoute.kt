@@ -25,9 +25,7 @@ import io.ktor.server.auth.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
-class UserRoute(
-    val application: Application
-) {
+class UserRoute() {
 
     fun configure(routing: Routing) {
         routing.route("user") {
