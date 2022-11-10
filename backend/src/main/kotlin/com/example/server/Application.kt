@@ -37,29 +37,16 @@ fun main() {
             module {
                 install(Koin) {
                     modules(
-                        getMainModule(this@module), configurationModule, routeModule, controllerModule,
-                        useCasesModule, repositoryModule, databaseModule, seedModule, mapperModule,environmentModule
+                        configurationModule, routeModule, controllerModule,
+                        useCasesModule, repositoryModule, databaseModule, seedModule, mapperModule, environmentModule
                     )
                 }
 
                 val env: EnvironmentVar by inject()
-                val jwtSecurity: JWTSecurity by inject()
-                val httpConfiguration: HttpConfiguration by inject()
-                val serialization: Serialization by inject()
-                val routingConfiguration: RoutingConfiguration by inject()
-                val swaggerUiConfiguration: SwaggerUiConfiguration by inject()
-                val validator: ValidatorConfiguration by inject()
-                val statusPageConfiguration: StatusPageConfiguration by inject()
+                val pluginConfigurator: PluginConfigurator by inject()
                 val loader: DatabaseLoader by inject()
 
-                jwtSecurity.configure()
-                httpConfiguration.configure()
-                serialization.configure()
-                routingConfiguration.configure()
-                swaggerUiConfiguration.configure()
-                validator.configure()
-                statusPageConfiguration.configure()
-
+                pluginConfigurator.configure(this)
                 loader.connect()
 
                 connector {

@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.com.intellij.openapi.vfs.StandardFileSystems.jar
+
 /*
  * Copyright (c) 2022 CristianMg <https://github.com/CristianMG>
  *   National Electronics and Computer Technology Center, Thailand
@@ -18,6 +20,7 @@
 plugins {
     `kotlin-dsl`
 }
+
 
 repositories {
     mavenCentral()

@@ -35,6 +35,10 @@ object BuildConstants {
     private const val slf4j_simple = "2.0.3"
     private const val bcrypt_version = "0.9.0"
     private const val fluid_country_version = "0.12.0"
+    private const val mock_version = "1.13.2"
+    private const val klogging = "0.5.0-SNAPSHOT"
+    private const val kotest = "5.5.4"
+    private const val minio = "8.4.5"
 
     val dependencies = mutableListOf<String>().apply {
         add("io.ktor:ktor-server-core-jvm:$ktor_version")
@@ -65,12 +69,21 @@ object BuildConstants {
         add("org.slf4j:slf4j-simple:$slf4j_simple")
         add("at.favre.lib:bcrypt:$bcrypt_version")
         add("io.fluidsonic.country:fluid-country:$fluid_country_version")
-
+        add("io.klogging:klogging-jvm:$klogging")
+        add("io.minio:minio:${minio}")
     }
 
     val testDependencies = mutableListOf<String>().apply {
-        add("io.ktor:ktor-server-tests-jvm:$ktor_version")
-        add("org.jetbrains.kotlin:kotlin-test-junit:${MainSettings.kotlinVersion}")
+        add("io.ktor:ktor-server-test-host:$ktor_version")
+        add("io.mockk:mockk:${mock_version}")
+
+        add("io.insert-koin:koin-test:$koin_ktor_version")
+        add("io.kotest:kotest-runner-junit5:$kotest")
+        add("io.kotest:kotest-assertions-core:$kotest")
+        add("io.kotest.extensions:kotest-extensions-koin:1.1.0")
+        add("io.ktor:ktor-client-content-negotiation:$ktor_version")
+        add("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
+        add("io.ktor:ktor-client-logging:$ktor_version")
     }
 
     object Classpath {

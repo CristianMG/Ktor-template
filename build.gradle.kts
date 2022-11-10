@@ -55,8 +55,13 @@ allprojects {
         maven {
             url = uri("https://oss.sonatype.org/content/repositories/snapshots/")
         }
+        maven ("https://s01.oss.sonatype.org/content/repositories/snapshots/")
     }
 }
 tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
+}
+
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
 }

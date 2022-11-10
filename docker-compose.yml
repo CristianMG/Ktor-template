@@ -18,15 +18,6 @@
 version: "3.9"
 
 services:
-  server:
-    networks:
-      - backend
-    restart: always
-    container_name: ktor_server
-    depends_on:
-      database:
-        condition: service_healthy
-
   database:
     image: postgres:latest
     networks:
@@ -46,6 +37,7 @@ services:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
       - POSTGRES_DB=ktor_database
+
 
 networks:
   backend:

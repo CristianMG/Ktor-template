@@ -17,45 +17,45 @@
 
 package com.example.server.route
 
-import com.example.domain.model.SessionResponse
 import com.example.server.controller.AuthController
-import com.example.server.controller.LoginRequest
-import com.example.server.controller.RegisterRequest
-import com.example.server.docs.responseGeneric
-import com.example.server.response.GenericResponse
+import com.example.server.route.docs.ApiSpecification
 import io.github.smiley4.ktorswaggerui.dsl.post
+import io.github.smiley4.ktorswaggerui.dsl.get
 import io.ktor.server.application.*
+import io.ktor.server.auth.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 class AuthRoute(
-    val application: Application,
-    val authController: AuthController
+    private val authController: AuthController
 ) {
+
     fun configure(routing: Routing) {
-        routing.route("auth") {
+        routing.route(AUTH_PATH) {
 
-            post("login", {
-
-                description = "Make login and return the session user have to operate"
-                request {
-                    body<LoginRequest>()
-                }
-                responseGeneric { body<GenericResponse<SessionResponse>>() }
-            }) {
+            post(LOGIN_PATH, ApiSpecification.getSpecLogin()) {
                 call.respond(authController.login(call.receive()))
             }
 
-            post("register", {
-                description = "Make a register in the platform"
-                request {
-                    body<RegisterRequest>()
+            post(REGISTER_PATH, ApiSpecification.getSpecRegister()) {
+                call.respond(authController.register(call.receive()))
+            }
+
+
+            authenticate("jwt") {
+                get(VALIDATE_JWT_PATH, ApiSpecification.getSpecsValidateJwt()) {
+                    call.respond("Your token was validated")
                 }
-                responseGeneric { body<GenericResponse<SessionResponse>>() }
-            }) {
-                call.respond(authController.login(call.receive()))
             }
         }
+    }
+
+
+    companion object{
+        const val AUTH_PATH = "auth"
+        const val LOGIN_PATH = "login"
+        const val REGISTER_PATH = "register"
+        const val VALIDATE_JWT_PATH = "validateJwt"
     }
 }

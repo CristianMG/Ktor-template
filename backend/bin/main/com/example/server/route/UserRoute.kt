@@ -15,19 +15,27 @@
  * limitations under the License.
  */
 
-package com.example.server.plugins
+package com.example.server.route
 
-import com.example.server.controller.LoginRequest
+import com.example.data.UserEntity
+import com.example.server.route.docs.ApiSpecification
+import io.github.smiley4.ktorswaggerui.dsl.get
 import io.ktor.server.application.*
-import io.ktor.server.plugins.requestvalidation.*
+import io.ktor.server.auth.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
 
-class ValidatorConfiguration(
-    private val application: Application
-) {
-    fun configure() {
-        application.install(RequestValidation) {
-            validate<LoginRequest> {
-                ValidationResult.Valid
+class UserRoute() {
+
+    fun configure(routing: Routing) {
+        routing.route("user") {
+            authenticate("jwt") {
+                get(
+                    "me", ApiSpecification.getSpecGetUserMe()
+                ) {
+                    val context = call.principal<UserEntity>()
+                    call.respond("Ender!! ${context?.id}")
+                }
             }
         }
     }

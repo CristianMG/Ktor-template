@@ -15,17 +15,6 @@
  * limitations under the License.
  */
 
-package com.example
+package com.example.domain.exception
 
-class ApplicationTest {
-   /* @Test
-    fun testRoot() = testApplication {
-        application {
-            configureRouting()
-        }
-        client.get("/").apply {
-            assertEquals(HttpStatusCode.OK, status)
-            assertEquals("Hello World!", bodyAsText())
-        }
-    }*/
-}
+open class UserNotFound() : Failure()

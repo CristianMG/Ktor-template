@@ -17,9 +17,18 @@
 
 package com.example.di
 
-import io.ktor.server.application.*
+import com.example.server.plugins.*
+import com.example.server.security.JWTSecurity
+import io.github.serpro69.kfaker.faker
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
-fun getMainModule(application: Application) = module {
-    single { application }
+val configurationModule = module {
+    singleOf(::JWTSecurity)
+    singleOf(::HttpConfiguration)
+    singleOf(::Serialization)
+    singleOf(::RoutingConfiguration)
+    singleOf(::SwaggerUiConfiguration)
+    singleOf(::StatusPageConfiguration)
+    single { faker {  } }
 }
