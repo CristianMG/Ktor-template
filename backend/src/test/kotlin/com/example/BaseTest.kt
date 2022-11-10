@@ -17,33 +17,48 @@
 
 package com.example
 
+import com.example.data.DatabaseLoader
 import com.example.data.seed.seedModule
 import com.example.di.*
+import com.example.server.plugins.PluginConfigurator
 import com.example.server.plugins.RoutingConfiguration
+import com.example.server.plugins.Serialization
+import com.example.server.plugins.StatusPageConfiguration
 import com.example.server.route.AuthRoute
+import com.example.server.security.JWTSecurity
 import io.kotest.core.extensions.Extension
 import io.kotest.core.spec.Spec
 import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.core.test.TestCaseOrder
 import io.kotest.koin.KoinExtension
 import io.kotest.koin.KoinLifecycleMode
 import io.kotest.matchers.shouldBe
 import io.ktor.client.*
+import io.ktor.client.plugins.*
+import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.client.plugins.logging.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
+import io.ktor.network.sockets.*
+import io.ktor.serialization.kotlinx.json.*
+import io.ktor.server.application.*
+import io.ktor.server.auth.*
 import io.ktor.server.engine.*
 import io.ktor.server.routing.*
 import io.ktor.server.testing.*
 import io.ktor.server.util.*
 import org.koin.dsl.module
+import org.koin.ktor.ext.inject
 import org.koin.test.KoinTest
 import org.koin.test.inject
 
 open class BaseTest : DescribeSpec(), KoinTest {
 
     lateinit var application: TestApplication
-    val client: HttpClient
-        get() = application.client
+    lateinit var client: HttpClient
+
+    override fun testCaseOrder(): TestCaseOrder? = TestCaseOrder.Sequential
 
     override fun extensions(): List<Extension> {
         return listOf(
@@ -56,19 +71,23 @@ open class BaseTest : DescribeSpec(), KoinTest {
         )
     }
 
+    open  fun databaseLoaded(){}
 
     override suspend fun beforeSpec(spec: Spec) {
-        super.beforeSpec(spec)
         application = TestApplication {
             application {
-                routing.configure(this)
+                pluginConfigurator.configure(this)
+                databaseLoader.connect()
+                databaseLoaded()
             }
         }
-        application.client.config {
-            url {
-                protocol = URLProtocol.HTTP
-                host = "0.0.0.0"
-                port = 3000
+        client = application.client.config {
+            install(ContentNegotiation) {
+                json()
+            }
+            Logging {
+                logger = Logger.DEFAULT
+                level = LogLevel.BODY
             }
         }
     }
@@ -78,8 +97,8 @@ open class BaseTest : DescribeSpec(), KoinTest {
         application.stop()
     }
 
-    private val routing by inject<RoutingConfiguration>()
+    private val databaseLoader by inject<DatabaseLoader>()
+    private val pluginConfigurator: PluginConfigurator by inject()
+    private val auth by inject<JWTSecurity>()
 
-    init {
-    }
 }

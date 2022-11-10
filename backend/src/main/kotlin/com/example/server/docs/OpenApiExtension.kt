@@ -31,6 +31,10 @@ fun OpenApiRoute.responseGeneric(error: (OpenApiResponses.() -> Unit)? = null, r
         HttpStatusCode.InternalServerError to {
             description = "Something unexpected happened"
         }
+        HttpStatusCode.Unauthorized to {
+            description = "Your credentials are wrong"
+        }
+
         error?.invoke(this)
     }
 }

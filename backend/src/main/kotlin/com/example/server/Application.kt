@@ -43,21 +43,10 @@ fun main() {
                 }
 
                 val env: EnvironmentVar by inject()
-                val jwtSecurity: JWTSecurity by inject()
-                val httpConfiguration: HttpConfiguration by inject()
-                val serialization: Serialization by inject()
-                val routingConfiguration: RoutingConfiguration by inject()
-                val swaggerUiConfiguration: SwaggerUiConfiguration by inject()
-                val statusPageConfiguration: StatusPageConfiguration by inject()
+                val pluginConfigurator: PluginConfigurator by inject()
                 val loader: DatabaseLoader by inject()
 
-                jwtSecurity.configure(this)
-                httpConfiguration.configure(this)
-                serialization.configure(this)
-                routingConfiguration.configure(this)
-                swaggerUiConfiguration.configure(this)
-                statusPageConfiguration.configure(this)
-
+                pluginConfigurator.configure(this)
                 loader.connect()
 
                 connector {

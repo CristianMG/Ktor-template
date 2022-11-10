@@ -65,14 +65,20 @@ object ApiSpecification {
                 HttpStatusCode.BadRequest to {
                     description = "The request is not valid"
                 }
-                HttpStatusCode.Unauthorized to {
-                    description = "Your login is wrong"
-                }
             }
         ) { body<GenericResponse<SessionResponse>>() }
     }
 
     fun getSpecGetUserMe(): OpenApiRoute.() -> Unit = {
         tags = listOf(TAGS.USER.value)
+    }
+
+    fun getSpecsValidateJwt(): OpenApiRoute.() -> Unit = {
+        tags = listOf(TAGS.AUTH.value)
+
+        responseGeneric({
+        }){
+            body<String>()
+        }
     }
 }

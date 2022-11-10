@@ -19,6 +19,7 @@ package com.example.di
 
 import com.example.server.plugins.*
 import com.example.server.security.JWTSecurity
+import io.github.serpro69.kfaker.faker
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
@@ -29,4 +30,6 @@ val configurationModule = module {
     singleOf(::RoutingConfiguration)
     singleOf(::SwaggerUiConfiguration)
     singleOf(::StatusPageConfiguration)
+    singleOf(::PluginConfigurator)
+    single { faker {  } }
 }

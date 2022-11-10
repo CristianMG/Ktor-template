@@ -15,23 +15,28 @@
  * limitations under the License.
  */
 
-package com.example
+package com.example.server.route
 
-import io.kotest.matchers.shouldBe
-import io.ktor.client.request.*
-import io.ktor.client.statement.*
-import io.ktor.http.*
+import com.example.data.UserEntity
+import com.example.server.route.docs.ApiSpecification
+import io.github.smiley4.ktorswaggerui.dsl.get
+import io.ktor.server.application.*
+import io.ktor.server.auth.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
 
-class ApplicationTest : BaseTest() {
+class UserRoute() {
 
-    init {
-        describe("Root path") {
-            it("checking root path") {
-                val response = client.get("/")
-                response.status shouldBe HttpStatusCode.OK
-                response.bodyAsText() shouldBe "This is the main page!!"
+    fun configure(routing: Routing) {
+        routing.route("user") {
+            authenticate("jwt") {
+                get(
+                    "me", ApiSpecification.getSpecGetUserMe()
+                ) {
+                    val context = call.principal<UserEntity>()
+                    call.respond("Ender!! ${context?.id}")
+                }
             }
         }
-
     }
 }

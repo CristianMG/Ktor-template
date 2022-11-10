@@ -29,43 +29,61 @@ class EnvironmentVar {
     }
 
     val portListen: Int
-        get() = dotEnv.get("PORT_LISTEN").toInt()
+        get() = getInt("PORT_LISTEN")
 
     val ipListen: String
-        get() = dotEnv.get("IP_LISTEN")
+        get() = getString("IP_LISTEN")
 
     val swaggerUrl: String
-        get() = dotEnv.get("SWAGGER_URL")
+        get() = getString("SWAGGER_URL")
 
     val environment: String
-        get() = dotEnv.get("ENVIRONMENT")
+        get() = getString("ENVIRONMENT")
 
     val swaggerEndpoint: String
-        get() = dotEnv.get("SWAGGER_ENDPOINT")
+        get() = getString("SWAGGER_ENDPOINT")
 
     val jwtAudience: String
-        get() = dotEnv.get("JWT_AUDIENCE")
+        get() = getString("JWT_AUDIENCE")
 
     val jwtRealm: String
-        get() = dotEnv.get("JWT_REALM")
+        get() = getString("JWT_REALM")
 
     val jwtSecret: String
-        get() = dotEnv.get("JWT_SECRET")
-
-    val jwtDomain: String
-        get() = dotEnv.get("JWT_DOMAIN")
+        get() = getString("JWT_SECRET")
 
     val jwtExpirationTime: Int
-        get() = dotEnv.get("JWT_EXPIRATION_TIME").toInt()
+        get() = getInt("JWT_EXPIRATION_TIME")
 
     val postgresUrl: String
-        get() = dotEnv.get("POSTGRES_URL")
+        get() = getString("POSTGRES_URL")
 
     val postgresUsername: String
-        get() = dotEnv.get("POSTGRES_USERNAME")
+        get() = getString("POSTGRES_USERNAME")
     val postgresPassword: String
-        get() = dotEnv.get("POSTGRES_PASSWORD")
+        get() = getString("POSTGRES_PASSWORD")
 
     val refreshTokenExpirationTime: Long
-        get() = dotEnv.get("REFRESH_TOKEN_EXPIRATION_TIME").toLong()
+        get() = getLong("REFRESH_TOKEN_EXPIRATION_TIME")
+
+    /*  fun getString(key: String): String =
+          System.getenv(key) ?: dotEnv.get(key)
+
+      fun getLong(key: String): Long =
+          System.getenv(key).toLongOrNull() ?: dotEnv.get(key).toLong()
+
+
+      fun getInt(key: String): Int =
+          System.getenv(key).toIntOrNull() ?: dotEnv.get(key).toInt()*/
+
+
+    fun getString(key: String): String =
+        dotEnv.get(key)
+
+    fun getLong(key: String): Long =
+        dotEnv.get(key).toLong()
+
+    fun getInt(key: String): Int =
+        dotEnv.get(key).toInt()
+
 }
