@@ -20,22 +20,41 @@ package com.example.server.route
 import com.example.data.UserEntity
 import com.example.server.route.docs.ApiSpecification
 import io.github.smiley4.ktorswaggerui.dsl.get
+import io.github.smiley4.ktorswaggerui.dsl.post
+import io.ktor.http.content.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
+import io.ktor.server.plugins.*
+import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import java.nio.file.Files
+import kotlin.io.path.writeBytes
 
 class UserRoute() {
 
     fun configure(routing: Routing) {
-        routing.route("user") {
-            authenticate("jwt") {
+        routing.authenticate("jwt") {
+            routing.route("user") {
                 get(
                     "me", ApiSpecification.getSpecGetUserMe()
                 ) {
                     val context = call.principal<UserEntity>()
                     call.respond("Ender!! ${context?.id}")
                 }
+            }
+            post(
+                "updateMyImage", ApiSpecification.updateMyImage()
+            ) {
+                val multipartData = call.receiveMultipart()
+                val data = multipartData.readPart() ?: throw BadRequestException("No file")
+                if (data is PartData.FileItem) {
+                    val file = data.streamProvider().readBytes()
+                    val path = Files.createTempFile(null, null)
+                    path.writeBytes(file)
+                    call.respond("Ender!! $path")
+                }
+                // call.respond("Ender!! ${context?.id}")
             }
         }
     }

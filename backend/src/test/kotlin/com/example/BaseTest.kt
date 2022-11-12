@@ -21,10 +21,6 @@ import com.example.data.DatabaseLoader
 import com.example.data.seed.seedModule
 import com.example.di.*
 import com.example.server.plugins.PluginConfigurator
-import com.example.server.plugins.RoutingConfiguration
-import com.example.server.plugins.Serialization
-import com.example.server.plugins.StatusPageConfiguration
-import com.example.server.route.AuthRoute
 import com.example.server.security.JWTSecurity
 import io.kotest.core.extensions.Extension
 import io.kotest.core.spec.Spec
@@ -32,24 +28,11 @@ import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.core.test.TestCaseOrder
 import io.kotest.koin.KoinExtension
 import io.kotest.koin.KoinLifecycleMode
-import io.kotest.matchers.shouldBe
 import io.ktor.client.*
-import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
-import io.ktor.client.request.*
-import io.ktor.client.statement.*
-import io.ktor.http.*
-import io.ktor.network.sockets.*
 import io.ktor.serialization.kotlinx.json.*
-import io.ktor.server.application.*
-import io.ktor.server.auth.*
-import io.ktor.server.engine.*
-import io.ktor.server.routing.*
 import io.ktor.server.testing.*
-import io.ktor.server.util.*
-import org.koin.dsl.module
-import org.koin.ktor.ext.inject
 import org.koin.test.KoinTest
 import org.koin.test.inject
 

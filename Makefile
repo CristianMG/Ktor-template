@@ -4,17 +4,13 @@ drop-schema:
 	docker-compose up -d
 
 develop:
-	docker-compose -f docker-compose.yml -f docker-compose.development.yml down # Remove any existing containers
-	docker-compose -f docker-compose.yml -f docker-compose.development.yml up
+	docker-compose -f docker-compose.yml -f docker-compose.development.yml --env-file .env down # Remove any existing containers
+	docker-compose -f docker-compose.yml -f docker-compose.development.yml --env-file .env up
 
 seed-develop:
 	@echo "Seeding development database"
 	docker exec -it ktor_server ./gradlew backend:run -Dexec.mainClass=com.example.data.seed.SeedManagerKt
 
-test: test-environment
-	./gradlew backend:test
-
 test-environment:
-	EXPORT DATABASE_URL=postgres://ktor:ktor@localhost:5432/ktor
-	docker-compose -f docker-compose.yml down -v
-	docker-compose -f docker-compose.yml up -d
+	docker-compose -f docker-compose.yml --env-file .env down -v
+	docker-compose -f docker-compose.yml --env-file .env up

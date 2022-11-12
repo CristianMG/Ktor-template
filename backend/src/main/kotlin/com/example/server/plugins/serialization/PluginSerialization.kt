@@ -15,13 +15,13 @@
  * limitations under the License.
  */
 
-package com.example.server.plugins
+package com.example.server.plugins.serialization
 
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.contentnegotiation.*
 
-class Serialization(
+class PluginSerialization(
 ) {
     fun configure(application: Application) {
         application.apply {

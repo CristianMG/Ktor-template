@@ -23,7 +23,10 @@ import com.example.server.controller.RegisterRequest
 import com.example.server.docs.responseGeneric
 import com.example.server.response.GenericResponse
 import io.github.smiley4.ktorswaggerui.dsl.OpenApiRoute
+import io.ktor.client.utils.EmptyContent.contentType
 import io.ktor.http.*
+import io.ktor.http.content.*
+import java.io.File
 
 
 enum class TAGS(val value: String) {
@@ -68,11 +71,6 @@ object ApiSpecification {
             }
         ) { body<GenericResponse<SessionResponse>>() }
     }
-
-    fun getSpecGetUserMe(): OpenApiRoute.() -> Unit = {
-        tags = listOf(TAGS.USER.value)
-    }
-
     fun getSpecsValidateJwt(): OpenApiRoute.() -> Unit = {
         tags = listOf(TAGS.AUTH.value)
 
@@ -81,4 +79,24 @@ object ApiSpecification {
             body<String>()
         }
     }
+
+
+    fun getSpecGetUserMe(): OpenApiRoute.() -> Unit = {
+        tags = listOf(TAGS.USER.value)
+    }
+
+    fun updateMyImage(): OpenApiRoute.() -> Unit = {
+        tags = listOf(TAGS.USER.value)
+        request {
+            body{
+                mediaType(ContentType.Image.Any)
+                required = true
+                description = "The file to upload"
+
+
+            }
+        }
+
+    }
+
 }

@@ -17,23 +17,24 @@
 
 package com.example.server.plugins
 
+import com.example.server.plugins.serialization.PluginSerialization
 import com.example.server.security.JWTSecurity
 import io.ktor.server.application.*
 
 class PluginConfigurator(
     private val jwtSecurity: JWTSecurity,
-    private val httpConfiguration: HttpConfiguration,
-    private val serialization: Serialization,
-    private val routingConfiguration: RoutingConfiguration,
-    private val swaggerUiConfiguration: SwaggerUiConfiguration,
-    private val statusPageConfiguration: StatusPageConfiguration
+    private val pluginHttpConfiguration: PluginHttpConfiguration,
+    private val serialization: PluginSerialization,
+    private val pluginRoutingConfiguration: PluginRoutingConfiguration,
+    private val swaggerUiConfiguration: PluginSwaggerUiConfiguration,
+    private val pluginStatusPageConfiguration: PluginStatusPageConfiguration
 ) {
     fun configure(application: Application) {
-        jwtSecurity.configure(application)
-        httpConfiguration.configure(application)
+        pluginHttpConfiguration.configure(application)
         serialization.configure(application)
-        routingConfiguration.configure(application)
+        jwtSecurity.configure(application)
         swaggerUiConfiguration.configure(application)
-        statusPageConfiguration.configure(application)
+        pluginStatusPageConfiguration.configure(application)
+        pluginRoutingConfiguration.configure(application)
     }
 }

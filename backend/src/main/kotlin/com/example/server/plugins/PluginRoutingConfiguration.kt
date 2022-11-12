@@ -17,24 +17,24 @@
 
 package com.example.server.plugins
 
-import io.ktor.http.*
+import com.example.server.route.AuthRoute
+import com.example.server.route.UserRoute
 import io.ktor.server.application.*
-import io.ktor.server.plugins.cors.routing.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
 
-class HttpConfiguration(
+class PluginRoutingConfiguration(
+    private val userRoute: UserRoute,
+    private val authRoute: AuthRoute
 ) {
     fun configure(application: Application) {
-        application.apply {
-            install(CORS) {
-                allowMethod(HttpMethod.Options)
-                allowMethod(HttpMethod.Put)
-                allowMethod(HttpMethod.Delete)
-                allowMethod(HttpMethod.Patch)
-                allowMethod(HttpMethod.Post)
-                allowHeader(HttpHeaders.Authorization)
-                allowHeader(HttpHeaders.ContentType)
-                anyHost()
+        application.routing {
+            get("/") {
+                call.respondText("This is the main page!!")
             }
+
+            userRoute.configure(this)
+            authRoute.configure(this)
         }
     }
 }

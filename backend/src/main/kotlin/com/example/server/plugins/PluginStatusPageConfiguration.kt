@@ -20,7 +20,6 @@ package com.example.server.plugins
 import com.example.domain.exception.EmailRegisteredException
 import com.example.domain.exception.LoginException
 import com.example.server.response.ErrorResponse
-import com.example.server.response.GenericResponse
 import com.example.server.response.wrapResponse
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -30,7 +29,7 @@ import io.ktor.server.response.*
 import org.valiktor.ConstraintViolationException
 import org.valiktor.i18n.toMessage
 
-class StatusPageConfiguration(
+class PluginStatusPageConfiguration(
 ) {
     fun configure(application: Application) {
         application.install(StatusPages) {
