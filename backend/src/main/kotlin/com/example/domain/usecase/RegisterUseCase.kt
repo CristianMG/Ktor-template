@@ -23,21 +23,20 @@ import com.auth0.jwt.algorithms.Algorithm
 import com.example.data.RoleType
 import com.example.data.UserRepository
 import com.example.domain.exception.EmailRegisteredException
-import com.example.domain.mapper.UserMapper
 import com.example.domain.model.GenderModel
-import com.example.domain.model.SessionResponse
-import com.example.server.controller.RegisterRequest
+import com.example.domain.model.SessionModel
+import com.example.server.dto.request.RegisterRequestDTO
 import com.example.server.environment.EnvironmentVar
 import java.time.LocalDate
 import java.util.*
 
 class RegisterUseCase(
     private val environmentVar: EnvironmentVar,
-    private val userRepository: UserRepository,
-    private val userMapper: UserMapper
-) : UseCase<SessionResponse, RegisterUseCase.RegisterUseCaseParam>() {
+    private val userRepository: UserRepository
+) {
 
-    override fun run(params: RegisterUseCaseParam): SessionResponse {
+
+    operator fun invoke(params: RegisterUseCaseParam): SessionModel {
         if (userRepository.findByEmail(params.request.email) != null)
             throw EmailRegisteredException()
 
@@ -58,7 +57,7 @@ class RegisterUseCase(
             passwordHashed,
             refreshToken,
             System.currentTimeMillis() + environmentVar.refreshTokenExpirationTime
-        )
+        ).toModel()
 
         val token = JWT.create()
             .withAudience(environmentVar.jwtAudience)
@@ -66,15 +65,15 @@ class RegisterUseCase(
             .withExpiresAt(Date(System.currentTimeMillis() + environmentVar.jwtExpirationTime))
             .sign(Algorithm.HMAC256(environmentVar.jwtSecret))
 
-        return SessionResponse(
+        return SessionModel(
             token,
             refreshToken,
-            userMapper.toModel(userSaved)
+            userSaved
         )
     }
 
     data class RegisterUseCaseParam(
-        val request:RegisterRequest,
+        val request: RegisterRequestDTO,
         val roleType: RoleType
     )
 }

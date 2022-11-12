@@ -23,7 +23,7 @@ import io.github.smiley4.ktorswaggerui.dsl.AuthScheme
 import io.github.smiley4.ktorswaggerui.dsl.AuthType
 import io.ktor.server.application.*
 
-class SwaggerUiConfiguration(
+class PluginSwaggerUiConfiguration(
     private val environmentVar: EnvironmentVar
 ) {
     fun configure(application: Application) {

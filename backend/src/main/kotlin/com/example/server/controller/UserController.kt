@@ -15,19 +15,17 @@
  * limitations under the License.
  */
 
-package com.example.server.response
+package com.example.server.controller
 
-import kotlinx.serialization.Serializable
-import java.util.UUID
+import com.example.domain.usecase.UpdateUserImageCase
+import com.example.server.dto.wrapResponse
+import java.io.File
 
-@Serializable
-data class GenericResponse<T>(
-    val data: T,
-    val common: CommonResponse? = null,
-    val requestId: String = UUID.randomUUID().toString(),
-)
+class UserController(
+    private val updateUserImageCase: UpdateUserImageCase
+) {
 
-@Serializable
-class CommonResponse()
-
-fun <T> wrapResponse(closure: () -> T) = GenericResponse(closure(), null)
+    fun updateImage(file: File, userId: String) = wrapResponse {
+        updateUserImageCase
+    }
+}

@@ -17,16 +17,24 @@
 
 package com.example.server.plugins
 
-import io.ktor.serialization.kotlinx.json.*
+import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.plugins.contentnegotiation.*
+import io.ktor.server.plugins.cors.routing.*
 
-class Serialization(
+class PluginHttpConfiguration(
 ) {
     fun configure(application: Application) {
         application.apply {
-            install(ContentNegotiation) {
-                json()
+            install(CORS) {
+                allowMethod(HttpMethod.Options)
+                allowMethod(HttpMethod.Put)
+                allowMethod(HttpMethod.Delete)
+                allowMethod(HttpMethod.Patch)
+                allowMethod(HttpMethod.Post)
+                allowHeader(HttpHeaders.Authorization)
+                allowHeader(HttpHeaders.ContentType)
+                allowHeader(HttpHeaders.Accept)
+                anyHost()
             }
         }
     }

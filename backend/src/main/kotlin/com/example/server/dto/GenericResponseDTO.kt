@@ -15,22 +15,19 @@
  * limitations under the License.
  */
 
-package com.example.domain.mapper
+package com.example.server.dto
 
-interface IMapper<Entity, Model> {
+import kotlinx.serialization.Serializable
+import java.util.UUID
 
-    fun toModel(entity: Entity): Model
-    fun toEntity(model: Model): Entity = throw NotImplementedError("Method not implemented")
+@Serializable
+data class GenericResponse<T>(
+    val data: T,
+    val common: CommonResponseDTO? = null,
+    val requestId: String = UUID.randomUUID().toString(),
+)
 
-    fun toListEntity(entities: MutableList<Model>): MutableList<Entity> {
-        val list = mutableListOf<Entity>()
-        entities.mapTo(list) { toEntity(it) }
-        return list
-    }
+@Serializable
+class CommonResponseDTO()
 
-    fun toListModel(entities: MutableList<Entity>): MutableList<Model> {
-        val list = mutableListOf<Model>()
-        entities.mapTo(list) { toModel(it) }
-        return list
-    }
-}
+fun <T> wrapResponse(closure: () -> T) = GenericResponse(closure(), null)

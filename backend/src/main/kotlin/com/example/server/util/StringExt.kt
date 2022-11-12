@@ -15,13 +15,14 @@
  * limitations under the License.
  */
 
-package com.example.domain.model
+package com.example.server.util
 
-import kotlinx.serialization.Serializable
 
-@Serializable
-data class SessionResponse(
-    val token: String,
-    val refreshToken: String,
-    val user: UserResponse
-)
+fun String.getExtensionOrNull(): String? {
+    return try {
+        val index = this.lastIndexOf('.')
+        this.substring(index + 1)
+    } catch (e: Exception) {
+        null
+    }
+}

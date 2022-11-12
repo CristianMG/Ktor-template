@@ -15,11 +15,16 @@
  * limitations under the License.
  */
 
-package com.example.server.response
+package com.example.server.util
 
-import kotlinx.serialization.Serializable
+import io.ktor.http.content.*
+import java.io.File
+import java.nio.file.Files
+import kotlin.io.path.writeBytes
 
-@Serializable
-data class ErrorResponse(
-    val message: String
-)
+fun PartData.FileItem.getAsTempFile(): File {
+    return Files.createTempFile(null, ".${originalFileName?.getExtensionOrNull()}")
+        .apply {
+            writeBytes(streamProvider().readBytes())
+        }.toFile()
+}

@@ -38,7 +38,7 @@ fun main() {
                 install(Koin) {
                     modules(
                         configurationModule, routeModule, controllerModule,
-                        useCasesModule, repositoryModule, databaseModule, seedModule, mapperModule, environmentModule
+                        useCasesModule, repositoryModule, databaseModule, seedModule, environmentModule
                     )
                 }
 

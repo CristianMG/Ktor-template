@@ -15,25 +15,26 @@
  * limitations under the License.
  */
 
-package com.example.domain.mapper
+package com.example.server.plugins
 
-import com.example.data.UserEntity
-import com.example.domain.model.UserResponse
-import java.time.format.DateTimeFormatter
+import com.example.server.route.AuthRoute
+import com.example.server.route.UserRoute
+import io.ktor.server.application.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
 
-class UserMapper : IMapper<UserEntity, UserResponse> {
+class PluginRoutingConfiguration(
+    private val userRoute: UserRoute,
+    private val authRoute: AuthRoute
+) {
+    fun configure(application: Application) {
+        application.routing {
+            get("/") {
+                call.respondText("This is the main page!!")
+            }
 
-    override fun toModel(entity: UserEntity): UserResponse =
-        UserResponse(
-            entity.id.toString(),
-            entity.name,
-            entity.lastName,
-            entity.email,
-            entity.pushToken,
-            entity.gender,
-            entity.weight,
-            entity.height,
-            entity.birthday.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
-            entity.country,
-        )
+            userRoute.configure(this)
+            authRoute.configure(this)
+        }
+    }
 }

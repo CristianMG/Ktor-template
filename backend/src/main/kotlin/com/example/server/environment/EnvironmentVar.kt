@@ -66,21 +66,19 @@ class EnvironmentVar {
     val refreshTokenExpirationTime: Long
         get() = getLong("REFRESH_TOKEN_EXPIRATION_TIME")
 
-    /*  fun getString(key: String): String =
-          System.getenv(key) ?: dotEnv.get(key)
+    val minioUser: String
+        get() = getString("MINIO_ROOT_USER")
 
-      fun getLong(key: String): Long =
-          System.getenv(key).toLongOrNull() ?: dotEnv.get(key).toLong()
+    val minioPassword: String
+        get() = getString("MINIO_ROOT_PASSWORD")
 
+    val minioURL: String
+        get() = getString("MINIO_URL")
 
-      fun getInt(key: String): Int =
-          System.getenv(key).toIntOrNull() ?: dotEnv.get(key).toInt()*/
-
-
-    fun getString(key: String): String =
+    private fun getString(key: String): String =
         dotEnv.get(key)
 
-    fun getLong(key: String): Long =
+    private fun getLong(key: String): Long =
         dotEnv.get(key).toLong()
 
     fun getInt(key: String): Int =

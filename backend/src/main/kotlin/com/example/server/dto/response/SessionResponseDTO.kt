@@ -15,22 +15,20 @@
  * limitations under the License.
  */
 
-package com.example.data.seed
+package com.example.server.dto.response
 
-import com.example.data.DatabaseLoader
-import com.example.di.*
-import org.koin.core.context.startKoin
-import org.koin.java.KoinJavaComponent.inject
+import com.example.domain.model.SessionModel
+import kotlinx.serialization.Serializable
 
-fun main() {
-    startKoin {
-        modules(
-            repositoryModule, databaseModule, seedModule,environmentModule, useCasesModule
-        )
-    }
-
-    val loader: DatabaseLoader by inject(DatabaseLoader::class.java)
-    val userSeed: UserSeed by inject(UserSeed::class.java)
-    loader.connect()
-    userSeed.seed()
+@Serializable
+data class SessionResponseDTO(
+    val token: String,
+    val refreshToken: String,
+    val user: UserResponseDTO
+) {
+    constructor(sessionModel: SessionModel) : this(
+        token = sessionModel.token,
+        refreshToken = sessionModel.refreshToken,
+        user = UserResponseDTO(sessionModel.user)
+    )
 }

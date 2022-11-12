@@ -15,22 +15,22 @@
  * limitations under the License.
  */
 
-package com.example.data.seed
+package com.example.server.dto.request
 
-import com.example.data.DatabaseLoader
-import com.example.di.*
-import org.koin.core.context.startKoin
-import org.koin.java.KoinJavaComponent.inject
+import kotlinx.serialization.Serializable
+import org.valiktor.functions.isEmail
+import org.valiktor.functions.isNotBlank
+import org.valiktor.validate
 
-fun main() {
-    startKoin {
-        modules(
-            repositoryModule, databaseModule, seedModule,environmentModule, useCasesModule
-        )
+@Serializable
+data class LoginRequestDTO(
+    val email: String,
+    val password: String
+) {
+    init {
+        validate(this) {
+            validate(LoginRequestDTO::email).isEmail()
+            validate(LoginRequestDTO::password).isNotBlank()
+        }
     }
-
-    val loader: DatabaseLoader by inject(DatabaseLoader::class.java)
-    val userSeed: UserSeed by inject(UserSeed::class.java)
-    loader.connect()
-    userSeed.seed()
 }

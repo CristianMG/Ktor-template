@@ -22,23 +22,22 @@ import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import com.example.data.UserRepository
 import com.example.domain.exception.LoginException
-import com.example.domain.exception.UserNotFound
-import com.example.domain.mapper.UserMapper
-import com.example.domain.model.SessionResponse
-import com.example.server.controller.LoginRequest
+import com.example.domain.model.SessionModel
 import com.example.server.environment.EnvironmentVar
 import java.util.*
 
 class LoginUseCase(
     private val environmentVar: EnvironmentVar,
-    private val userRepository: UserRepository,
-    private val userMapper: UserMapper
-) : UseCase<SessionResponse, LoginRequest>() {
+    private val userRepository: UserRepository
+) {
 
-    override fun run(params: LoginRequest): SessionResponse {
-        val user = userRepository.findByEmail(params.email) ?: throw LoginException()
+    operator fun invoke(
+         email: String,
+         password: String
+    ): SessionModel {
+        val user = userRepository.findByEmail(email)?.toModel() ?: throw LoginException()
 
-        if (!BCrypt.verifyer().verify(params.password.toCharArray(), user.password).verified)
+        if (!BCrypt.verifyer().verify(password.toCharArray(), password).verified)
             throw LoginException()
 
         val token = JWT.create()
@@ -47,10 +46,10 @@ class LoginUseCase(
             .withExpiresAt(Date(System.currentTimeMillis() + environmentVar.jwtExpirationTime))
             .sign(Algorithm.HMAC256(environmentVar.jwtSecret))
 
-        return SessionResponse(
+        return SessionModel(
             token,
-            user.hashedRt,
-            userMapper.toModel(user)
+            user.refreshToken,
+            user
         )
     }
 }

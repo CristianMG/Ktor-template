@@ -15,22 +15,19 @@
  * limitations under the License.
  */
 
-package com.example.server.controller
+package com.example.server.plugins.serialization
 
-import kotlinx.serialization.Serializable
-import org.valiktor.functions.isEmail
-import org.valiktor.functions.isNotBlank
-import org.valiktor.validate
+import io.ktor.serialization.kotlinx.json.*
+import io.ktor.server.application.*
+import io.ktor.server.plugins.contentnegotiation.*
 
-@Serializable
-data class LoginRequest(
-    val email: String,
-    val password: String
+class PluginSerialization(
 ) {
-    init {
-        validate(this) {
-            validate(LoginRequest::email).isEmail()
-            validate(LoginRequest::password).isNotBlank()
+    fun configure(application: Application) {
+        application.apply {
+            install(ContentNegotiation) {
+                json()
+            }
         }
     }
 }

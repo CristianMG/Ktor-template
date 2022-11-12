@@ -15,26 +15,23 @@
  * limitations under the License.
  */
 
-package com.example.server.plugins
+package com.example.domain.model
 
-import com.example.server.route.AuthRoute
-import com.example.server.route.UserRoute
-import io.ktor.server.application.*
-import io.ktor.server.response.*
-import io.ktor.server.routing.*
+import io.ktor.server.auth.*
+import java.time.LocalDate
 
-class RoutingConfiguration(
-    private val userRoute: UserRoute,
-    private val authRoute: AuthRoute
-) {
-    fun configure(application: Application) {
-        application.routing {
-            get("/") {
-                call.respondText("This is the main page!!")
-            }
-
-            userRoute.configure(this)
-            authRoute.configure(this)
-        }
-    }
-}
+data class UserModel(
+    val id: String? = null,
+    val name: String,
+    val lastName: String,
+    val email: String,
+    val pushToken: String,
+    val gender: GenderModel,
+    val weight: Int,
+    val height: Int,
+    val birthday: LocalDate,
+    val country: String,
+    val refreshToken:String,
+    val expirationRefreshToken:Long,
+    val profilePicture: String? = null,
+) : Principal

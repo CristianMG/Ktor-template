@@ -15,12 +15,11 @@
  * limitations under the License.
  */
 
-package com.example.di
+package com.example.server.dto
 
-import com.example.domain.mapper.UserMapper
-import org.koin.core.module.dsl.singleOf
-import org.koin.dsl.module
+import kotlinx.serialization.Serializable
 
-val mapperModule = module {
-    singleOf(::UserMapper)
-}
+@Serializable
+data class ErrorResponseDTO(
+    val message: String
+)
