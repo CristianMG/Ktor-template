@@ -18,12 +18,10 @@
 package com.example.data.seed
 
 import com.example.data.RoleType
-import com.example.data.UserRepository
 import com.example.domain.model.GenderModel
 import com.example.domain.usecase.RegisterUseCase
-import com.example.server.controller.RegisterRequest
+import com.example.server.dto.request.RegisterRequestDTO
 import io.github.serpro69.kfaker.faker
-import java.time.LocalDate
 
 class UserSeed(
     private val registerUseCase: RegisterUseCase
@@ -32,7 +30,7 @@ class UserSeed(
         val faker = faker { }
         registerUseCase(
             RegisterUseCase.RegisterUseCaseParam(
-                RegisterRequest(
+                RegisterRequestDTO(
                     "admin",
                     "admin",
                     "admin@example.com",

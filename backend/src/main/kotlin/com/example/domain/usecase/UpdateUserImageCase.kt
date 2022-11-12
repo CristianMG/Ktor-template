@@ -17,20 +17,22 @@
 
 package com.example.domain.usecase
 
-/**
- * Abstract class for a Use Case (Interactor in terms of Clean Architecture).
- * This abstraction represents an execution unit for different use cases (this means that any use
- * case in the application should implement this contract).
- *
- * By convention each [UseCase] implementation will execute its job in a background thread
- * (kotlin coroutine) and will post the result in the UI thread.
- */
-abstract class UseCase<out Type, in Params> where Type : Any {
+import com.example.data.StorageRepository
+import com.example.data.UserRepository
+import com.example.domain.model.UserModel
+import com.example.server.dto.response.UserResponseDTO
+import com.example.server.environment.EnvironmentVar
+import java.io.File
 
-    abstract fun run(params: Params): Type
+class UpdateUserImageCase(
+    private val environmentVar: EnvironmentVar,
+    private val userRepository: UserRepository,
+    private val storageRepository: StorageRepository
+) {
 
-    operator fun invoke(
-        params: Params,
-    ): Type =
-        run(params)
+    operator fun invoke(file: File, userId: String): UserModel {
+        val user = userRepository.findById(userId)?.toModel()?:throw Exception("User not found")
+        storageRepository.uploadFile(userId, StorageRepository.getBucketUserProfile(userId), file)
+        return user
+    }
 }

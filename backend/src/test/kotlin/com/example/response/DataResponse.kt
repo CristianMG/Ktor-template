@@ -17,7 +17,7 @@
 
 package com.example.response
 
-import com.example.server.response.CommonResponse
+import com.example.server.dto.CommonResponse
 import kotlinx.serialization.Serializable
 
 @Serializable

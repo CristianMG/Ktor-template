@@ -18,9 +18,11 @@
 package com.example.di
 
 import com.example.server.controller.AuthController
+import com.example.server.controller.UserController
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 val controllerModule = module {
     singleOf(::AuthController)
+    singleOf(::UserController)
 }

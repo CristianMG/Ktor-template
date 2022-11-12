@@ -1,7 +1,6 @@
 drop-schema:
 	@echo "Dropping schema and recreating docker containers"
-	docker-compose down -v
-	docker-compose up -d
+	docker-compose -f docker-compose.yml -f docker-compose.development.yml --env-file .env down -v
 
 develop:
 	docker-compose -f docker-compose.yml -f docker-compose.development.yml --env-file .env down # Remove any existing containers

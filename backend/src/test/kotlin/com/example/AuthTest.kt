@@ -19,10 +19,10 @@ package com.example
 
 import com.example.data.Users
 import com.example.domain.model.GenderModel
-import com.example.domain.model.SessionResponse
+import com.example.domain.model.SessionModel
 import com.example.response.DataResponse
-import com.example.server.controller.LoginRequest
-import com.example.server.controller.RegisterRequest
+import com.example.server.dto.request.LoginRequestDTO
+import com.example.server.dto.request.RegisterRequestDTO
 import com.example.server.route.AuthRoute.Companion.AUTH_PATH
 import com.example.server.route.AuthRoute.Companion.LOGIN_PATH
 import com.example.server.route.AuthRoute.Companion.REGISTER_PATH
@@ -57,8 +57,8 @@ class AuthTest : BaseTest() {
         }
     }
 
-    val registerBody:RegisterRequest by lazy {
-        RegisterRequest(
+    val registerBody: RegisterRequestDTO by lazy {
+        RegisterRequestDTO(
             faker.name.name(),
             faker.name.lastName(),
             EMAIL,
@@ -82,8 +82,8 @@ class AuthTest : BaseTest() {
                 }
                 println(response)
                 response.status shouldBe HttpStatusCode.OK
-                val sessionResponse = response.body<DataResponse<SessionResponse>>()
-                sessionResponse shouldNotBe null
+                val sessionModel = response.body<DataResponse<SessionModel>>()
+                sessionModel shouldNotBe null
             }
 
             it("Check user was already registered") {
@@ -126,15 +126,15 @@ class AuthTest : BaseTest() {
     }
 
 
-    private suspend fun makeLoginAndReturnResponse(): SessionResponse {
-        val loginRequest = LoginRequest(
+    private suspend fun makeLoginAndReturnResponse(): SessionModel {
+        val loginRequest = LoginRequestDTO(
             EMAIL, PASSWORD
         )
         val response = client.post("$AUTH_PATH/$LOGIN_PATH") {
             setBody(loginRequest)
             contentType(ContentType.Application.Json)
         }
-        return response.body<DataResponse<SessionResponse>>().data
+        return response.body<DataResponse<SessionModel>>().data
     }
 
 }

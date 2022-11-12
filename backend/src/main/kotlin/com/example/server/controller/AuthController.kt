@@ -20,19 +20,28 @@ package com.example.server.controller
 import com.example.data.RoleType
 import com.example.domain.usecase.LoginUseCase
 import com.example.domain.usecase.RegisterUseCase
-import com.example.server.response.wrapResponse
-import io.ktor.server.application.*
+import com.example.server.dto.request.LoginRequestDTO
+import com.example.server.dto.request.RegisterRequestDTO
+import com.example.server.dto.response.SessionResponseDTO
+import com.example.server.dto.wrapResponse
 
 class AuthController(
     val loginUseCase: LoginUseCase,
     val registerUseCase: RegisterUseCase
 ) {
 
-    fun login(loginRequest: LoginRequest) = wrapResponse {
-        loginUseCase(loginRequest)
+    fun login(loginRequest: LoginRequestDTO) = wrapResponse {
+        loginUseCase(loginRequest.email, loginRequest.password)
+            .apply {
+                SessionResponseDTO(this)
+            }
     }
 
-    fun register(request: RegisterRequest) = wrapResponse {
-        registerUseCase(RegisterUseCase.RegisterUseCaseParam(request, RoleType.USER))
+    fun register(request: RegisterRequestDTO) = wrapResponse {
+        registerUseCase(
+            RegisterUseCase.RegisterUseCaseParam(request, RoleType.USER)
+        ).apply {
+            SessionResponseDTO(this)
+        }
     }
 }

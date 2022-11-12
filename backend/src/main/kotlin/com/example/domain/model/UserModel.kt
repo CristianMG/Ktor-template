@@ -15,12 +15,23 @@
  * limitations under the License.
  */
 
-package com.example.di
+package com.example.domain.model
 
-import com.example.domain.mapper.UserMapper
-import org.koin.core.module.dsl.singleOf
-import org.koin.dsl.module
+import io.ktor.server.auth.*
+import java.time.LocalDate
 
-val mapperModule = module {
-    singleOf(::UserMapper)
-}
+data class UserModel(
+    val id: String? = null,
+    val name: String,
+    val lastName: String,
+    val email: String,
+    val pushToken: String,
+    val gender: GenderModel,
+    val weight: Int,
+    val height: Int,
+    val birthday: LocalDate,
+    val country: String,
+    val refreshToken:String,
+    val expirationRefreshToken:Long,
+    val profilePicture: String? = null,
+) : Principal

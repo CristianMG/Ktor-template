@@ -17,15 +17,14 @@
 
 package com.example.server.route.docs
 
-import com.example.domain.model.SessionResponse
-import com.example.server.controller.LoginRequest
-import com.example.server.controller.RegisterRequest
+import com.example.domain.model.SessionModel
+import com.example.server.dto.request.LoginRequestDTO
+import com.example.server.dto.request.RegisterRequestDTO
 import com.example.server.docs.responseGeneric
-import com.example.server.response.GenericResponse
+import com.example.server.dto.response.UserResponseDTO
+import com.example.server.dto.GenericResponse
 import io.github.smiley4.ktorswaggerui.dsl.OpenApiRoute
-import io.ktor.client.utils.EmptyContent.contentType
 import io.ktor.http.*
-import io.ktor.http.content.*
 import java.io.File
 
 
@@ -40,7 +39,7 @@ object ApiSpecification {
         tags = listOf(TAGS.AUTH.value)
         description = "Make a register in the platform"
         request {
-            body<RegisterRequest>()
+            body<RegisterRequestDTO>()
         }
         responseGeneric(
             {
@@ -54,14 +53,14 @@ object ApiSpecification {
                     description = "The email is already registered, please use other email to register"
                 }
             }
-        ) { body<GenericResponse<SessionResponse>>() }
+        ) { body<GenericResponse<SessionModel>>() }
     }
 
     fun getSpecLogin(): OpenApiRoute.() -> Unit = {
         tags = listOf(TAGS.AUTH.value)
         description = "Make login and return the session user have to operate"
         request {
-            body<LoginRequest>()
+            body<LoginRequestDTO>()
         }
         responseGeneric(
             {
@@ -69,13 +68,14 @@ object ApiSpecification {
                     description = "The request is not valid"
                 }
             }
-        ) { body<GenericResponse<SessionResponse>>() }
+        ) { body<GenericResponse<SessionModel>>() }
     }
+
     fun getSpecsValidateJwt(): OpenApiRoute.() -> Unit = {
         tags = listOf(TAGS.AUTH.value)
 
         responseGeneric({
-        }){
+        }) {
             body<String>()
         }
     }
@@ -83,18 +83,26 @@ object ApiSpecification {
 
     fun getSpecGetUserMe(): OpenApiRoute.() -> Unit = {
         tags = listOf(TAGS.USER.value)
+        responseGeneric({
+        }) {
+            body<UserResponseDTO>()
+        }
     }
 
     fun updateMyImage(): OpenApiRoute.() -> Unit = {
         tags = listOf(TAGS.USER.value)
         request {
-            body{
-                mediaType(ContentType.Image.Any)
-                required = true
-                description = "The file to upload"
-
-
+            multipartBody {
+                mediaType(ContentType.MultiPart.FormData)
+                part<File>("image") {
+                    mediaTypes = setOf(ContentType.Image.Any)
+                }
             }
+        }
+
+        responseGeneric({
+        }) {
+            body<UserResponseDTO>()
         }
 
     }

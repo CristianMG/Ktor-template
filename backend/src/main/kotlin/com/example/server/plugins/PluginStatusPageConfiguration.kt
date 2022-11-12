@@ -19,8 +19,8 @@ package com.example.server.plugins
 
 import com.example.domain.exception.EmailRegisteredException
 import com.example.domain.exception.LoginException
-import com.example.server.response.ErrorResponse
-import com.example.server.response.wrapResponse
+import com.example.server.dto.ErrorResponseDTO
+import com.example.server.dto.wrapResponse
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.*
@@ -38,23 +38,23 @@ class PluginStatusPageConfiguration(
                 when {
                     internCause is ConstraintViolationException -> {
                         val errors = internCause.constraintViolations.map { it.toMessage() }
-                        call.respond(HttpStatusCode.BadRequest, wrapResponse { ErrorResponse(errors.toString()) })
+                        call.respond(HttpStatusCode.BadRequest, wrapResponse { ErrorResponseDTO(errors.toString()) })
                     }
 
                     cause is LoginException -> {
-                        call.respond(HttpStatusCode.Unauthorized, wrapResponse { ErrorResponse("Invalid credentials") })
+                        call.respond(HttpStatusCode.Unauthorized, wrapResponse { ErrorResponseDTO("Invalid credentials") })
                     }
 
                     cause is EmailRegisteredException -> {
-                        call.respond(HttpStatusCode.Conflict, wrapResponse { ErrorResponse("Email already registered") })
+                        call.respond(HttpStatusCode.Conflict, wrapResponse { ErrorResponseDTO("Email already registered") })
                     }
 
                     cause is BadRequestException -> {
-                        call.respond(HttpStatusCode.BadRequest, wrapResponse { ErrorResponse(cause.message ?: "") })
+                        call.respond(HttpStatusCode.BadRequest, wrapResponse { ErrorResponseDTO(cause.message ?: "") })
                     }
 
                     else -> {
-                        call.respond(HttpStatusCode.InternalServerError, wrapResponse { ErrorResponse("Internal server error") })
+                        call.respond(HttpStatusCode.InternalServerError, wrapResponse { ErrorResponseDTO("Internal server error") })
                         println("Internal server error: exception: $cause internCause: ${internCause?.message} outputCase: ${cause.message}")
                     }
                 }

@@ -17,8 +17,12 @@
 
 package com.example.server.route
 
-import com.example.data.UserEntity
+import com.example.domain.model.UserModel
+import com.example.server.controller.UserController
+import com.example.server.dto.response.UserResponseDTO
+import com.example.server.dto.wrapResponse
 import com.example.server.route.docs.ApiSpecification
+import com.example.server.util.getAsTempFile
 import io.github.smiley4.ktorswaggerui.dsl.get
 import io.github.smiley4.ktorswaggerui.dsl.post
 import io.ktor.http.content.*
@@ -28,10 +32,10 @@ import io.ktor.server.plugins.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import java.nio.file.Files
-import kotlin.io.path.writeBytes
 
-class UserRoute() {
+class UserRoute(
+    val controller: UserController
+) {
 
     fun configure(routing: Routing) {
         routing.authenticate("jwt") {
@@ -39,22 +43,25 @@ class UserRoute() {
                 get(
                     "me", ApiSpecification.getSpecGetUserMe()
                 ) {
-                    val context = call.principal<UserEntity>()
-                    call.respond("Ender!! ${context?.id}")
+                    call.respond(wrapResponse { UserResponseDTO(call.principal()!!) })
                 }
             }
+
             post(
                 "updateMyImage", ApiSpecification.updateMyImage()
             ) {
+                val user = call.principal<UserModel>()!!
                 val multipartData = call.receiveMultipart()
                 val data = multipartData.readPart() ?: throw BadRequestException("No file")
-                if (data is PartData.FileItem) {
-                    val file = data.streamProvider().readBytes()
-                    val path = Files.createTempFile(null, null)
-                    path.writeBytes(file)
-                    call.respond("Ender!! $path")
+                if (data.name == "image" &&
+                    data is PartData.FileItem
+                ) {
+                    val file = data.getAsTempFile()
+                    //controller.updateImage(file,user.id)
+                    call.respond("Ender!! ${file.absolutePath}")
+                } else {
+                    throw BadRequestException("No file or bad name")
                 }
-                // call.respond("Ender!! ${context?.id}")
             }
         }
     }

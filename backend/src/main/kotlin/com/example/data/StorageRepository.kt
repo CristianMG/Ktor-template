@@ -23,6 +23,7 @@ import io.minio.MakeBucketArgs
 import io.minio.MinioClient
 import io.minio.UploadObjectArgs
 import org.jetbrains.exposed.sql.transactions.transaction
+import java.io.File
 
 
 class StorageRepository(
@@ -44,12 +45,13 @@ class StorageRepository(
         }
     }
 
-    fun updateFileToBucket(){
+    fun uploadFile(bucket: String, name: String, file: File) {
+        makeBucket(bucket)
         client.uploadObject(
             UploadObjectArgs.builder()
-                .bucket("asiatrip")
-                .`object`("asiaphotos-2015.zip")
-                .filename("/home/user/Photos/asiaphotos.zip")
+                .bucket(bucket)
+                .`object`("$name.${file.extension}")
+                .filename(file.absolutePath)
                 .build()
         )
     }
@@ -62,4 +64,13 @@ class StorageRepository(
         )
 
 
+    companion object {
+        val USERS = "users"
+
+
+
+
+        fun getBucketUser(userId: String): String = "$USERS/$userId"
+        fun getBucketUserProfile(userId: String): String = "${getBucketUser(userId)}/user_image"
+    }
 }

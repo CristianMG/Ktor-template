@@ -15,22 +15,16 @@
  * limitations under the License.
  */
 
-package com.example.domain.mapper
+package com.example.server.util
 
-interface IMapper<Entity, Model> {
+import io.ktor.http.content.*
+import java.io.File
+import java.nio.file.Files
+import kotlin.io.path.writeBytes
 
-    fun toModel(entity: Entity): Model
-    fun toEntity(model: Model): Entity = throw NotImplementedError("Method not implemented")
-
-    fun toListEntity(entities: MutableList<Model>): MutableList<Entity> {
-        val list = mutableListOf<Entity>()
-        entities.mapTo(list) { toEntity(it) }
-        return list
-    }
-
-    fun toListModel(entities: MutableList<Entity>): MutableList<Model> {
-        val list = mutableListOf<Model>()
-        entities.mapTo(list) { toModel(it) }
-        return list
-    }
+fun PartData.FileItem.getAsTempFile(): File {
+    return Files.createTempFile(null, ".${originalFileName?.getExtensionOrNull()}")
+        .apply {
+            writeBytes(streamProvider().readBytes())
+        }.toFile()
 }

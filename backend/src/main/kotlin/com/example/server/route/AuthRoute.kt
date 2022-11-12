@@ -42,7 +42,6 @@ class AuthRoute(
                 call.respond(authController.register(call.receive()))
             }
 
-
             authenticate("jwt") {
                 get(VALIDATE_JWT_PATH, ApiSpecification.getSpecsValidateJwt()) {
                     call.respond("Your token was validated")

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.example.server.controller
+package com.example.server.dto.request
 
 import com.example.domain.model.GenderModel
 import com.example.server.util.validate.ValidateDate
@@ -25,7 +25,7 @@ import org.valiktor.functions.*
 import org.valiktor.validate
 
 @Serializable
-data class RegisterRequest(
+data class RegisterRequestDTO(
     val name: String,
     val lastname: String,
     val email: String,
@@ -39,18 +39,18 @@ data class RegisterRequest(
 ) {
     init {
         validate(this) {
-            validate(RegisterRequest::name).isNotBlank()
-            validate(RegisterRequest::lastname).isNotBlank()
-            validate(RegisterRequest::email).isEmail()
-            validate(RegisterRequest::password).isNotBlank()
-            validate(RegisterRequest::pushToken).isNotBlank()
-            validate(RegisterRequest::gender).isIn(GenderModel.values().map { it.name })
-            validate(RegisterRequest::weight).isBetween(20, 300)
-            validate(RegisterRequest::height).isBetween(50, 300)
-            validate(RegisterRequest::birthday).isValid {
+            validate(RegisterRequestDTO::name).isNotBlank()
+            validate(RegisterRequestDTO::lastname).isNotBlank()
+            validate(RegisterRequestDTO::email).isEmail()
+            validate(RegisterRequestDTO::password).isNotBlank()
+            validate(RegisterRequestDTO::pushToken).isNotBlank()
+            validate(RegisterRequestDTO::gender).isIn(GenderModel.values().map { it.name })
+            validate(RegisterRequestDTO::weight).isBetween(20, 300)
+            validate(RegisterRequestDTO::height).isBetween(50, 300)
+            validate(RegisterRequestDTO::birthday).isValid {
                 ValidateDate.localDate(it)
             }
-            validate(RegisterRequest::country).isValid {
+            validate(RegisterRequestDTO::country).isValid {
                 Country.forCodeOrNull(it) != null
             }
         }

@@ -18,6 +18,7 @@
 package com.example.data
 
 import com.example.domain.model.GenderModel
+import com.example.domain.model.UserModel
 import io.ktor.server.auth.*
 import org.jetbrains.exposed.dao.UUIDEntity
 import org.jetbrains.exposed.dao.UUIDEntityClass
@@ -41,9 +42,10 @@ object Users : UUIDTable("users") {
     val password = varchar("password", 200)
     val hashedRt = varchar("hashedRt", 200)
     val expirationRt = timestamp("expirationRt")
+    val profilePicture = varchar("profilePicture", 50).nullable()
 }
 
-class UserEntity(id: EntityID<UUID>) : UUIDEntity(id), Principal {
+class UserEntity(id: EntityID<UUID>) : UUIDEntity(id) {
 
     companion object : UUIDEntityClass<UserEntity>(Users)
 
@@ -60,4 +62,9 @@ class UserEntity(id: EntityID<UUID>) : UUIDEntity(id), Principal {
     var password by Users.password
     var hashedRt by Users.hashedRt
     var expirationRt by Users.expirationRt
+    var profilePicture by Users.profilePicture
+
+    fun toModel() = UserModel(
+        id.toString(), name, lastName, email, pushToken, gender, weight, height, birthday, country, hashedRt, expirationRt.toEpochMilli(), profilePicture
+    )
 }

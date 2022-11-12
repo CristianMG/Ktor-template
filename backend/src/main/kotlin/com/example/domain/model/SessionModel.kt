@@ -15,11 +15,10 @@
  * limitations under the License.
  */
 
-package com.example.server.response
+package com.example.domain.model
 
-import kotlinx.serialization.Serializable
-
-@Serializable
-data class ErrorResponse(
-    val message: String
+data class SessionModel(
+    val token: String,
+    val refreshToken: String,
+    val user: UserModel
 )

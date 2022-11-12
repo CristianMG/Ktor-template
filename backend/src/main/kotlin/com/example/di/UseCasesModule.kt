@@ -24,4 +24,5 @@ import org.koin.dsl.module
 val useCasesModule = module {
     singleOf(::LoginUseCase)
     singleOf(::RegisterUseCase)
+    singleOf(::UpdateUserImageCase)
 }

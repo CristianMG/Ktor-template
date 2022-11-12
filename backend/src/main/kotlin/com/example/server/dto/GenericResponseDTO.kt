@@ -15,13 +15,19 @@
  * limitations under the License.
  */
 
-package com.example.domain.model
+package com.example.server.dto
 
 import kotlinx.serialization.Serializable
+import java.util.UUID
 
 @Serializable
-data class SessionResponse(
-    val token: String,
-    val refreshToken: String,
-    val user: UserResponse
+data class GenericResponse<T>(
+    val data: T,
+    val common: CommonResponseDTO? = null,
+    val requestId: String = UUID.randomUUID().toString(),
 )
+
+@Serializable
+class CommonResponseDTO()
+
+fun <T> wrapResponse(closure: () -> T) = GenericResponse(closure(), null)
