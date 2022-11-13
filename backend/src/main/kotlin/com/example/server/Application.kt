@@ -31,30 +31,25 @@ import org.koin.ktor.plugin.Koin
 
 fun main() {
 
-    embeddedServer(
-        Netty,
-        environment = applicationEngineEnvironment {
-            module {
-                install(Koin) {
-                    modules(
-                        configurationModule, routeModule, controllerModule,
-                        useCasesModule, repositoryModule, databaseModule, seedModule, environmentModule
-                    )
-                }
+    embeddedServer(Netty, environment = applicationEngineEnvironment {
+        module {
+            install(Koin) {
+                modules(
+                    configurationModule, routeModule, controllerModule, useCasesModule, repositoryModule, databaseModule, seedModule, environmentModule, mapperDTOModule
+                )
+            }
 
-                val env: EnvironmentVar by inject()
-                val pluginConfigurator: PluginConfigurator by inject()
-                val loader: DatabaseLoader by inject()
+            val env: EnvironmentVar by inject()
+            val pluginConfigurator: PluginConfigurator by inject()
+            val loader: DatabaseLoader by inject()
 
-                pluginConfigurator.configure(this)
-                loader.connect()
+            pluginConfigurator.configure(this)
+            loader.connect()
 
-                connector {
-                    port = env.portListen
-                    host = env.ipListen
-                }
+            connector {
+                port = env.portListen
+                host = env.ipListen
             }
         }
-    )
-        .start(wait = true)
+    }).start(wait = true)
 }

@@ -17,11 +17,7 @@
 
 package com.example.server.dto.response
 
-import com.example.domain.model.GenderModel
-import com.example.domain.model.UserModel
 import kotlinx.serialization.Serializable
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 @Serializable
 data class UserResponseDTO(
@@ -36,18 +32,4 @@ data class UserResponseDTO(
     val birthday: String,
     val country: String,
     val profilePicture: String? = null,
-) {
-    constructor(userModel: UserModel) : this(
-        userModel.id,
-        userModel.name,
-        userModel.lastName,
-        userModel.email,
-        userModel.pushToken,
-        userModel.gender.key,
-        userModel.weight,
-        userModel.height,
-        userModel.birthday.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
-        userModel.country,
-        userModel.profilePicture
-    )
-}
+)

@@ -18,9 +18,11 @@
 package com.example.data
 
 import com.example.domain.model.GenderModel
+import com.example.domain.model.UserModel
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.sql.update
 import java.time.Instant
 import java.time.LocalDate
 import java.util.UUID
@@ -33,6 +35,7 @@ class UserRepository() {
     fun findById(id: String): UserEntity? = transaction {
         UserEntity.findById(UUID.fromString(id))
     }
+
 
     fun saveUser(
         name: String,

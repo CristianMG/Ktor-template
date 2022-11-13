@@ -15,28 +15,14 @@
  * limitations under the License.
  */
 
-package com.example.server.route
+package com.example.di
 
-import com.example.data.UserEntity
-import com.example.server.route.docs.ApiSpecification
-import io.github.smiley4.ktorswaggerui.dsl.get
-import io.ktor.server.application.*
-import io.ktor.server.auth.*
-import io.ktor.server.response.*
-import io.ktor.server.routing.*
+import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.module
+import com.example.server.dto.mapper.UserMapperDTO
+import com.example.server.dto.mapper.SessionResponseMapperDTO
 
-class UserRoute() {
-
-    fun configure(routing: Routing) {
-        routing.route("user") {
-            authenticate("jwt") {
-                get(
-                    "me", ApiSpecification.getSpecGetUserMe()
-                ) {
-                    val context = call.principal<UserEntity>()
-                    call.respond("Ender!! ${context?.id}")
-                }
-            }
-        }
-    }
+val mapperDTOModule = module {
+    singleOf(::UserMapperDTO)
+    singleOf(::SessionResponseMapperDTO)
 }

@@ -20,7 +20,12 @@ package com.example
 import com.example.data.DatabaseLoader
 import com.example.data.seed.seedModule
 import com.example.di.*
+import com.example.domain.model.SessionModel
+import com.example.response.DataResponse
+import com.example.server.dto.request.LoginRequestDTO
+import com.example.server.dto.response.SessionResponseDTO
 import com.example.server.plugins.PluginConfigurator
+import com.example.server.route.AuthRoute
 import com.example.server.security.JWTSecurity
 import io.kotest.core.extensions.Extension
 import io.kotest.core.spec.Spec
@@ -29,8 +34,11 @@ import io.kotest.core.test.TestCaseOrder
 import io.kotest.koin.KoinExtension
 import io.kotest.koin.KoinLifecycleMode
 import io.ktor.client.*
+import io.ktor.client.call.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
+import io.ktor.client.request.*
+import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.testing.*
 import org.koin.test.KoinTest
@@ -47,19 +55,18 @@ open class BaseTest : DescribeSpec(), KoinTest {
         return listOf(
             KoinExtension(
                 modules = listOf(
-                    configurationModule, routeModule, controllerModule,
-                    useCasesModule, repositoryModule, databaseModule, seedModule, mapperModule, environmentModule
+                    configurationModule, routeModule, controllerModule, useCasesModule, repositoryModule, databaseModule, seedModule, environmentModule, mapperDTOModule
                 ), mode = KoinLifecycleMode.Root
             )
         )
     }
 
-    open  fun databaseLoaded(){}
+    open fun databaseLoaded() {}
 
     override suspend fun beforeSpec(spec: Spec) {
         application = TestApplication {
             application {
-                pluginConfigurator.configure(this)
+                pluginConfigurator.configure(this, true)
                 databaseLoader.connect()
                 databaseLoaded()
             }
@@ -82,6 +89,21 @@ open class BaseTest : DescribeSpec(), KoinTest {
 
     private val databaseLoader by inject<DatabaseLoader>()
     private val pluginConfigurator: PluginConfigurator by inject()
-    private val auth by inject<JWTSecurity>()
 
+    suspend fun makeLoginAndReturnResponse(): SessionResponseDTO {
+        val loginRequest = LoginRequestDTO(
+            EMAIL, PASSWORD
+        )
+        val response = client.post("${AuthRoute.AUTH_PATH}/${AuthRoute.LOGIN_PATH}") {
+            setBody(loginRequest)
+            contentType(ContentType.Application.Json)
+        }
+        return response.body<DataResponse<SessionResponseDTO>>().data
+    }
+
+
+    companion object {
+        const val EMAIL = "test@test.com"
+        const val PASSWORD = "password_test"
+    }
 }

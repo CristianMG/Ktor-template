@@ -20,6 +20,7 @@ package com.example.server.controller
 import com.example.data.RoleType
 import com.example.domain.usecase.LoginUseCase
 import com.example.domain.usecase.RegisterUseCase
+import com.example.server.dto.mapper.SessionResponseMapperDTO
 import com.example.server.dto.request.LoginRequestDTO
 import com.example.server.dto.request.RegisterRequestDTO
 import com.example.server.dto.response.SessionResponseDTO
@@ -27,21 +28,22 @@ import com.example.server.dto.wrapResponse
 
 class AuthController(
     val loginUseCase: LoginUseCase,
-    val registerUseCase: RegisterUseCase
+    val registerUseCase: RegisterUseCase,
+    private val sessionResponseMapperDTO: SessionResponseMapperDTO
 ) {
 
     fun login(loginRequest: LoginRequestDTO) = wrapResponse {
         loginUseCase(loginRequest.email, loginRequest.password)
-            .apply {
-                SessionResponseDTO(this)
+            .let {
+                sessionResponseMapperDTO.toDto(it)
             }
     }
 
     fun register(request: RegisterRequestDTO) = wrapResponse {
-        registerUseCase(
+         registerUseCase(
             RegisterUseCase.RegisterUseCaseParam(request, RoleType.USER)
-        ).apply {
-            SessionResponseDTO(this)
+        ).let {
+            sessionResponseMapperDTO.toDto(it)
         }
     }
 }

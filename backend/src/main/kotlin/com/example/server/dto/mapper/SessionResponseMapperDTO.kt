@@ -15,20 +15,21 @@
  * limitations under the License.
  */
 
-package com.example.di
+package com.example.server.dto.mapper
 
-import com.example.server.plugins.*
-import com.example.server.security.JWTSecurity
-import io.github.serpro69.kfaker.faker
-import org.koin.core.module.dsl.singleOf
-import org.koin.dsl.module
+import com.example.domain.model.SessionModel
+import com.example.server.dto.response.SessionResponseDTO
 
-val configurationModule = module {
-    singleOf(::JWTSecurity)
-    singleOf(::HttpConfiguration)
-    singleOf(::Serialization)
-    singleOf(::RoutingConfiguration)
-    singleOf(::SwaggerUiConfiguration)
-    singleOf(::StatusPageConfiguration)
-    single { faker {  } }
+class SessionResponseMapperDTO(
+    private val userMapperDTO: UserMapperDTO
+) {
+
+    fun toDto(session: SessionModel): SessionResponseDTO {
+        return SessionResponseDTO(
+            session.token,
+            session.refreshToken,
+            userMapperDTO.toDto(session.user)
+        )
+    }
+
 }

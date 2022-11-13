@@ -17,7 +17,6 @@
 
 package com.example.server.dto.response
 
-import com.example.domain.model.SessionModel
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -25,10 +24,4 @@ data class SessionResponseDTO(
     val token: String,
     val refreshToken: String,
     val user: UserResponseDTO
-) {
-    constructor(sessionModel: SessionModel) : this(
-        token = sessionModel.token,
-        refreshToken = sessionModel.refreshToken,
-        user = UserResponseDTO(sessionModel.user)
-    )
-}
+)

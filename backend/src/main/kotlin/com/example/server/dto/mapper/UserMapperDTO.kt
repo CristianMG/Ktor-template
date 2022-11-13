@@ -15,22 +15,31 @@
  * limitations under the License.
  */
 
-package com.example.domain.usecase
+package com.example.server.dto.mapper
 
 import com.example.data.StorageRepository
-import com.example.data.UserRepository
 import com.example.domain.model.UserModel
 import com.example.server.dto.response.UserResponseDTO
-import com.example.server.environment.EnvironmentVar
-import java.io.File
+import java.time.format.DateTimeFormatter
 
-class UpdateUserImageCase(
-    private val userRepository: UserRepository,
+class UserMapperDTO(
     private val storageRepository: StorageRepository
 ) {
 
-    operator fun invoke(file: File, userId: String): UserModel {
-        storageRepository.uploadUserImage(userId, file)
-        return userRepository.findById(userId)?.toModel()!!
+    fun toDto(userModel: UserModel): UserResponseDTO {
+        return UserResponseDTO(
+            userModel.id,
+            userModel.name,
+            userModel.lastName,
+            userModel.email,
+            userModel.pushToken,
+            userModel.gender.key,
+            userModel.weight,
+            userModel.height,
+            userModel.birthday.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
+            userModel.country,
+            storageRepository.getLinkUserImage(userModel.id)
+        )
     }
+
 }
