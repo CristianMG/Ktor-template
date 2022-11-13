@@ -37,7 +37,7 @@ class LoginUseCase(
     ): SessionModel {
         val user = userRepository.findByEmail(email)?.toModel() ?: throw LoginException()
 
-        if (!BCrypt.verifyer().verify(password.toCharArray(), password).verified)
+        if (!BCrypt.verifyer().verify(password.toCharArray(), user.password).verified)
             throw LoginException()
 
         val token = JWT.create()

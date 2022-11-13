@@ -21,11 +21,12 @@ import io.ktor.server.auth.*
 import java.time.LocalDate
 
 data class UserModel(
-    val id: String? = null,
+    val id: String,
     val name: String,
     val lastName: String,
     val email: String,
     val pushToken: String,
+    val password:String,
     val gender: GenderModel,
     val weight: Int,
     val height: Int,
@@ -33,5 +34,5 @@ data class UserModel(
     val country: String,
     val refreshToken:String,
     val expirationRefreshToken:Long,
-    val profilePicture: String? = null,
+    var profilePicture: String? = null,
 ) : Principal

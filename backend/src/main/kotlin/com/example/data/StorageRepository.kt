@@ -18,12 +18,10 @@
 package com.example.data
 
 import com.example.server.environment.EnvironmentVar
-import io.minio.BucketExistsArgs
-import io.minio.MakeBucketArgs
-import io.minio.MinioClient
-import io.minio.UploadObjectArgs
-import org.jetbrains.exposed.sql.transactions.transaction
+import io.minio.*
+import io.minio.http.Method
 import java.io.File
+import java.util.concurrent.TimeUnit
 
 
 class StorageRepository(
@@ -38,39 +36,54 @@ class StorageRepository(
     fun makeBucket(key: String) {
         if (!existBucket(key)) {
             client.makeBucket(
-                MakeBucketArgs.builder()
-                    .bucket(key)
-                    .build()
+                MakeBucketArgs.builder().bucket(key).build()
             )
         }
     }
 
-    fun uploadFile(bucket: String, name: String, file: File) {
+    fun uploadFile(bucket: String, path: String, file: File): String {
         makeBucket(bucket)
-        client.uploadObject(
+        return client.uploadObject(
             UploadObjectArgs.builder()
                 .bucket(bucket)
-                .`object`("$name.${file.extension}")
+                .`object`(path + file.extension)
                 .filename(file.absolutePath)
                 .build()
-        )
+        ).`object`()
     }
 
-    fun existBucket(bucketName: String): Boolean =
-        client.bucketExists(
-            BucketExistsArgs.builder()
-                .bucket(bucketName)
-                .build()
-        )
+    fun uploadUserImage(userId: String, file: File): String {
+        return uploadFile(BUCKET_USERS, getPathUserImage(userId), file)
+    }
+
+
+    private fun getLink(bucket: String, item: String): String? {
+        return try {
+            client.getPresignedObjectUrl(
+                GetPresignedObjectUrlArgs.builder()
+                    .method(Method.GET)
+                    .bucket(bucket)
+                    .`object`(item)
+                    .expiry(2, TimeUnit.HOURS).build()
+            )
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    fun getLinkUserImage(userId: String): String? =
+        getLink(PROFILE_IMAGE_OBJECT, getPathUserImage(userId))
+
+
+    fun existBucket(bucketName: String): Boolean = client.bucketExists(
+        BucketExistsArgs.builder().bucket(bucketName).build()
+    )
 
 
     companion object {
-        val USERS = "users"
+        private const val BUCKET_USERS = "users"
+        const val PROFILE_IMAGE_OBJECT = "profile_image"
 
-
-
-
-        fun getBucketUser(userId: String): String = "$USERS/$userId"
-        fun getBucketUserProfile(userId: String): String = "${getBucketUser(userId)}/user_image"
+        fun getPathUserImage(userId: String): String = "$userId/$PROFILE_IMAGE_OBJECT"
     }
 }

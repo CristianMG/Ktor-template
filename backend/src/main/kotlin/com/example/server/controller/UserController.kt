@@ -18,14 +18,16 @@
 package com.example.server.controller
 
 import com.example.domain.usecase.UpdateUserImageCase
+import com.example.server.dto.mapper.UserMapperDTO
 import com.example.server.dto.wrapResponse
 import java.io.File
 
 class UserController(
-    private val updateUserImageCase: UpdateUserImageCase
+    private val updateUserImageCase: UpdateUserImageCase,
+    private val userMapperDTO: UserMapperDTO
 ) {
 
     fun updateImage(file: File, userId: String) = wrapResponse {
-        updateUserImageCase
+        userMapperDTO.toDto(updateUserImageCase(file, userId))
     }
 }

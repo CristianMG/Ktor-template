@@ -19,12 +19,10 @@ package com.example
 
 import com.example.data.Users
 import com.example.domain.model.GenderModel
-import com.example.domain.model.SessionModel
 import com.example.response.DataResponse
-import com.example.server.dto.request.LoginRequestDTO
 import com.example.server.dto.request.RegisterRequestDTO
+import com.example.server.dto.response.SessionResponseDTO
 import com.example.server.route.AuthRoute.Companion.AUTH_PATH
-import com.example.server.route.AuthRoute.Companion.LOGIN_PATH
 import com.example.server.route.AuthRoute.Companion.REGISTER_PATH
 import com.example.server.route.AuthRoute.Companion.VALIDATE_JWT_PATH
 import io.github.serpro69.kfaker.Faker
@@ -42,13 +40,6 @@ import java.time.LocalDate
 
 class AuthTest : BaseTest() {
 
-    companion object {
-        const val EMAIL = "test@test.com"
-        const val PASSWORD = "password_test"
-
-    }
-
-
     private val faker by inject<Faker>()
 
     override fun databaseLoaded() {
@@ -57,7 +48,7 @@ class AuthTest : BaseTest() {
         }
     }
 
-    val registerBody: RegisterRequestDTO by lazy {
+    private val registerBody: RegisterRequestDTO by lazy {
         RegisterRequestDTO(
             faker.name.name(),
             faker.name.lastName(),
@@ -82,7 +73,7 @@ class AuthTest : BaseTest() {
                 }
                 println(response)
                 response.status shouldBe HttpStatusCode.OK
-                val sessionModel = response.body<DataResponse<SessionModel>>()
+                val sessionModel = response.body<DataResponse<SessionResponseDTO>>()
                 sessionModel shouldNotBe null
             }
 
@@ -123,18 +114,6 @@ class AuthTest : BaseTest() {
                 result.status shouldBe HttpStatusCode.Unauthorized
             }
         }
-    }
-
-
-    private suspend fun makeLoginAndReturnResponse(): SessionModel {
-        val loginRequest = LoginRequestDTO(
-            EMAIL, PASSWORD
-        )
-        val response = client.post("$AUTH_PATH/$LOGIN_PATH") {
-            setBody(loginRequest)
-            contentType(ContentType.Application.Json)
-        }
-        return response.body<DataResponse<SessionModel>>().data
     }
 
 }

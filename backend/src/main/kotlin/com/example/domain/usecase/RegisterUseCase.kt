@@ -61,7 +61,7 @@ class RegisterUseCase(
 
         val token = JWT.create()
             .withAudience(environmentVar.jwtAudience)
-            .withClaim("id", userSaved.id.toString())
+            .withClaim("id", userSaved.id)
             .withExpiresAt(Date(System.currentTimeMillis() + environmentVar.jwtExpirationTime))
             .sign(Algorithm.HMAC256(environmentVar.jwtSecret))
 

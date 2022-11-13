@@ -17,12 +17,12 @@
 
 package com.example.response
 
-import com.example.server.dto.CommonResponse
+import com.example.server.dto.CommonResponseDTO
 import kotlinx.serialization.Serializable
 
 @Serializable
 class DataResponse<T>(
     val data: T,
-    val common: CommonResponse? = null,
+    val common: CommonResponseDTO? = null,
     val requestId: String
 )

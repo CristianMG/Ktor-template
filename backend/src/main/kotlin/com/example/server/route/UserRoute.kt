@@ -19,6 +19,8 @@ package com.example.server.route
 
 import com.example.domain.model.UserModel
 import com.example.server.controller.UserController
+import com.example.server.dto.mapper.SessionResponseMapperDTO
+import com.example.server.dto.mapper.UserMapperDTO
 import com.example.server.dto.response.UserResponseDTO
 import com.example.server.dto.wrapResponse
 import com.example.server.route.docs.ApiSpecification
@@ -34,35 +36,41 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 class UserRoute(
-    val controller: UserController
+    val controller: UserController,
+    val userMapper: UserMapperDTO
 ) {
 
     fun configure(routing: Routing) {
         routing.authenticate("jwt") {
-            routing.route("user") {
+            route(USER_PATH) {
                 get(
-                    "me", ApiSpecification.getSpecGetUserMe()
+                    USER_ME_PATH, ApiSpecification.getSpecGetUserMe()
                 ) {
-                    call.respond(wrapResponse { UserResponseDTO(call.principal()!!) })
+                    call.respond(wrapResponse { userMapper.toDto(call.principal()!!) })
                 }
-            }
 
-            post(
-                "updateMyImage", ApiSpecification.updateMyImage()
-            ) {
-                val user = call.principal<UserModel>()!!
-                val multipartData = call.receiveMultipart()
-                val data = multipartData.readPart() ?: throw BadRequestException("No file")
-                if (data.name == "image" &&
-                    data is PartData.FileItem
+                post(
+                    UPDATE_MY_IMAGE_PATH, ApiSpecification.updateMyImage()
                 ) {
-                    val file = data.getAsTempFile()
-                    //controller.updateImage(file,user.id)
-                    call.respond("Ender!! ${file.absolutePath}")
-                } else {
-                    throw BadRequestException("No file or bad name")
+                    val user = call.principal<UserModel>()!!
+                    val multipartData = call.receiveMultipart()
+                    val data = multipartData.readPart() ?: throw BadRequestException("No file")
+                    if (data.name == "image" &&
+                        data is PartData.FileItem
+                    ) {
+                        val file = data.getAsTempFile()
+                        call.respond(controller.updateImage(file, user.id))
+                    } else {
+                        throw BadRequestException("No file or bad name")
+                    }
                 }
             }
         }
+    }
+
+    companion object {
+        const val USER_PATH = "user"
+        const val USER_ME_PATH = "me"
+        const val UPDATE_MY_IMAGE_PATH = "updateMyImage"
     }
 }
