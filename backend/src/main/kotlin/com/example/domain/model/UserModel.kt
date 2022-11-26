@@ -33,6 +33,5 @@ data class UserModel(
     val birthday: LocalDate,
     val country: String,
     val refreshToken:String,
-    val expirationRefreshToken:Long,
-    var profilePicture: String? = null,
+    val expirationRefreshToken:Long
 ) : Principal

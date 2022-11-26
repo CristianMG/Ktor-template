@@ -63,6 +63,6 @@ class UserEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     var expirationRt by Users.expirationRt
 
     fun toModel() = UserModel(
-        id.toString(), name, lastName, email, pushToken, password, gender, weight, height, birthday, country, hashedRt, expirationRt.toEpochMilli(), null
+        id.toString(), name, lastName, email, pushToken, password, gender, weight, height, birthday, country, hashedRt, expirationRt.toEpochMilli()
     )
 }

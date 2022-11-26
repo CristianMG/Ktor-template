@@ -46,7 +46,7 @@ class StorageRepository(
         return client.uploadObject(
             UploadObjectArgs.builder()
                 .bucket(bucket)
-                .`object`(path + file.extension)
+                .`object`("$path.${file.extension}")
                 .filename(file.absolutePath)
                 .build()
         ).`object`()
@@ -72,7 +72,7 @@ class StorageRepository(
     }
 
     fun getLinkUserImage(userId: String): String? =
-        getLink(PROFILE_IMAGE_OBJECT, getPathUserImage(userId))
+        getLink(BUCKET_USERS, getPathUserImage(userId))
 
 
     fun existBucket(bucketName: String): Boolean = client.bucketExists(

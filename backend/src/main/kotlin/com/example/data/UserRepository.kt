@@ -27,13 +27,21 @@ import java.time.Instant
 import java.time.LocalDate
 import java.util.UUID
 
-class UserRepository() {
+class UserRepository {
     fun findByEmail(email: String): UserEntity? = transaction {
         UserEntity.find { Users.email eq email }.firstOrNull()
     }
 
     fun findById(id: String): UserEntity? = transaction {
         UserEntity.findById(UUID.fromString(id))
+    }
+
+    fun updateUser(user: UserEntity) = transaction {
+        Users.update({ Users.id eq user.id }) {
+            it[email] = user.email
+            it[password] = user.password
+
+        }
     }
 
 

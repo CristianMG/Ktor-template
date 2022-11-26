@@ -75,10 +75,11 @@ open class BaseTest : DescribeSpec(), KoinTest {
             install(ContentNegotiation) {
                 json()
             }
-            Logging {
+            install(Logging){
                 logger = Logger.DEFAULT
-                level = LogLevel.BODY
+                level = LogLevel.INFO
             }
+
         }
     }
 

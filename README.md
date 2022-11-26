@@ -59,6 +59,7 @@ What did taken into account to choose this tech stack?
 - [ ] Mailing
 - [ ] Some storage(Minio/ Firebase, other alternative)
 - [ ] Staging environment
+- [ ] Modularized.
 - [ ] Production environment, with PM2, only documentation and example of how to deploy in production.
 
 
