@@ -15,12 +15,16 @@
  * limitations under the License.
  */
 
-package com.example.data
+package com.example.data.repository
 
+import com.example.data.entity.Multimedia
+import com.example.data.entity.RoleType
+import com.example.data.entity.UserEntity
+import com.example.data.entity.Users
+import com.example.data.entity.Users.nullable
 import com.example.domain.model.GenderModel
-import com.example.domain.model.UserModel
-import org.jetbrains.exposed.dao.id.EntityID
-import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.javatime.date
+import org.jetbrains.exposed.sql.javatime.timestamp
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.update
 import java.time.Instant
@@ -36,13 +40,28 @@ class UserRepository {
         UserEntity.findById(UUID.fromString(id))
     }
 
+/*
     fun updateUser(user: UserEntity) = transaction {
         Users.update({ Users.id eq user.id }) {
             it[email] = user.email
             it[password] = user.password
-
+            it[name] = user.name
+            it[lastName] = user.lastName
+            it[email] = user.email
+            it[pushToken] = user.pushToken
+            it[gender] = user.gender
+            it[weight] = user.weight
+            it[height] = integer("height")
+            it[birthday] = date("birthday")
+            it[country] = varchar("country", 50)
+            it[role] = enumerationByName("role", 50, RoleType::class)
+            it[password] = varchar("password", 200)
+            it[hashedRt] = varchar("hashedRt", 200)
+            it[expirationRt] = timestamp("expirationRt")
+            it[profileImage] = reference("multimedia", Multimedia).nullable()
         }
     }
+*/
 
 
     fun saveUser(
@@ -75,6 +94,7 @@ class UserRepository {
                 this.password = password
                 this.hashedRt = hashedRt
                 this.expirationRt = Instant.ofEpochMilli(expirationRt)
+                this.profileImage = null
             }
         }
 

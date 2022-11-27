@@ -15,24 +15,16 @@
  * limitations under the License.
  */
 
-package com.example.data
+package com.example.domain.model
 
-import com.example.data.entity.Users
-import com.zaxxer.hikari.HikariDataSource
-import org.jetbrains.exposed.sql.Database
-import org.jetbrains.exposed.sql.SchemaUtils
-import org.jetbrains.exposed.sql.transactions.transaction
+import io.ktor.server.auth.*
+import java.time.LocalDate
 
-class DatabaseLoader(
-    private val dataSource: HikariDataSource,
-) {
-
-    lateinit var database: Database
-    fun connect() {
-        database = Database.connect(datasource = dataSource)
-        transaction {
-            SchemaUtils.create(Users)
-        }
-    }
-
-}
+data class MultimediaModel(
+    val id:String,
+    val bucket: String,
+    val location: String,
+    val extension: String,
+    val lenght: Long,
+    val creationDate: Long
+) : Principal

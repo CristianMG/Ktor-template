@@ -17,11 +17,9 @@
 
 package com.example.domain.usecase
 
-import com.example.data.StorageRepository
-import com.example.data.UserRepository
+import com.example.data.repository.StorageRepository
+import com.example.data.repository.UserRepository
 import com.example.domain.model.UserModel
-import com.example.server.dto.response.UserResponseDTO
-import com.example.server.environment.EnvironmentVar
 import java.io.File
 
 class UpdateUserImageCase(
@@ -30,7 +28,9 @@ class UpdateUserImageCase(
 ) {
 
     operator fun invoke(file: File, userId: String): UserModel {
-        storageRepository.uploadUserImage(userId, file)
-        return userRepository.findById(userId)?.toModel()!!
+        val user = userRepository.findById(userId)!!
+        val multimediaModel = storageRepository.uploadUserImage(userId, file)
+        user.profileImage = multimediaModel
+        return user.toModel()
     }
 }

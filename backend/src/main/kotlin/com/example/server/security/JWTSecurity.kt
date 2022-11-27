@@ -19,7 +19,7 @@ package com.example.server.security
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
-import com.example.data.UserRepository
+import com.example.data.repository.UserRepository
 import com.example.server.environment.EnvironmentVar
 import io.ktor.server.application.*
 import io.ktor.server.auth.*

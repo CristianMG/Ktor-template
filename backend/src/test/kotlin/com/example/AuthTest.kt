@@ -17,7 +17,7 @@
 
 package com.example
 
-import com.example.data.Users
+import com.example.data.entity.Users
 import com.example.domain.model.GenderModel
 import com.example.response.DataResponse
 import com.example.server.dto.request.RegisterRequestDTO

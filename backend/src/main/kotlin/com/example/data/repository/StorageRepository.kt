@@ -15,12 +15,16 @@
  * limitations under the License.
  */
 
-package com.example.data
+package com.example.data.repository
 
+import com.example.data.entity.MultimediaEntity
+import com.example.domain.model.MultimediaModel
 import com.example.server.environment.EnvironmentVar
 import io.minio.*
 import io.minio.http.Method
+import org.jetbrains.exposed.sql.transactions.transaction
 import java.io.File
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 
@@ -32,6 +36,11 @@ class StorageRepository(
         MinioClient.builder().endpoint(environmentVar.minioURL).credentials(environmentVar.minioUser, environmentVar.minioPassword).build()
     }
 
+    fun getMultimediaById(id: String): MultimediaEntity? {
+        return transaction {
+            MultimediaEntity.findById(UUID.fromString(id))
+        }
+    }
 
     fun makeBucket(key: String) {
         if (!existBucket(key)) {
@@ -41,18 +50,30 @@ class StorageRepository(
         }
     }
 
-    fun uploadFile(bucket: String, path: String, file: File): String {
+    fun uploadFile(bucket: String, path: String, file: File): MultimediaEntity {
         makeBucket(bucket)
-        return client.uploadObject(
+        val item = client.uploadObject(
             UploadObjectArgs.builder()
                 .bucket(bucket)
                 .`object`("$path.${file.extension}")
                 .filename(file.absolutePath)
                 .build()
         ).`object`()
+
+        val entity = transaction {
+            MultimediaEntity.new {
+                this.bucket = bucket
+                this.location = item
+                this.extension = file.extension
+                this.lenght = file.length()
+                this.creationDate = System.currentTimeMillis()
+            }
+        }
+
+        return entity
     }
 
-    fun uploadUserImage(userId: String, file: File): String {
+    fun uploadUserImage(userId: String, file: File): MultimediaEntity {
         return uploadFile(BUCKET_USERS, getPathUserImage(userId), file)
     }
 
@@ -71,8 +92,17 @@ class StorageRepository(
         }
     }
 
+
+    fun getLink(id: String): String? {
+        val entity = getMultimediaById(id) ?: return null
+        return getLink(entity.bucket, entity.location)
+    }
+
+/*
+
     fun getLinkUserImage(userId: String): String? =
         getLink(BUCKET_USERS, getPathUserImage(userId))
+*/
 
 
     fun existBucket(bucketName: String): Boolean = client.bucketExists(

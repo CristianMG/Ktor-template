@@ -26,12 +26,13 @@ data class UserModel(
     val lastName: String,
     val email: String,
     val pushToken: String,
-    val password:String,
+    val password: String,
     val gender: GenderModel,
     val weight: Int,
     val height: Int,
     val birthday: LocalDate,
     val country: String,
-    val refreshToken:String,
-    val expirationRefreshToken:Long
+    val refreshToken: String,
+    val expirationRefreshToken: Long,
+    var profileImage: MultimediaModel?
 ) : Principal
