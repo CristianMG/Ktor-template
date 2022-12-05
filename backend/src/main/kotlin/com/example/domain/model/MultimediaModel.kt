@@ -20,19 +20,11 @@ package com.example.domain.model
 import io.ktor.server.auth.*
 import java.time.LocalDate
 
-data class UserModel(
-    val id: String,
-    val name: String,
-    val lastName: String,
-    val email: String,
-    val pushToken: String,
-    val password: String,
-    val gender: GenderModel,
-    val weight: Int,
-    val height: Int,
-    val birthday: LocalDate,
-    val country: String,
-    val refreshToken: String,
-    val expirationRefreshToken: Long,
-    var profileImage: MultimediaModel?
+data class MultimediaModel(
+    val id:String,
+    val bucket: String,
+    val location: String,
+    val extension: String,
+    val lenght: Long,
+    val creationDate: Long
 ) : Principal

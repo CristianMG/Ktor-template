@@ -15,15 +15,15 @@
  * limitations under the License.
  */
 
-package com.example.data
+package com.example.data.entity
 
 import com.example.domain.model.GenderModel
 import com.example.domain.model.UserModel
-import io.ktor.server.auth.*
 import org.jetbrains.exposed.dao.UUIDEntity
 import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.UUIDTable
+import org.jetbrains.exposed.sql.ReferenceOption
 import org.jetbrains.exposed.sql.javatime.date
 import org.jetbrains.exposed.sql.javatime.timestamp
 import java.util.*
@@ -42,6 +42,7 @@ object Users : UUIDTable("users") {
     val password = varchar("password", 200)
     val hashedRt = varchar("hashedRt", 200)
     val expirationRt = timestamp("expirationRt")
+    val profileImage =  reference("profile_image", Multimedia.id, fkName = "relation_profile_image").uniqueIndex().nullable()//uuid("profile_image").entityId()).references(Multimedia.id,onDelete = ReferenceOption.SET_NULL,onUpdate = ReferenceOption.NO_ACTION,"id").nullable()
 }
 
 class UserEntity(id: EntityID<UUID>) : UUIDEntity(id) {
@@ -61,8 +62,9 @@ class UserEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     var password by Users.password
     var hashedRt by Users.hashedRt
     var expirationRt by Users.expirationRt
+    var profileImage by MultimediaEntity optionalReferencedOn Users.profileImage
 
     fun toModel() = UserModel(
-        id.toString(), name, lastName, email, pushToken, password, gender, weight, height, birthday, country, hashedRt, expirationRt.toEpochMilli(), null
+        id.toString(), name, lastName, email, pushToken, password, gender, weight, height, birthday, country, hashedRt, expirationRt.toEpochMilli(), profileImage?.toModel()
     )
 }

@@ -17,7 +17,7 @@
 
 package com.example.server.dto.mapper
 
-import com.example.data.StorageRepository
+import com.example.data.repository.StorageRepository
 import com.example.domain.model.UserModel
 import com.example.server.dto.response.UserResponseDTO
 import java.time.format.DateTimeFormatter
@@ -38,7 +38,7 @@ class UserMapperDTO(
             userModel.height,
             userModel.birthday.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
             userModel.country,
-            storageRepository.getLinkUserImage(userModel.id)
+            userModel.profileImage?.let { storageRepository.getLink(it.id) }
         )
     }
 

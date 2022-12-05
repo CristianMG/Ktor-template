@@ -17,13 +17,12 @@
 
 package com.example.server.controller
 
-import com.example.data.RoleType
+import com.example.data.entity.RoleType
 import com.example.domain.usecase.LoginUseCase
 import com.example.domain.usecase.RegisterUseCase
 import com.example.server.dto.mapper.SessionResponseMapperDTO
 import com.example.server.dto.request.LoginRequestDTO
 import com.example.server.dto.request.RegisterRequestDTO
-import com.example.server.dto.response.SessionResponseDTO
 import com.example.server.dto.wrapResponse
 
 class AuthController(

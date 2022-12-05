@@ -49,7 +49,7 @@ class PluginStatusPageConfiguration(
                         call.respond(HttpStatusCode.Conflict, wrapResponse { ErrorResponseDTO("Email already registered") })
                     }
 
-                    cause is BadRequestException -> {
+                    cause is BadRequestException || internCause is BadRequestException-> {
                         call.respond(HttpStatusCode.BadRequest, wrapResponse { ErrorResponseDTO(cause.message ?: "") })
                     }
 

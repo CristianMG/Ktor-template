@@ -1,0 +1,25 @@
+{
+  "extends": [
+    "config:base"
+  ],
+  "baseBranches": [
+    "develop"
+  ],
+  "prCreation": "immediate",
+  "ignoreDeps": [
+    "com.jetbrains.intellij.platform",
+    "com.jetbrains.intellij.java",
+    "com.jetbrains.intellij.platform:lang-impl",
+    "com.jetbrains.intellij.platform:core-impl"
+  ],
+  "packageRules": [
+    {
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "digest"
+      ]
+    }
+  ]
+}

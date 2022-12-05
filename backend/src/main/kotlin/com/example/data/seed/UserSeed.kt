@@ -17,7 +17,7 @@
 
 package com.example.data.seed
 
-import com.example.data.RoleType
+import com.example.data.entity.RoleType
 import com.example.domain.model.GenderModel
 import com.example.domain.usecase.RegisterUseCase
 import com.example.server.dto.request.RegisterRequestDTO

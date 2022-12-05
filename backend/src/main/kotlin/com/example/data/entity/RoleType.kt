@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.example.data
+package com.example.data.entity
 
 enum class RoleType {
     ADMIN, USER

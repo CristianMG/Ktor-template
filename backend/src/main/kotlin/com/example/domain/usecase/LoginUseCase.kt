@@ -20,7 +20,7 @@ package com.example.domain.usecase
 import at.favre.lib.crypto.bcrypt.BCrypt
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
-import com.example.data.UserRepository
+import com.example.data.repository.UserRepository
 import com.example.domain.exception.LoginException
 import com.example.domain.model.SessionModel
 import com.example.server.environment.EnvironmentVar
