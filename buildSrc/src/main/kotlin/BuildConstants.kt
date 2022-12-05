@@ -31,7 +31,7 @@ object BuildConstants {
     private const val valiktor_version = "0.7.0"
     private const val hikari_version = "5.0.1"
     private const val postgres_jdbc = "42.5.0"
-    private const val exposed_version = "0.40.1"
+    private const val exposed_version = "0.41.1"
     private const val faker_version = "1.13.0-rc.0"
     private const val slf4j_simple = "2.0.3"
     private const val bcrypt_version = "0.9.0"

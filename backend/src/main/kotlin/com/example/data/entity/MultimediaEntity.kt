@@ -42,6 +42,7 @@ class MultimediaEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     var lenght by Multimedia.lenght
     var creationDate by Multimedia.creationDate
 
+
     fun toModel() = MultimediaModel(
         id.value.toString(),
         bucket,

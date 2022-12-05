@@ -17,6 +17,8 @@
 
 package com.example.data
 
+import com.example.data.entity.Multimedia
+import com.example.data.entity.UserEntity
 import com.example.data.entity.Users
 import com.zaxxer.hikari.HikariDataSource
 import org.jetbrains.exposed.sql.Database
@@ -31,7 +33,8 @@ class DatabaseLoader(
     fun connect() {
         database = Database.connect(datasource = dataSource)
         transaction {
-            SchemaUtils.create(Users)
+            SchemaUtils.create(Multimedia, Users, inBatch = true)
+           // UserEntity.warmUpReferences(Users::profileImage, Multimedia::id)
         }
     }
 

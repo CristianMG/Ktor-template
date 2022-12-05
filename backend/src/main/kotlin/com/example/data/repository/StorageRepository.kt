@@ -17,7 +17,9 @@
 
 package com.example.data.repository
 
+import com.example.data.entity.Multimedia
 import com.example.data.entity.MultimediaEntity
+import com.example.data.entity.Users
 import com.example.domain.model.MultimediaModel
 import com.example.server.environment.EnvironmentVar
 import io.minio.*

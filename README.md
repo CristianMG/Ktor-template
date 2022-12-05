@@ -55,7 +55,7 @@ What did taken into account to choose this tech stack?
 - [x] BCrypt
 - [x] Scripts for seeding projecta
 - [x] Dockerized project
-- [ ] Continuous integration(Github actions and link with docker)
+- [ ] Continuous integration(Github actions and link with docker), code coverage and deploy.
 - [ ] Mailing
 - [ ] Some storage(Minio/ Firebase, other alternative)
 - [ ] Staging environment
