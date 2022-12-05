@@ -16,8 +16,9 @@ test-environment:
 
 
 test:
+	docker network create backend
 	docker-compose -f docker-compose.yml --env-file .env down -v
 	docker-compose -f docker-compose.yml --env-file .env up -d
 	export POSTGRES_URL=jdbc:postgresql://localhost:5432/ktor_database && \
-	export MINIO_URL=http://localhost:9000 && \
+	export MINIO_URL=http://localhost:9000 && \\
 	./gradlew backend:test
