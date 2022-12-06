@@ -1,8 +1,5 @@
-
 name: Check pull request
-
 on: [pull_request]
-
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -26,7 +23,7 @@ jobs:
       - name: Set up Gradle
         uses: gradle/gradle-build-action@v2
       - name: Generate kover coverage report
-        run: ./gradlew koverXmlReport
+        run: ./gradlew :backend:koverXmlReport
 
       - name: Add coverage report to PR
         id: kover
