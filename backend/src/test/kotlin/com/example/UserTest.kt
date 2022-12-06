@@ -17,25 +17,20 @@
 
 package com.example
 
+import com.example.utils.checkImage
 import com.example.response.DataResponse
 import com.example.server.dto.response.UserResponseDTO
 import com.example.server.route.UserRoute.Companion.UPDATE_MY_IMAGE_PATH
 import com.example.server.route.UserRoute.Companion.USER_ME_PATH
 import com.example.server.route.UserRoute.Companion.USER_PATH
-import com.example.server.util.getExtensionOrNull
-import io.kotest.matchers.ints.shouldBeGreaterThan
+import com.example.utils.addFile
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
-import io.ktor.client.statement.*
-import io.ktor.client.utils.EmptyContent.headers
 import io.ktor.http.*
-import io.ktor.util.cio.*
-import io.ktor.utils.io.*
 import java.io.File
-import java.nio.file.Files
 
 
 class UserTest : BaseTest() {
@@ -67,32 +62,15 @@ class UserTest : BaseTest() {
                             append("Authorization", "Bearer ${it.token}")
                         }
                         setBody(
-                            MultiPartFormDataContent(
-                                formData {
-                                    append("image", file.readBytes(), Headers.build {
-                                        append(HttpHeaders.ContentType, ContentType.Image.JPEG.toString())
-                                        append(HttpHeaders.ContentDisposition, "form-data; name=\"image\"; filename=\"image_example.jpg\"")
-                                    })
-                                }
-                            )
+                            MultiPartFormDataContent(formData { addFile("image", file) })
                         )
                     }
                 }.let { response ->
                     response.status shouldBe HttpStatusCode.OK
-                    val dataResponse = response.body<DataResponse<UserResponseDTO>>()
-                    dataResponse.data shouldNotBe null
-                    dataResponse.data.profilePicture shouldNotBe null
-
-                    minioClient.get(dataResponse.data.profilePicture!!).let { imageResponse ->
-                        imageResponse.status shouldBe HttpStatusCode.OK
-                        imageResponse.headers[HttpHeaders.ContentType] shouldBe ContentType.Image.JPEG.toString()
-                        val body = imageResponse.bodyAsChannel()
-                        body.availableForRead shouldBeGreaterThan 0
-                        val fileUploaded = Files.createTempFile(null, ".test").toFile()
-                        body.copyAndClose(fileUploaded.writeChannel())
-
-                        fileUploaded.exists() shouldBe true
-                        fileUploaded.length() shouldBe file.length()
+                    response.body<DataResponse<UserResponseDTO>>().apply {
+                        data shouldNotBe null
+                        data.profilePicture shouldNotBe null
+                        minioClient.checkImage(data.profilePicture!!)
                     }
                 }
             }
