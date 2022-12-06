@@ -19,7 +19,7 @@ jobs:
         if: always()
         with:
           files: "backend/build/test-results/**/*.xml"
-
+  
       - name: Set up Gradle
         uses: gradle/gradle-build-action@v2
       - name: Generate kover coverage report
