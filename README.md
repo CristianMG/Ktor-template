@@ -55,9 +55,9 @@ What did taken into account to choose this tech stack?
 - [x] BCrypt
 - [x] Scripts for seeding projecta
 - [x] Dockerized project
-- [ ] Continuous integration(Github actions and link with docker), code coverage and deploy.
+- [X] Continuous integration(Github actions and link with docker), code coverage and deploy.
+- [X] Some storage(Minio/ Firebase, other alternative)
 - [ ] Mailing
-- [ ] Some storage(Minio/ Firebase, other alternative)
 - [ ] Staging environment
 - [ ] Modularized.
 - [ ] Production environment, with PM2, only documentation and example of how to deploy in production.
@@ -77,9 +77,7 @@ What did taken into account to choose this tech stack?
 We have three environments to make our backend.
 
 **Develop**, commonly used in our local network to deploy and test code.
-
 **Staging**, used as development environment to have a stable environment to deploy changes.
-
 **Production**. Used as production environment, this environment wil receive only the stables updates tested at staging.
 
 Commands to deploy.
