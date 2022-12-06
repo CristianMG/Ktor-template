@@ -35,6 +35,7 @@ import io.kotest.koin.KoinExtension
 import io.kotest.koin.KoinLifecycleMode
 import io.ktor.client.*
 import io.ktor.client.call.*
+import io.ktor.client.engine.cio.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
 import io.ktor.client.request.*
@@ -48,6 +49,7 @@ open class BaseTest : DescribeSpec(), KoinTest {
 
     lateinit var application: TestApplication
     lateinit var client: HttpClient
+    lateinit var minioClient: HttpClient
 
     override fun testCaseOrder(): TestCaseOrder? = TestCaseOrder.Sequential
 
@@ -75,11 +77,15 @@ open class BaseTest : DescribeSpec(), KoinTest {
             install(ContentNegotiation) {
                 json()
             }
-            install(Logging){
+            install(Logging) {
                 logger = Logger.DEFAULT
                 level = LogLevel.INFO
             }
 
+        }
+        minioClient = HttpClient(CIO) {
+            expectSuccess = true
+            install(Logging)
         }
     }
 

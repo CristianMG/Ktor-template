@@ -31,6 +31,6 @@ class UpdateUserImageCase(
         val user = userRepository.findById(userId)!!
         val multimediaModel = storageRepository.uploadUserImage(userId, file)
         user.profileImage = multimediaModel
-        return user.toModel()
+        return user
     }
 }

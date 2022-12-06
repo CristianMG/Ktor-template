@@ -57,7 +57,7 @@ class RegisterUseCase(
             passwordHashed,
             refreshToken,
             System.currentTimeMillis() + environmentVar.refreshTokenExpirationTime
-        ).toModel()
+        )
 
         val token = JWT.create()
             .withAudience(environmentVar.jwtAudience)

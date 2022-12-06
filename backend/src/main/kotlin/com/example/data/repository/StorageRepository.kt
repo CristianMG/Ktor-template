@@ -38,9 +38,9 @@ class StorageRepository(
         MinioClient.builder().endpoint(environmentVar.minioURL).credentials(environmentVar.minioUser, environmentVar.minioPassword).build()
     }
 
-    fun getMultimediaById(id: String): MultimediaEntity? {
+    fun getMultimediaById(id: String): MultimediaModel? {
         return transaction {
-            MultimediaEntity.findById(UUID.fromString(id))
+            MultimediaEntity.findById(UUID.fromString(id))?.toModel()
         }
     }
 
@@ -52,7 +52,7 @@ class StorageRepository(
         }
     }
 
-    fun uploadFile(bucket: String, path: String, file: File): MultimediaEntity {
+    fun uploadFile(bucket: String, path: String, file: File): MultimediaModel {
         makeBucket(bucket)
         val item = client.uploadObject(
             UploadObjectArgs.builder()
@@ -62,20 +62,18 @@ class StorageRepository(
                 .build()
         ).`object`()
 
-        val entity = transaction {
+        return transaction {
             MultimediaEntity.new {
                 this.bucket = bucket
                 this.location = item
                 this.extension = file.extension
                 this.lenght = file.length()
                 this.creationDate = System.currentTimeMillis()
-            }
+            }.toModel()
         }
-
-        return entity
     }
 
-    fun uploadUserImage(userId: String, file: File): MultimediaEntity {
+    fun uploadUserImage(userId: String, file: File): MultimediaModel {
         return uploadFile(BUCKET_USERS, getPathUserImage(userId), file)
     }
 
@@ -99,12 +97,6 @@ class StorageRepository(
         val entity = getMultimediaById(id) ?: return null
         return getLink(entity.bucket, entity.location)
     }
-
-/*
-
-    fun getLinkUserImage(userId: String): String? =
-        getLink(BUCKET_USERS, getPathUserImage(userId))
-*/
 
 
     fun existBucket(bucketName: String): Boolean = client.bucketExists(

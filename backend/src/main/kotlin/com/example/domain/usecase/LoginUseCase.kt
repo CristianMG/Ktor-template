@@ -35,7 +35,7 @@ class LoginUseCase(
          email: String,
          password: String
     ): SessionModel {
-        val user = userRepository.findByEmail(email)?.toModel() ?: throw LoginException()
+        val user = userRepository.findByEmail(email) ?: throw LoginException()
 
         if (!BCrypt.verifyer().verify(password.toCharArray(), user.password).verified)
             throw LoginException()

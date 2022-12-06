@@ -23,6 +23,7 @@ import com.example.server.route.UserRoute.Companion.UPDATE_MY_IMAGE_PATH
 import com.example.server.route.UserRoute.Companion.USER_ME_PATH
 import com.example.server.route.UserRoute.Companion.USER_PATH
 import com.example.server.util.getExtensionOrNull
+import io.kotest.matchers.ints.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.ktor.client.call.*
@@ -82,17 +83,18 @@ class UserTest : BaseTest() {
                     dataResponse.data shouldNotBe null
                     dataResponse.data.profilePicture shouldNotBe null
 
-                    client.get(dataResponse.data.profilePicture!!).let { imageResponse ->
+                    minioClient.get(dataResponse.data.profilePicture!!).let { imageResponse ->
                         imageResponse.status shouldBe HttpStatusCode.OK
                         imageResponse.headers[HttpHeaders.ContentType] shouldBe ContentType.Image.JPEG.toString()
-                        imageResponse.bodyAsChannel().availableForRead shouldBe 1
+                        val body = imageResponse.bodyAsChannel()
+                        body.availableForRead shouldBeGreaterThan 0
                         val fileUploaded = Files.createTempFile(null, ".test").toFile()
-                        imageResponse.bodyAsChannel().copyAndClose(fileUploaded.writeChannel())
+                        body.copyAndClose(fileUploaded.writeChannel())
 
                         fileUploaded.exists() shouldBe true
                         fileUploaded.length() shouldBe file.length()
                     }
-               }
+                }
             }
         }
 
