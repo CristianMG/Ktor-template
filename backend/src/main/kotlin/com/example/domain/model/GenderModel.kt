@@ -18,7 +18,7 @@
 package com.example.domain.model
 
 enum class GenderModel(
-    val key:Int
+    val key: Int
 ) {
     MAN(0),
     WOMAN(1),

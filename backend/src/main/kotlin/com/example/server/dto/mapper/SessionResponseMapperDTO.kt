@@ -31,5 +31,4 @@ class SessionResponseMapperDTO(
             userMapperDTO.toDto(session.user)
         )
     }
-
 }

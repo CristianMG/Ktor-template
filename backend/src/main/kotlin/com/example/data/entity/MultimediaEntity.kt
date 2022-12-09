@@ -26,7 +26,7 @@ import java.util.*
 
 object Multimedia : UUIDTable("multimedia") {
     val bucket = varchar("bucket", 25)
-    val location = varchar("name", 25)
+    val location = varchar("name", 150)
     val extension = varchar("extension", 25)
     val lenght = long("lenght")
     val creationDate = long("creationDate")
@@ -34,14 +34,13 @@ object Multimedia : UUIDTable("multimedia") {
 
 class MultimediaEntity(id: EntityID<UUID>) : UUIDEntity(id) {
 
-    companion object : UUIDEntityClass<MultimediaEntity>(Users)
+    companion object : UUIDEntityClass<MultimediaEntity>(Multimedia)
 
     var bucket by Multimedia.bucket
     var location by Multimedia.location
     var extension by Multimedia.extension
     var lenght by Multimedia.lenght
     var creationDate by Multimedia.creationDate
-
 
     fun toModel() = MultimediaModel(
         id.value.toString(),

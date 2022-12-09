@@ -17,52 +17,22 @@
 
 package com.example.data.repository
 
-import com.example.data.entity.Multimedia
-import com.example.data.entity.RoleType
-import com.example.data.entity.UserEntity
-import com.example.data.entity.Users
-import com.example.data.entity.Users.nullable
+import com.example.data.entity.*
 import com.example.domain.model.GenderModel
-import org.jetbrains.exposed.sql.javatime.date
-import org.jetbrains.exposed.sql.javatime.timestamp
+import com.example.domain.model.UserModel
 import org.jetbrains.exposed.sql.transactions.transaction
-import org.jetbrains.exposed.sql.update
 import java.time.Instant
 import java.time.LocalDate
 import java.util.UUID
 
 class UserRepository {
-    fun findByEmail(email: String): UserEntity? = transaction {
-        UserEntity.find { Users.email eq email }.firstOrNull()
+    fun findByEmail(email: String): UserModel? = transaction {
+        UserEntity.find { Users.email eq email }.firstOrNull()?.toModel()
     }
 
-    fun findById(id: String): UserEntity? = transaction {
-        UserEntity.findById(UUID.fromString(id))
+    fun findById(id: String): UserModel? = transaction {
+        UserEntity.findById(UUID.fromString(id))?.toModel()
     }
-
-/*
-    fun updateUser(user: UserEntity) = transaction {
-        Users.update({ Users.id eq user.id }) {
-            it[email] = user.email
-            it[password] = user.password
-            it[name] = user.name
-            it[lastName] = user.lastName
-            it[email] = user.email
-            it[pushToken] = user.pushToken
-            it[gender] = user.gender
-            it[weight] = user.weight
-            it[height] = integer("height")
-            it[birthday] = date("birthday")
-            it[country] = varchar("country", 50)
-            it[role] = enumerationByName("role", 50, RoleType::class)
-            it[password] = varchar("password", 200)
-            it[hashedRt] = varchar("hashedRt", 200)
-            it[expirationRt] = timestamp("expirationRt")
-            it[profileImage] = reference("multimedia", Multimedia).nullable()
-        }
-    }
-*/
-
 
     fun saveUser(
         name: String,
@@ -78,7 +48,7 @@ class UserRepository {
         password: String,
         hashedRt: String,
         expirationRt: Long
-    ): UserEntity =
+    ): UserModel =
         transaction {
             UserEntity.new {
                 this.name = name
@@ -94,8 +64,6 @@ class UserRepository {
                 this.password = password
                 this.hashedRt = hashedRt
                 this.expirationRt = Instant.ofEpochMilli(expirationRt)
-                this.profileImage = null
-            }
+            }.toModel()
         }
-
 }

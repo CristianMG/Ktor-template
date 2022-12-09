@@ -45,7 +45,7 @@ class JWTSecurity(
                         val id = credential.payload.getClaim("id").asString()
                         println("id: $id")
                         if (credential.payload.audience.contains(jwtAudience))
-                            userRepository.findById(id)?.toModel()
+                            userRepository.findById(id)
                         else
                             null
                     }

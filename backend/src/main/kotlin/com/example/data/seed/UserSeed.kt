@@ -41,7 +41,8 @@ class UserSeed(
                     180,
                     "1990-01-01",
                     "ES"
-                ), RoleType.ADMIN
+                ),
+                RoleType.ADMIN
             )
         )
 

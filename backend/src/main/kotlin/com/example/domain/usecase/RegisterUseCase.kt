@@ -35,7 +35,6 @@ class RegisterUseCase(
     private val userRepository: UserRepository
 ) {
 
-
     operator fun invoke(params: RegisterUseCaseParam): SessionModel {
         if (userRepository.findByEmail(params.request.email) != null)
             throw EmailRegisteredException()
@@ -57,7 +56,7 @@ class RegisterUseCase(
             passwordHashed,
             refreshToken,
             System.currentTimeMillis() + environmentVar.refreshTokenExpirationTime
-        ).toModel()
+        )
 
         val token = JWT.create()
             .withAudience(environmentVar.jwtAudience)

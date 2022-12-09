@@ -17,7 +17,6 @@
 
 package com.example.server.util
 
-
 fun String.getExtensionOrNull(): String? {
     return try {
         val index = this.lastIndexOf('.')

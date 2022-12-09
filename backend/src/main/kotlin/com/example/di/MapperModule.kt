@@ -17,10 +17,10 @@
 
 package com.example.di
 
+import com.example.server.dto.mapper.SessionResponseMapperDTO
+import com.example.server.dto.mapper.UserMapperDTO
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
-import com.example.server.dto.mapper.UserMapperDTO
-import com.example.server.dto.mapper.SessionResponseMapperDTO
 
 val mapperDTOModule = module {
     singleOf(::UserMapperDTO)

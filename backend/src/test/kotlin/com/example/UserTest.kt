@@ -22,20 +22,15 @@ import com.example.server.dto.response.UserResponseDTO
 import com.example.server.route.UserRoute.Companion.UPDATE_MY_IMAGE_PATH
 import com.example.server.route.UserRoute.Companion.USER_ME_PATH
 import com.example.server.route.UserRoute.Companion.USER_PATH
-import com.example.server.util.getExtensionOrNull
+import com.example.utils.addFile
+import com.example.utils.checkImage
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
-import io.ktor.client.statement.*
-import io.ktor.client.utils.EmptyContent.headers
 import io.ktor.http.*
-import io.ktor.util.cio.*
-import io.ktor.utils.io.*
 import java.io.File
-import java.nio.file.Files
-
 
 class UserTest : BaseTest() {
 
@@ -44,7 +39,7 @@ class UserTest : BaseTest() {
 
             it("Check if user can request their own user") {
                 makeLoginAndReturnResponse().let { session ->
-                    val userResponse = client.get("$USER_PATH/${USER_ME_PATH}") {
+                    val userResponse = client.get("$USER_PATH/$USER_ME_PATH") {
                         headers {
                             append("Authorization", "Bearer ${session.token}")
                         }
@@ -60,41 +55,24 @@ class UserTest : BaseTest() {
                 val file = File(javaClass.getResource("/image_example.jpg")?.file!!)
                 makeLoginAndReturnResponse().let {
                     client.post(
-                        "$USER_PATH/${UPDATE_MY_IMAGE_PATH}"
+                        "$USER_PATH/$UPDATE_MY_IMAGE_PATH"
                     ) {
                         headers {
                             append("Authorization", "Bearer ${it.token}")
                         }
                         setBody(
-                            MultiPartFormDataContent(
-                                formData {
-                                    append("image", file.readBytes(), Headers.build {
-                                        append(HttpHeaders.ContentType, ContentType.Image.JPEG.toString())
-                                        append(HttpHeaders.ContentDisposition, "form-data; name=\"image\"; filename=\"image_example.jpg\"")
-                                    })
-                                }
-                            )
+                            MultiPartFormDataContent(formData { addFile("image", file) })
                         )
                     }
                 }.let { response ->
                     response.status shouldBe HttpStatusCode.OK
-                    val dataResponse = response.body<DataResponse<UserResponseDTO>>()
-                    dataResponse.data shouldNotBe null
-                    dataResponse.data.profilePicture shouldNotBe null
-
-                    client.get(dataResponse.data.profilePicture!!).let { imageResponse ->
-                        imageResponse.status shouldBe HttpStatusCode.OK
-                        imageResponse.headers[HttpHeaders.ContentType] shouldBe ContentType.Image.JPEG.toString()
-                        imageResponse.bodyAsChannel().availableForRead shouldBe 1
-                        val fileUploaded = Files.createTempFile(null, ".test").toFile()
-                        imageResponse.bodyAsChannel().copyAndClose(fileUploaded.writeChannel())
-
-                        fileUploaded.exists() shouldBe true
-                        fileUploaded.length() shouldBe file.length()
+                    response.body<DataResponse<UserResponseDTO>>().apply {
+                        data shouldNotBe null
+                        data.profilePicture shouldNotBe null
+                        minioClient.checkImage(data.profilePicture!!)
                     }
-               }
+                }
             }
         }
-
     }
 }

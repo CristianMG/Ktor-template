@@ -83,5 +83,4 @@ class EnvironmentVar {
 
     fun getInt(key: String): Int =
         dotEnv.get(key).toInt()
-
 }
