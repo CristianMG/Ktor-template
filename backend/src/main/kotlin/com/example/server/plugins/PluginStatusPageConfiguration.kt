@@ -29,8 +29,7 @@ import io.ktor.server.response.*
 import org.valiktor.ConstraintViolationException
 import org.valiktor.i18n.toMessage
 
-class PluginStatusPageConfiguration(
-) {
+class PluginStatusPageConfiguration() {
     fun configure(application: Application) {
         application.install(StatusPages) {
             exception<Throwable> { call, cause ->
@@ -49,7 +48,7 @@ class PluginStatusPageConfiguration(
                         call.respond(HttpStatusCode.Conflict, wrapResponse { ErrorResponseDTO("Email already registered") })
                     }
 
-                    cause is BadRequestException || internCause is BadRequestException-> {
+                    cause is BadRequestException || internCause is BadRequestException -> {
                         call.respond(HttpStatusCode.BadRequest, wrapResponse { ErrorResponseDTO(cause.message ?: "") })
                     }
 

@@ -19,19 +19,3 @@ jobs:
         if: always()
         with:
           files: "backend/build/test-results/**/*.xml"
-
-      - name: Set up Gradle
-        uses: gradle/gradle-build-action@v2
-      - name: Generate kover coverage report
-        run: ./gradlew :backend:koverXmlReport
-
-      - name: Add coverage report to PR
-        id: kover
-        uses: mi-kas/kover-report@v1
-        with:
-          path: ${{ github.workspace }}/backend/build/reports/kover/report.xml
-          token: ${{ secrets.GITHUB_TOKEN }}
-          title: Code Coverage
-          update-comment: true
-          min-coverage-overall: 90
-          min-coverage-changed-files: 90

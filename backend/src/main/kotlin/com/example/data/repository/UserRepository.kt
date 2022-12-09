@@ -66,5 +66,4 @@ class UserRepository {
                 this.expirationRt = Instant.ofEpochMilli(expirationRt)
             }.toModel()
         }
-
 }

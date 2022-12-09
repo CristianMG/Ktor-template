@@ -32,6 +32,5 @@ class AppTest : BaseTest() {
                 response.bodyAsText() shouldBe "This is the main page!!"
             }
         }
-
     }
 }

@@ -32,8 +32,8 @@ class LoginUseCase(
 ) {
 
     operator fun invoke(
-         email: String,
-         password: String
+        email: String,
+        password: String
     ): SessionModel {
         val user = userRepository.findByEmail(email) ?: throw LoginException()
 

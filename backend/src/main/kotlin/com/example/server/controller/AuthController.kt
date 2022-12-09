@@ -39,7 +39,7 @@ class AuthController(
     }
 
     fun register(request: RegisterRequestDTO) = wrapResponse {
-         registerUseCase(
+        registerUseCase(
             RegisterUseCase.RegisterUseCaseParam(request, RoleType.USER)
         ).let {
             sessionResponseMapperDTO.toDto(it)

@@ -37,7 +37,6 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import org.koin.test.inject
 import java.time.LocalDate
 
-
 class AuthTest : BaseTest() {
 
     private val faker by inject<Faker>()
@@ -115,5 +114,4 @@ class AuthTest : BaseTest() {
             }
         }
     }
-
 }

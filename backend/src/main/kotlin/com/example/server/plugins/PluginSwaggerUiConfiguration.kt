@@ -35,7 +35,7 @@ class PluginSwaggerUiConfiguration(
                     bearerFormat = "jwt"
                 }
 
-                defaultSecuritySchemeName =  "JWT"
+                defaultSecuritySchemeName = "JWT"
 
                 swagger {
                     swaggerUrl = environmentVar.swaggerEndpoint
@@ -50,7 +50,6 @@ class PluginSwaggerUiConfiguration(
                     url = environmentVar.swaggerUrl
                     description = "${environmentVar.environment} Server"
                 }
-
             }
         }
     }

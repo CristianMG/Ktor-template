@@ -20,13 +20,11 @@ package com.example
 import com.example.data.DatabaseLoader
 import com.example.data.seed.seedModule
 import com.example.di.*
-import com.example.domain.model.SessionModel
 import com.example.response.DataResponse
 import com.example.server.dto.request.LoginRequestDTO
 import com.example.server.dto.response.SessionResponseDTO
 import com.example.server.plugins.PluginConfigurator
 import com.example.server.route.AuthRoute
-import com.example.server.security.JWTSecurity
 import io.kotest.core.extensions.Extension
 import io.kotest.core.spec.Spec
 import io.kotest.core.spec.style.DescribeSpec
@@ -58,7 +56,8 @@ open class BaseTest : DescribeSpec(), KoinTest {
             KoinExtension(
                 modules = listOf(
                     configurationModule, routeModule, controllerModule, useCasesModule, repositoryModule, databaseModule, seedModule, environmentModule, mapperDTOModule
-                ), mode = KoinLifecycleMode.Root
+                ),
+                mode = KoinLifecycleMode.Root
             )
         )
     }
@@ -81,7 +80,6 @@ open class BaseTest : DescribeSpec(), KoinTest {
                 logger = Logger.DEFAULT
                 level = LogLevel.INFO
             }
-
         }
         minioClient = HttpClient(CIO) {
             expectSuccess = true
@@ -107,7 +105,6 @@ open class BaseTest : DescribeSpec(), KoinTest {
         }
         return response.body<DataResponse<SessionResponseDTO>>().data
     }
-
 
     companion object {
         const val EMAIL = "test@test.com"
