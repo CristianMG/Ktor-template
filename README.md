@@ -57,19 +57,12 @@ What did taken into account to choose this tech stack?
 - [x] Dockerized project
 - [X] Continuous integration(Github actions and link with docker), code coverage and deploy.
 - [X] Some storage(Minio/ Firebase, other alternative)
-- [ ] Mailing
-- [ ] Staging environment
-- [ ] Modularized.
-- [ ] Production environment, with PM2, only documentation and example of how to deploy in production.
-
 
 **Test stack**
 - [x] Faker
 - [x] Kotest
 - [x] Kotest assertion
 - [x] Koin test injection
-- [ ] Mockk
-
 
 
 ## Deployment
