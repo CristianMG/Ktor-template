@@ -18,10 +18,9 @@
 package com.example.domain.model
 
 import io.ktor.server.auth.*
-import java.time.LocalDate
 
 data class MultimediaModel(
-    val id:String,
+    val id: String,
     val bucket: String,
     val location: String,
     val extension: String,

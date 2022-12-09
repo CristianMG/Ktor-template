@@ -19,8 +19,8 @@ package com.example.server.route
 
 import com.example.server.controller.AuthController
 import com.example.server.route.docs.ApiSpecification
-import io.github.smiley4.ktorswaggerui.dsl.post
 import io.github.smiley4.ktorswaggerui.dsl.get
+import io.github.smiley4.ktorswaggerui.dsl.post
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.request.*
@@ -50,8 +50,7 @@ class AuthRoute(
         }
     }
 
-
-    companion object{
+    companion object {
         const val AUTH_PATH = "auth"
         const val LOGIN_PATH = "login"
         const val REGISTER_PATH = "register"

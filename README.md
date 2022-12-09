@@ -60,6 +60,7 @@ What did taken into account to choose this tech stack?
 - [x] Dockerized project
 - [X] Continuous integration(Github actions and link with docker), code coverage and deploy.
 - [X] Some storage(Minio/ Firebase, other alternative)
+- [X] Ktlint format
 
 **Test stack**
 - [x] Faker

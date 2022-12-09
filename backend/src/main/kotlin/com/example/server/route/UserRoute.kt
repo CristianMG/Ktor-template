@@ -19,9 +19,7 @@ package com.example.server.route
 
 import com.example.domain.model.UserModel
 import com.example.server.controller.UserController
-import com.example.server.dto.mapper.SessionResponseMapperDTO
 import com.example.server.dto.mapper.UserMapperDTO
-import com.example.server.dto.response.UserResponseDTO
 import com.example.server.dto.wrapResponse
 import com.example.server.route.docs.ApiSpecification
 import com.example.server.util.getAsTempFile

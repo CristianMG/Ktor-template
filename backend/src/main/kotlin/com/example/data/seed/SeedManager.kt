@@ -25,7 +25,7 @@ import org.koin.java.KoinJavaComponent.inject
 fun main() {
     startKoin {
         modules(
-            repositoryModule, databaseModule, seedModule,environmentModule, useCasesModule
+            repositoryModule, databaseModule, seedModule, environmentModule, useCasesModule
         )
     }
 

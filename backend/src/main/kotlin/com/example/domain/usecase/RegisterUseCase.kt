@@ -35,7 +35,6 @@ class RegisterUseCase(
     private val userRepository: UserRepository
 ) {
 
-
     operator fun invoke(params: RegisterUseCaseParam): SessionModel {
         if (userRepository.findByEmail(params.request.email) != null)
             throw EmailRegisteredException()

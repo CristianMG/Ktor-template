@@ -13,7 +13,6 @@ import io.ktor.utils.io.*
 import java.io.File
 import java.nio.file.Files
 
-
 /*
 * Download and check if url is properly formed
 * */
@@ -34,8 +33,11 @@ suspend fun HttpClient.checkImage(path: String) {
 }
 
 fun FormBuilder.addFile(parameter: String, file: File) {
-    append(parameter, file.readBytes(), Headers.build {
-        append(HttpHeaders.ContentType, ContentType.Image.JPEG.toString())
-        append(HttpHeaders.ContentDisposition, "form-data; name=\"${parameter}\"; filename=\"${file.name}\"")
-    })
+    append(
+        parameter, file.readBytes(),
+        Headers.build {
+            append(HttpHeaders.ContentType, ContentType.Image.JPEG.toString())
+            append(HttpHeaders.ContentDisposition, "form-data; name=\"${parameter}\"; filename=\"${file.name}\"")
+        }
+    )
 }

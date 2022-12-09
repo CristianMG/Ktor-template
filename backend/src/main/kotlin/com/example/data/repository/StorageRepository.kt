@@ -17,9 +17,7 @@
 
 package com.example.data.repository
 
-import com.example.data.entity.Multimedia
 import com.example.data.entity.MultimediaEntity
-import com.example.data.entity.Users
 import com.example.domain.model.MultimediaModel
 import com.example.server.environment.EnvironmentVar
 import io.minio.*
@@ -28,7 +26,6 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import java.io.File
 import java.util.*
 import java.util.concurrent.TimeUnit
-
 
 class StorageRepository(
     private val environmentVar: EnvironmentVar
@@ -77,7 +74,6 @@ class StorageRepository(
         return uploadFile(BUCKET_USERS, getPathUserImage(userId), file)
     }
 
-
     private fun getLink(bucket: String, item: String): String? {
         return try {
             client.getPresignedObjectUrl(
@@ -92,17 +88,14 @@ class StorageRepository(
         }
     }
 
-
     fun getLink(id: String): String? {
         val entity = getMultimediaById(id) ?: return null
         return getLink(entity.bucket, entity.location)
     }
 
-
     fun existBucket(bucketName: String): Boolean = client.bucketExists(
         BucketExistsArgs.builder().bucket(bucketName).build()
     )
-
 
     companion object {
         private const val BUCKET_USERS = "users"

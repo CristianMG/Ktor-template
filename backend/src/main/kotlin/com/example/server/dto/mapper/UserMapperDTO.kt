@@ -41,5 +41,4 @@ class UserMapperDTO(
             userModel.profileImage?.let { storageRepository.getLink(it.id) }
         )
     }
-
 }

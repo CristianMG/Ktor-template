@@ -18,15 +18,14 @@
 package com.example.server.route.docs
 
 import com.example.domain.model.SessionModel
+import com.example.server.docs.responseGeneric
+import com.example.server.dto.GenericResponse
 import com.example.server.dto.request.LoginRequestDTO
 import com.example.server.dto.request.RegisterRequestDTO
-import com.example.server.docs.responseGeneric
 import com.example.server.dto.response.UserResponseDTO
-import com.example.server.dto.GenericResponse
 import io.github.smiley4.ktorswaggerui.dsl.OpenApiRoute
 import io.ktor.http.*
 import java.io.File
-
 
 enum class TAGS(val value: String) {
     AUTH("AUTH"),
@@ -80,7 +79,6 @@ object ApiSpecification {
         }
     }
 
-
     fun getSpecGetUserMe(): OpenApiRoute.() -> Unit = {
         tags = listOf(TAGS.USER.value)
         responseGeneric({
@@ -104,7 +102,5 @@ object ApiSpecification {
         }) {
             body<UserResponseDTO>()
         }
-
     }
-
 }

@@ -17,13 +17,13 @@
 
 package com.example
 
-import com.example.utils.checkImage
 import com.example.response.DataResponse
 import com.example.server.dto.response.UserResponseDTO
 import com.example.server.route.UserRoute.Companion.UPDATE_MY_IMAGE_PATH
 import com.example.server.route.UserRoute.Companion.USER_ME_PATH
 import com.example.server.route.UserRoute.Companion.USER_PATH
 import com.example.utils.addFile
+import com.example.utils.checkImage
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.ktor.client.call.*
@@ -32,7 +32,6 @@ import io.ktor.client.request.forms.*
 import io.ktor.http.*
 import java.io.File
 
-
 class UserTest : BaseTest() {
 
     init {
@@ -40,7 +39,7 @@ class UserTest : BaseTest() {
 
             it("Check if user can request their own user") {
                 makeLoginAndReturnResponse().let { session ->
-                    val userResponse = client.get("$USER_PATH/${USER_ME_PATH}") {
+                    val userResponse = client.get("$USER_PATH/$USER_ME_PATH") {
                         headers {
                             append("Authorization", "Bearer ${session.token}")
                         }
@@ -56,7 +55,7 @@ class UserTest : BaseTest() {
                 val file = File(javaClass.getResource("/image_example.jpg")?.file!!)
                 makeLoginAndReturnResponse().let {
                     client.post(
-                        "$USER_PATH/${UPDATE_MY_IMAGE_PATH}"
+                        "$USER_PATH/$UPDATE_MY_IMAGE_PATH"
                     ) {
                         headers {
                             append("Authorization", "Bearer ${it.token}")
@@ -75,6 +74,5 @@ class UserTest : BaseTest() {
                 }
             }
         }
-
     }
 }
