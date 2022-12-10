@@ -30,8 +30,8 @@ import org.valiktor.ConstraintViolationException
 import org.valiktor.i18n.toMessage
 
 class PluginStatusPageConfiguration() {
-    fun configure(application: Application) {
-        application.install(StatusPages) {
+    fun configure(application: Application) = with(application) {
+        install(StatusPages) {
             exception<Throwable> { call, cause ->
                 val internCause = cause.cause
                 when {

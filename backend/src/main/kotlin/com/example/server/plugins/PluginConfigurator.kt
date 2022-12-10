@@ -29,13 +29,13 @@ class PluginConfigurator(
     private val swaggerUiConfiguration: PluginSwaggerUiConfiguration,
     private val pluginStatusPageConfiguration: PluginStatusPageConfiguration
 ) {
-    fun configure(application: Application, isTest: Boolean = false) {
-        pluginHttpConfiguration.configure(application)
-        serialization.configure(application)
-        jwtSecurity.configure(application)
-        pluginStatusPageConfiguration.configure(application)
-        pluginRoutingConfiguration.configure(application)
+    fun configure(application: Application, isTest: Boolean = false) = with(application) {
+        pluginHttpConfiguration.configure(this)
+        serialization.configure(this)
+        jwtSecurity.configure(this)
+        pluginStatusPageConfiguration.configure(this)
+        pluginRoutingConfiguration.configure(this)
         if (!isTest)
-            swaggerUiConfiguration.configure(application)
+            swaggerUiConfiguration.configure(this)
     }
 }

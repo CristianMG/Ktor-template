@@ -27,8 +27,8 @@ class PluginRoutingConfiguration(
     private val userRoute: UserRoute,
     private val authRoute: AuthRoute
 ) {
-    fun configure(application: Application) {
-        application.routing {
+    fun configure(application: Application) = with(application) {
+        routing {
             get("/") {
                 call.respondText("This is the main page!!")
             }

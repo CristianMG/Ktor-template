@@ -26,30 +26,28 @@ import io.ktor.server.application.*
 class PluginSwaggerUiConfiguration(
     private val environmentVar: EnvironmentVar
 ) {
-    fun configure(application: Application) {
-        application.apply {
-            install(SwaggerUI) {
-                securityScheme("JWT") {
-                    type = AuthType.HTTP
-                    scheme = AuthScheme.BEARER
-                    bearerFormat = "jwt"
-                }
+    fun configure(application: Application) = with(application) {
+        install(SwaggerUI) {
+            securityScheme("JWT") {
+                type = AuthType.HTTP
+                scheme = AuthScheme.BEARER
+                bearerFormat = "jwt"
+            }
 
-                defaultSecuritySchemeName = "JWT"
+            defaultSecuritySchemeName = "JWT"
 
-                swagger {
-                    swaggerUrl = environmentVar.swaggerEndpoint
-                    forwardRoot = true
-                }
-                info {
-                    title = "Swagger Documentation"
-                    version = "latest"
-                    description = "Example API ktor for real world with awesome tools"
-                }
-                server {
-                    url = environmentVar.swaggerUrl
-                    description = "${environmentVar.environment} Server"
-                }
+            swagger {
+                swaggerUrl = environmentVar.swaggerEndpoint
+                forwardRoot = true
+            }
+            info {
+                title = "Swagger Documentation"
+                version = "latest"
+                description = "Example API ktor for real world with awesome tools"
+            }
+            server {
+                url = environmentVar.swaggerUrl
+                description = "${environmentVar.environment} Server"
             }
         }
     }

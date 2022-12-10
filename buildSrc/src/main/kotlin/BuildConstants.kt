@@ -22,7 +22,7 @@ object BuildConstants {
         const val ktlint = "10.3.0"
     }
 
-    private const val ktor_version = "2.1.3"
+    private const val ktor_version = "2.2.1"
     private const val logback_version = "1.2.11"
     private const val koin_ktor_version = "3.2.2"
     private const val dot_env_version = "6.3.1"
