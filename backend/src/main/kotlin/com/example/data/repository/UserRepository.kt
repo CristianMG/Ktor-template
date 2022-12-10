@@ -66,4 +66,26 @@ class UserRepository {
                 this.expirationRt = Instant.ofEpochMilli(expirationRt)
             }.toModel()
         }
+
+    fun update(user: UserModel): UserModel {
+        transaction {
+            Users.update({ Users.id eq UUID.fromString(user.id) }) {
+                it[this.name] = user.name
+                it[lastName] = user.lastName
+                it[email] = user.email
+                it[pushToken] = user.pushToken
+                it[gender] = user.gender
+                it[weight] = user.weight
+                it[height] = user.height
+                it[birthday] = user.birthday
+                it[country] = user.country
+                it[role] = user.role
+                it[password] = user.password
+                it[hashedRt] = user.refreshToken
+                it[expirationRt] = user.expirationRefreshToken
+                it[validateEmail] = user.isEmailValidated
+            }
+        }
+        return findById(user.id)!!
+    }
 }

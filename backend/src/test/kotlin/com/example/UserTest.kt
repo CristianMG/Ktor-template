@@ -69,7 +69,7 @@ class UserTest : BaseTest() {
                     response.body<DataResponse<UserResponseDTO>>().apply {
                         data shouldNotBe null
                         data.profilePicture shouldNotBe null
-                        minioClient.checkImage(data.profilePicture!!)
+                        externalClient.checkImage(data.profilePicture!!)
                     }
                 }
             }

@@ -19,6 +19,8 @@ package com.example.di
 
 import com.example.data.DatabaseLoader
 import com.example.server.environment.EnvironmentVar
+import com.mailgun.api.v3.MailgunMessagesApi
+import com.mailgun.client.MailgunClient
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import org.koin.core.module.dsl.singleOf
@@ -38,5 +40,11 @@ val databaseModule = module {
                 driverClassName = "org.postgresql.Driver"
             }
         )
+    }
+
+    single<MailgunMessagesApi> {
+        val environmentVar = get<EnvironmentVar>()
+        MailgunClient.config(environmentVar.mailgunApi)
+            .createAsyncApi( com.mailgun.api.v3.MailgunMessagesApi::class.java)
     }
 }

@@ -21,10 +21,13 @@ import at.favre.lib.crypto.bcrypt.BCrypt
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import com.example.data.entity.RoleType
+import com.example.data.repository.MailRepository
+import com.example.data.repository.TempAuthRepository
 import com.example.data.repository.UserRepository
 import com.example.domain.exception.EmailRegisteredException
 import com.example.domain.model.GenderModel
 import com.example.domain.model.SessionModel
+import com.example.domain.model.TempAuthModel
 import com.example.server.dto.request.RegisterRequestDTO
 import com.example.server.environment.EnvironmentVar
 import java.time.LocalDate
@@ -32,7 +35,9 @@ import java.util.*
 
 class RegisterUseCase(
     private val environmentVar: EnvironmentVar,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val mailRepository: MailRepository,
+    private val tempAuthRepository: TempAuthRepository
 ) {
 
     operator fun invoke(params: RegisterUseCaseParam): SessionModel {
@@ -63,6 +68,8 @@ class RegisterUseCase(
             .withClaim("id", userSaved.id)
             .withExpiresAt(Date(System.currentTimeMillis() + environmentVar.jwtExpirationTime))
             .sign(Algorithm.HMAC256(environmentVar.jwtSecret))
+
+        mailRepository.sendMessageConfirmMail(tempAuthRepository.create(userSaved))
 
         return SessionModel(
             token,

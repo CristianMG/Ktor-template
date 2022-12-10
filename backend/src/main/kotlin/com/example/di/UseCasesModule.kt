@@ -25,4 +25,5 @@ val useCasesModule = module {
     singleOf(::LoginUseCase)
     singleOf(::RegisterUseCase)
     singleOf(::UpdateUserImageCase)
+    singleOf(::ConfirmEmail)
 }

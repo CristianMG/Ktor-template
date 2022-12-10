@@ -103,4 +103,16 @@ object ApiSpecification {
             body<UserResponseDTO>()
         }
     }
+
+    fun confirmEmail(): OpenApiRoute.() -> Unit = {
+        tags = listOf(TAGS.USER.value)
+        request {
+            queryParameter<String>("")
+        }
+
+        responseGeneric({
+        }) {
+            body<UserResponseDTO>()
+        }
+    }
 }

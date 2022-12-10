@@ -17,26 +17,14 @@
 
 package com.example.domain.model
 
-import com.example.data.entity.RoleType
 import io.ktor.server.auth.*
 import java.time.Instant
-import java.time.LocalDate
 
-data class UserModel(
+data class TempAuthModel(
     val id: String,
-    val name: String,
-    val lastName: String,
-    val email: String,
-    val pushToken: String,
-    val password: String,
-    val gender: GenderModel,
-    val weight: Int,
-    val height: Int,
-    val birthday: LocalDate,
-    val country: String,
-    val role:RoleType,
-    val refreshToken: String,
-    val expirationRefreshToken: Instant,
-    val isEmailValidated:Boolean,
-    var profileImage: MultimediaModel?
-) : Principal
+    val expiration: Instant,
+    val user: UserModel
+) {
+    val isExpired: Boolean
+        get() = expiration.isBefore(Instant.now())
+}

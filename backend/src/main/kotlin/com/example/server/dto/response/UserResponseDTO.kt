@@ -31,5 +31,6 @@ data class UserResponseDTO(
     val height: Int,
     val birthday: String,
     val country: String,
+    val emailValidated: Boolean,
     val profilePicture: String? = null,
 )

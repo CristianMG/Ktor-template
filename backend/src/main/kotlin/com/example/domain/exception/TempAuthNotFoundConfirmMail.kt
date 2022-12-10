@@ -15,28 +15,6 @@
  * limitations under the License.
  */
 
-package com.example.domain.model
+package com.example.domain.exception
 
-import com.example.data.entity.RoleType
-import io.ktor.server.auth.*
-import java.time.Instant
-import java.time.LocalDate
-
-data class UserModel(
-    val id: String,
-    val name: String,
-    val lastName: String,
-    val email: String,
-    val pushToken: String,
-    val password: String,
-    val gender: GenderModel,
-    val weight: Int,
-    val height: Int,
-    val birthday: LocalDate,
-    val country: String,
-    val role:RoleType,
-    val refreshToken: String,
-    val expirationRefreshToken: Instant,
-    val isEmailValidated:Boolean,
-    var profileImage: MultimediaModel?
-) : Principal
+open class TempAuthNotFoundConfirmMail() : Failure()

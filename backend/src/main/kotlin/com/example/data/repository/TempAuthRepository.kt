@@ -15,25 +15,32 @@
  * limitations under the License.
  */
 
-package com.example.data
+package com.example.data.repository
 
-import com.example.data.entity.Multimedia
-import com.example.data.entity.TempAuth
-import com.example.data.entity.Users
-import com.zaxxer.hikari.HikariDataSource
-import org.jetbrains.exposed.sql.Database
-import org.jetbrains.exposed.sql.SchemaUtils
+import com.example.data.entity.TempAuthEntity
+import com.example.data.entity.UserEntity
+import com.example.domain.model.UserModel
+import com.example.server.environment.EnvironmentVar
+import com.mailgun.model.message.Message
 import org.jetbrains.exposed.sql.transactions.transaction
+import java.time.Instant
+import java.util.*
 
-class DatabaseLoader(
-    private val dataSource: HikariDataSource,
+class TempAuthRepository(
+    private val environmentVar: EnvironmentVar
 ) {
 
-    lateinit var database: Database
-    fun connect() {
-        database = Database.connect(datasource = dataSource)
+    fun create(userModel: UserModel) =
         transaction {
-            SchemaUtils.create(Multimedia, Users, TempAuth, inBatch = true)
+            TempAuthEntity.new {
+                this.user = UserEntity.findById(UUID.fromString(userModel.id))!!
+                this.expiration = Instant.now().plusSeconds(environmentVar.tempAuthExpireTime)
+            }.toModel()
         }
-    }
+
+    fun getById(id: String) =
+        transaction {
+            TempAuthEntity.findById(UUID.fromString(id))?.toModel()
+        }
+
 }

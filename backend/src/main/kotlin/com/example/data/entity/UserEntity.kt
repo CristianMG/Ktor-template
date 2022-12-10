@@ -23,6 +23,7 @@ import org.jetbrains.exposed.dao.UUIDEntity
 import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.UUIDTable
+import org.jetbrains.exposed.sql.booleanParam
 import org.jetbrains.exposed.sql.javatime.date
 import org.jetbrains.exposed.sql.javatime.timestamp
 import java.util.*
@@ -42,6 +43,7 @@ object Users : UUIDTable("users") {
     val hashedRt = varchar("hashedRt", 200)
     val expirationRt = timestamp("expirationRt")
     val profileImage = reference("profile_image", Multimedia).nullable()
+    val validateEmail = bool("validate_email").default(false)
 }
 
 class UserEntity(id: EntityID<UUID>) : UUIDEntity(id) {
@@ -65,7 +67,9 @@ class UserEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     // var profileImage by MultimediaEntity optionalReferencedOn Users.profileImage
     var profileImage by MultimediaEntity optionalReferencedOn Users.profileImage
 
+    var validateEmail by Users.validateEmail
+
     fun toModel() = UserModel(
-        id.toString(), name, lastName, email, pushToken, password, gender, weight, height, birthday, country, hashedRt, expirationRt.toEpochMilli(), profileImage?.toModel()
+        id.toString(), name, lastName, email, pushToken, password, gender, weight, height, birthday, country, role, hashedRt, expirationRt, validateEmail, profileImage?.toModel()
     )
 }

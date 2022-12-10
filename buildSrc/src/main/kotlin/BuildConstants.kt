@@ -22,7 +22,7 @@ object BuildConstants {
         const val ktlint = "10.3.0"
     }
 
-    private const val ktor_version = "2.1.3"
+    private const val ktor_version = "2.2.1"
     private const val logback_version = "1.2.11"
     private const val koin_ktor_version = "3.2.2"
     private const val dot_env_version = "6.3.1"
@@ -40,6 +40,7 @@ object BuildConstants {
     private const val klogging = "0.5.0-SNAPSHOT"
     private const val kotest = "5.5.4"
     private const val minio = "8.4.5"
+    private const val mailgunJava = "1.0.6"
 
     val dependencies = mutableListOf<String>().apply {
         add("io.ktor:ktor-server-core-jvm:$ktor_version")
@@ -72,6 +73,9 @@ object BuildConstants {
         add("io.fluidsonic.country:fluid-country:$fluid_country_version")
         add("io.klogging:klogging-jvm:$klogging")
         add("io.minio:minio:${minio}")
+
+        add("com.mailgun:mailgun-java:${mailgunJava}")
+
     }
 
     val testDependencies = mutableListOf<String>().apply {
