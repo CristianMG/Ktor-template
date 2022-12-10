@@ -21,7 +21,6 @@ import com.example.data.entity.*
 import com.example.domain.model.GenderModel
 import com.example.domain.model.UserModel
 import org.jetbrains.exposed.sql.transactions.transaction
-import org.jetbrains.exposed.sql.update
 import java.time.Instant
 import java.time.LocalDate
 import java.util.UUID
