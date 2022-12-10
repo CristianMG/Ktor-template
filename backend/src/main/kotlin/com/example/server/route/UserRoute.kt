@@ -71,7 +71,6 @@ class UserRoute(
                 }
             }
         }
-
     }
 
     companion object {

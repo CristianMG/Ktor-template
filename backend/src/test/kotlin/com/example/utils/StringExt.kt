@@ -3,7 +3,6 @@ package com.example.utils
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
-
 fun String.extractUrls(): List<String>? {
     val containedUrls: MutableList<String> = ArrayList()
     val urlRegex = "((https?|ftp|gopher|telnet|file):((//)|(\\\\))+[\\w\\d:#@%/;$()~_?\\+-=\\\\\\.&]*)"

@@ -27,7 +27,6 @@ import com.example.data.repository.UserRepository
 import com.example.domain.exception.EmailRegisteredException
 import com.example.domain.model.GenderModel
 import com.example.domain.model.SessionModel
-import com.example.domain.model.TempAuthModel
 import com.example.server.dto.request.RegisterRequestDTO
 import com.example.server.environment.EnvironmentVar
 import java.time.LocalDate

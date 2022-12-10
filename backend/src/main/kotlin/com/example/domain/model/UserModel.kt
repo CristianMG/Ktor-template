@@ -34,9 +34,9 @@ data class UserModel(
     val height: Int,
     val birthday: LocalDate,
     val country: String,
-    val role:RoleType,
+    val role: RoleType,
     val refreshToken: String,
     val expirationRefreshToken: Instant,
-    val isEmailValidated:Boolean,
+    val isEmailValidated: Boolean,
     var profileImage: MultimediaModel?
 ) : Principal

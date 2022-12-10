@@ -17,10 +17,10 @@
 
 package com.example.di
 
-import com.example.data.repository.StorageRepository
-import com.example.data.repository.UserRepository
 import com.example.data.repository.MailRepository
+import com.example.data.repository.StorageRepository
 import com.example.data.repository.TempAuthRepository
+import com.example.data.repository.UserRepository
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 

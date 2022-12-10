@@ -78,7 +78,6 @@ class EnvironmentVar {
     val mailgunApi: String
         get() = getString("MAIL_GUN_API")
 
-
     /* This email will be used to send the confirmation email to the user. */
     val emailApi: String
         get() = getString("EMAIL_API")

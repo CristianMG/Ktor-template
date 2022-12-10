@@ -26,9 +26,9 @@ class MailRepository(
     private val mainGunMessagesApi: com.mailgun.api.v3.MailgunMessagesApi
 ) {
 
-
-    fun sendMessageConfirmMail(tempAuth:TempAuthModel){
-        mainGunMessagesApi.sendMessage(environmentVar.emailApi,
+    fun sendMessageConfirmMail(tempAuth: TempAuthModel) {
+        mainGunMessagesApi.sendMessage(
+            environmentVar.emailApi,
             Message.builder()
                 .from("Test <${environmentVar.emailApi}>")
                 .to(tempAuth.user.email)
@@ -46,5 +46,4 @@ class MailRepository(
                 .build()
         )
     }
-
 }

@@ -45,6 +45,6 @@ val databaseModule = module {
     single<MailgunMessagesApi> {
         val environmentVar = get<EnvironmentVar>()
         MailgunClient.config(environmentVar.mailgunApi)
-            .createAsyncApi( com.mailgun.api.v3.MailgunMessagesApi::class.java)
+            .createAsyncApi(com.mailgun.api.v3.MailgunMessagesApi::class.java)
     }
 }

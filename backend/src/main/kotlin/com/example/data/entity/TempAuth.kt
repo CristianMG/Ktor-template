@@ -38,5 +38,4 @@ class TempAuthEntity(id: EntityID<UUID>) : UUIDEntity(id) {
 
     fun toModel(): TempAuthModel =
         TempAuthModel(id.toString(), expiration, user.toModel())
-
 }

@@ -21,7 +21,6 @@ import com.example.data.entity.TempAuthEntity
 import com.example.data.entity.UserEntity
 import com.example.domain.model.UserModel
 import com.example.server.environment.EnvironmentVar
-import com.mailgun.model.message.Message
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.time.Instant
 import java.util.*
@@ -42,5 +41,4 @@ class TempAuthRepository(
         transaction {
             TempAuthEntity.findById(UUID.fromString(id))?.toModel()
         }
-
 }
