@@ -75,6 +75,9 @@ class EnvironmentVar {
     val minioURL: String
         get() = getString("MINIO_URL")
 
+    val mailgunApi: String
+        get() = getString("MAIL_GUN_API")
+
     private fun getString(key: String): String =
         dotEnv.get(key)
 

@@ -40,6 +40,7 @@ object BuildConstants {
     private const val klogging = "0.5.0-SNAPSHOT"
     private const val kotest = "5.5.4"
     private const val minio = "8.4.5"
+    private const val mailgunJava = "1.0.6"
 
     val dependencies = mutableListOf<String>().apply {
         add("io.ktor:ktor-server-core-jvm:$ktor_version")
@@ -72,6 +73,9 @@ object BuildConstants {
         add("io.fluidsonic.country:fluid-country:$fluid_country_version")
         add("io.klogging:klogging-jvm:$klogging")
         add("io.minio:minio:${minio}")
+
+        add("com.mailgun:mailgun-java:${mailgunJava}")
+
     }
 
     val testDependencies = mutableListOf<String>().apply {
