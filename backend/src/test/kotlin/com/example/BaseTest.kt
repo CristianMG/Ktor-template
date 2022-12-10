@@ -47,7 +47,7 @@ open class BaseTest : DescribeSpec(), KoinTest {
 
     lateinit var application: TestApplication
     lateinit var client: HttpClient
-    lateinit var minioClient: HttpClient
+    lateinit var externalClient: HttpClient
 
     override fun testCaseOrder(): TestCaseOrder? = TestCaseOrder.Sequential
 
@@ -81,7 +81,7 @@ open class BaseTest : DescribeSpec(), KoinTest {
                 level = LogLevel.INFO
             }
         }
-        minioClient = HttpClient(CIO) {
+        externalClient = HttpClient(CIO) {
             expectSuccess = true
             install(Logging)
         }

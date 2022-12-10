@@ -17,6 +17,7 @@
 
 package com.example.data.repository
 
+import com.example.domain.model.TempAuthModel
 import com.example.server.environment.EnvironmentVar
 import com.mailgun.model.message.Message
 
@@ -26,15 +27,18 @@ class MailRepository(
 ) {
 
 
-    fun sendMessageConfirmMail(){
-        mainGunMessagesApi.sendMessage("cristian@zapp-studio.com",
+    fun sendMessageConfirmMail(tempAuth:TempAuthModel){
+        mainGunMessagesApi.sendMessage(environmentVar.emailApi,
             Message.builder()
-                .cc("cristian.menarguez.gonzalez@gmail.com")
+                .from("Test <${environmentVar.emailApi}>")
+                .to(tempAuth.user.email)
                 .html(
-                    """ <html>
+                    """
+                        <html>
                             <body>
-                                <h1>Hi</h1>
-                                <p>Testing some Mailgun awesomness!</p>
+                                <h1>Confirm your email</h1>
+                                <p>Click on the link to confirm your email</p>
+                                <a href="https://${environmentVar.ipListen}/user/confirm-email?token=${tempAuth.id}">Confirm email</a>
                             </body>
                         </html>
                     """.trimIndent()

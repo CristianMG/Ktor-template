@@ -38,6 +38,7 @@ class UserMapperDTO(
             userModel.height,
             userModel.birthday.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
             userModel.country,
+            userModel.isEmailValidated,
             userModel.profileImage?.let { storageRepository.getLink(it.id) }
         )
     }

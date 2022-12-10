@@ -17,6 +17,7 @@
 
 package com.example.server.controller
 
+import com.example.domain.usecase.ConfirmEmail
 import com.example.domain.usecase.UpdateUserImageCase
 import com.example.server.dto.mapper.UserMapperDTO
 import com.example.server.dto.wrapResponse
@@ -24,10 +25,15 @@ import java.io.File
 
 class UserController(
     private val updateUserImageCase: UpdateUserImageCase,
-    private val userMapperDTO: UserMapperDTO
+    private val userMapperDTO: UserMapperDTO,
+    private val confirmEmailCase: ConfirmEmail
 ) {
 
     fun updateImage(file: File, userId: String) = wrapResponse {
         userMapperDTO.toDto(updateUserImageCase(file, userId))
+    }
+
+    fun confirmEmail(token: String) = wrapResponse {
+        userMapperDTO.toDto(confirmEmailCase.invoke(token))
     }
 }

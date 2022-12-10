@@ -78,6 +78,14 @@ class EnvironmentVar {
     val mailgunApi: String
         get() = getString("MAIL_GUN_API")
 
+
+    /* This email will be used to send the confirmation email to the user. */
+    val emailApi: String
+        get() = getString("EMAIL_API")
+
+    val tempAuthExpireTime: Long
+        get() = getLong("TEMP_AUTH_EXPIRE_TIME")
+
     private fun getString(key: String): String =
         dotEnv.get(key)
 

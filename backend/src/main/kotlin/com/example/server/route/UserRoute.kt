@@ -34,12 +34,19 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 class UserRoute(
-    val controller: UserController,
-    val userMapper: UserMapperDTO
+    private val controller: UserController,
+    private val userMapper: UserMapperDTO
 ) {
 
-    fun configure(routing: Routing) {
-        routing.authenticate("jwt") {
+    fun configure(routing: Routing) = with(routing) {
+        route(USER_PATH) {
+            get(CONFIRM_EMAIL, ApiSpecification.confirmEmail()) {
+                call.parameters["token"]?.let {
+                    call.respond(controller.confirmEmail(it))
+                } ?: throw BadRequestException("No token")
+            }
+        }
+        authenticate("jwt") {
             route(USER_PATH) {
                 get(
                     USER_ME_PATH, ApiSpecification.getSpecGetUserMe()
@@ -64,11 +71,13 @@ class UserRoute(
                 }
             }
         }
+
     }
 
     companion object {
         const val USER_PATH = "user"
         const val USER_ME_PATH = "me"
         const val UPDATE_MY_IMAGE_PATH = "updateMyImage"
+        const val CONFIRM_EMAIL = "confirm-email"
     }
 }

@@ -17,14 +17,20 @@
 
 package com.example
 
+import com.example.data.entity.Multimedia
+import com.example.data.entity.TempAuth
 import com.example.data.entity.Users
+import com.example.data.repository.MailRepository
 import com.example.domain.model.GenderModel
+import com.example.domain.model.TempAuthModel
 import com.example.response.DataResponse
 import com.example.server.dto.request.RegisterRequestDTO
 import com.example.server.dto.response.SessionResponseDTO
+import com.example.server.dto.response.UserResponseDTO
 import com.example.server.route.AuthRoute.Companion.AUTH_PATH
 import com.example.server.route.AuthRoute.Companion.REGISTER_PATH
 import com.example.server.route.AuthRoute.Companion.VALIDATE_JWT_PATH
+import com.example.server.route.UserRoute
 import io.github.serpro69.kfaker.Faker
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -32,9 +38,14 @@ import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.mockkClass
 import org.jetbrains.exposed.sql.deleteAll
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.koin.test.inject
+import org.koin.test.mock.MockProvider
+import org.koin.test.mock.declareMock
 import java.time.LocalDate
 
 class AuthTest : BaseTest() {
@@ -43,6 +54,8 @@ class AuthTest : BaseTest() {
 
     override fun databaseLoaded() {
         transaction {
+            TempAuth.deleteAll()
+            Multimedia.deleteAll()
             Users.deleteAll()
         }
     }
@@ -66,14 +79,30 @@ class AuthTest : BaseTest() {
         describe("Auth Test suite") {
 
             it("Check if user can register") {
+                MockProvider.register { mockkClass(it) }
+
+                declareMock<MailRepository> {
+                    every { sendMessageConfirmMail(any()) } coAnswers {
+                        val response = client.get("${UserRoute.USER_PATH}/${UserRoute.CONFIRM_EMAIL}") {
+                            contentType(ContentType.Application.Any)
+                            parameter("token", firstArg<TempAuthModel>().id)
+                        }
+                        response.body<DataResponse<UserResponseDTO>>().apply {
+                            this.data shouldNotBe null
+                            this.data.emailValidated shouldBe true
+                        }
+                        mockk()
+                    }
+                }
+
                 val response = client.post("$AUTH_PATH/$REGISTER_PATH") {
                     setBody(registerBody)
                     contentType(ContentType.Application.Json)
                 }
-                println(response)
                 response.status shouldBe HttpStatusCode.OK
-                val sessionModel = response.body<DataResponse<SessionResponseDTO>>()
-                sessionModel shouldNotBe null
+                response.body<DataResponse<SessionResponseDTO>>().apply {
+                    this shouldNotBe null
+                }
             }
 
             it("Check user was already registered") {

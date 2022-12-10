@@ -15,18 +15,23 @@
  * limitations under the License.
  */
 
-package com.example.di
+package com.example.domain.usecase
 
-import com.example.data.repository.StorageRepository
-import com.example.data.repository.UserRepository
-import com.example.data.repository.MailRepository
 import com.example.data.repository.TempAuthRepository
-import org.koin.core.module.dsl.singleOf
-import org.koin.dsl.module
+import com.example.data.repository.UserRepository
+import com.example.domain.exception.TempAuthConfirmMailExpired
+import com.example.domain.exception.TempAuthNotFoundConfirmMail
+import com.example.domain.model.UserModel
 
-val repositoryModule = module {
-    singleOf(::UserRepository)
-    singleOf(::StorageRepository)
-    singleOf(::MailRepository)
-    singleOf(::TempAuthRepository)
+class ConfirmEmail(
+    private val tempAuthRepository: TempAuthRepository,
+    private val userRepository: UserRepository
+) {
+
+    operator fun invoke(token: String): UserModel {
+        tempAuthRepository.getById(token)?.let {
+            if (it.isExpired) throw TempAuthConfirmMailExpired()
+            return userRepository.update(it.user.copy(isEmailValidated = true))
+        } ?: throw TempAuthNotFoundConfirmMail()
+    }
 }
