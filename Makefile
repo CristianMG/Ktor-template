@@ -6,7 +6,7 @@ develop:
 	docker-compose -f docker-compose.yml -f docker-compose.development.yml --env-file .env down # Remove any existing containers
 	docker-compose -f docker-compose.yml -f docker-compose.development.yml --env-file .env up
 
-seed-develop:
+development-seed:
 	@echo "Seeding development database"
 	docker exec -it ktor_server ./gradlew backend:run -Dexec.mainClass=com.example.data.seed.SeedManagerKt
 

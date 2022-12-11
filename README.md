@@ -1,48 +1,10 @@
-## **Kotlin backend Template.**
-It is a template for a Kotlin backend project. It is based on the [ktor](https://ktor.io/) framework and uses [Exposed]  
-This template I created for myself and my personal projects, but I decided to share it with you. I hope it will be useful to you.
 
+<h1 align='center'>Definitive Ktor Example</h1>
 
-## **Deploy server.**
-We must install first Docker and Docker compose.
+> REST API developed with Kotlin.
 
-- First we have to define .env file.
-- Execute make develop
+## What's included?
 
-This have to deploy server and swagger documentation with the information defined in the .env
-
-**Example environment file.**
-
-> ENVIRONMENT=DEV >         
-> PORT_LISTEN=3000 > IP_LISTEN=0.0.0.0 >         
-> JWT_AUDIENCE=general > JWT_REALM=realm > JWT_SECRET=berlin-truth-scandal-glow-mobilize-reappoint > SWAGGER_ENDPOINT=docs > SWAGGER_URL=http://0.0.0.0:3000 >         
-> JWT_EXPIRATION_TIME=600000 > POSTGRES_URL=jdbc:postgresql://database:5432/ktor_database > POSTGRES_USERNAME=root > POSTGRES_PASSWORD=root >         
-> REFRESH_TOKEN_EXPIRATION_TIME=21600000 >     USER_UUID_DEV=1000:1000
-
-## **Development environment Android Studio.**
-
-- **make environment-test**, this command execute environment test
-
-Execute with android studio test you want to execute.
-
-You have to define a environment var to point database url connection to localhost, due to container is not accesible from host machine by a name.
-
-![Example of how to configure a run test](https://github.com/CristianMG/Ktor-template/blob/develop/screenshoots/img.png?raw=true)
-
-Example
-* MINIO_URL=http://localhost:9000;
-* POSTGRES_URL=jdbc:postgresql://localhost:5432/ktor_database
-
-
-
-What did taken into account to choose this tech stack?
-1) Stability of library.
-2) Library must be preferably DSL or DSL friendly.
-3) Compatible with Kotlin Native if possible.
-4) Open software.
-5) Easy to use.
-
-## Tech stack
 - [x] Koin Injection dependencies
 - [x] SQL Exposed
 - [x] JWT
@@ -58,9 +20,18 @@ What did taken into account to choose this tech stack?
 - [x] BCrypt
 - [x] Scripts for seeding projecta
 - [x] Dockerized project
-- [X] Continuous integration(Github actions and link with docker), code coverage and deploy.
-- [X] Some storage(Minio/ Firebase, other alternative)
-- [X] Ktlint format
+- [x] Continuous integration(Github actions and link with docker), code coverage and deploy.
+- [x] Some storage(Minio/ Firebase, other alternative)
+- [x] Ktlint format
+- [x]  Mailing by MailGun
+- [x] Crud user
+- [x] Confirm mail
+- [ ] Roles Management
+- [ ] Pm2 for production
+- [ ] Renovate bot
+- [ ] Migrations
+
+
 
 **Test stack**
 - [x] Faker
@@ -68,7 +39,83 @@ What did taken into account to choose this tech stack?
 - [x] Kotest assertion
 - [x] Koin test injection
 
+## Environment variables
+
+```dotenv
+ENVIRONMENT=DEV  
+# Server instance  
+PORT_LISTEN=3000  
+IP_LISTEN=0.0.0.0  
+# JWT params  
+JWT_AUDIENCE=general  
+JWT_REALM=realm  
+JWT_SECRET=berlin-truth-scandal-glow-mobilize-reappoint  
+JWT_EXPIRATION_TIME=600000  
+REFRESH_TOKEN_EXPIRATION_TIME=21600000  
+# Swagger instance  
+SWAGGER_ENDPOINT=docs  
+SWAGGER_URL=http://localhost:3000  
+# Databse instance  
+POSTGRES_URL=jdbc:postgresql://database:5432/ktor_database  
+POSTGRES_DB=ktor_database  
+POSTGRES_USERNAME=root  
+POSTGRES_PASSWORD=root  
+  
+# Docker settings  
+USER_UUID_DEV=1000:1000  
+  
+#Minio settings  
+MINIO_ROOT_USER=minio_user  
+MINIO_ROOT_PASSWORD=berlin-truth-scandal-glow-mobilize-reappoint  
+MINIO_URL=http://s3:9000  
+  
+# Mail settings  
+MAIL_GUN_API=Your api key  
+EMAIL_API= Your email  
+  
+# Validations settings email and password how many time are actives  
+TEMP_AUTH_EXPIRE_TIME=600000
+```
+
+## Get started
+
+Clone project, change the .env variables
+
+Rename `example`  with your project name.
+
+### Development
+
+Create `.env` file in the root of the project.
+
+```shell
+$ make development
+```
+
+## Seeds
+
+To seed the database you can use one of the following commands depending on the environment. Keep in mind that the database will be truncated before the seed is run.
+
+⚠️ For `development` and `staging` environments `db` service must be up.
+
+```shell
+$ make development-seed
+$ make staging-seed
+```
+
+## Tests
+
+- **make test**, this command up services and execute testing
+
+⚠️ To run e2e tests, docker services `db` and `minio` must be up.
+
+
+
+
+
+<br><br><br><br>
 
 > **If you think my work is useful to you, you can buy me a cofee.**
 
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/cristianmed)
+
+
