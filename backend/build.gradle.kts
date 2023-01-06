@@ -21,7 +21,7 @@ plugins {
     application
     kotlin("jvm")
     id("io.ktor.plugin") version "2.2.1"
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.7.22"
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.8.0"
     id("org.jetbrains.kotlinx.kover") version "0.6.1"
 }
 
