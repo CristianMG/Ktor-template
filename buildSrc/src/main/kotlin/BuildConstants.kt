@@ -18,7 +18,7 @@
 object BuildConstants {
 
     object MainSettings {
-        const val kotlinVersion = "1.7.20"
+        const val kotlinVersion = "1.9.23"
         const val ktlint = "10.3.0"
     }
 
