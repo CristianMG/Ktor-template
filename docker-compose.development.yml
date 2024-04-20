@@ -20,7 +20,7 @@ version: "3.9"
 services:
 
   server:
-    image: amazoncorretto:17.0.5
+    image: amazoncorretto:17.0.11
     container_name: ktor_server
     networks:
       - backend
