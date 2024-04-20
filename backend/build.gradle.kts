@@ -20,7 +20,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     application
     kotlin("jvm")
-    id("io.ktor.plugin") version "2.2.1"
+    id("io.ktor.plugin") version "2.3.10"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.7.22"
     id("org.jetbrains.kotlinx.kover") version "0.7.6"
 }
