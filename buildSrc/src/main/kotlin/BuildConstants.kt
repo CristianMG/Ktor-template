@@ -93,7 +93,7 @@ object BuildConstants {
 
     object Classpath {
         const val kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${MainSettings.kotlinVersion}"
-        const val ktlintPlugin = "org.jlleitschuh.gradle:ktlint-gradle:12.1.0"
+        const val ktlintPlugin = "org.jlleitschuh.gradle:ktlint-gradle:12.1.1"
     }
 
 }
