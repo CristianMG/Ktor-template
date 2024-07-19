@@ -22,7 +22,7 @@ plugins {
     kotlin("jvm")
     id("io.ktor.plugin") version "2.3.10"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.7.22"
-    id("org.jetbrains.kotlinx.kover") version "0.7.6"
+    id("org.jetbrains.kotlinx.kover") version "0.8.3"
 }
 
 group = "com.example"
